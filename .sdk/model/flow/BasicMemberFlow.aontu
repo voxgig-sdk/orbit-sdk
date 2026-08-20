@@ -1,0 +1,118 @@
+# BasicMemberFlow
+
+main: kit: flow: BasicMemberFlow:
+{
+  entity: "member",
+  kind: "basic",
+  name: "BasicMemberFlow",
+  step: [
+    {
+      input: {
+        ref: "member_ref01"
+      }
+
+      match: {
+        workspace: "workspace01"
+      }
+
+      op: "create"
+    }
+
+    {
+      match: {
+        workspace: "workspace01"
+      }
+
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "member_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      data: {
+        workspace: "workspace01"
+      }
+
+      input: {
+        ref: "member_ref01",
+        srcdatavar: "member_ref01_data",
+        suffix: "_up0",
+        textfield: "bio"
+      }
+
+      op: "update",
+      spec: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-member_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "member_ref01",
+        srcdatavar: "member_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "member01",
+        workspace: "workspace01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-member_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "member_ref01",
+        suffix: "_rm0"
+      }
+
+      match: {
+        id: "member01",
+        workspace: "workspace01"
+      }
+
+      op: "remove"
+    }
+
+    {
+      input: {
+        suffix: "_rt0"
+      }
+
+      match: {
+        workspace: "workspace01"
+      }
+
+      op: "list",
+      valid: [
+        {
+          apply: "ItemNotExists",
+          def: {
+            ref: "member_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicMemberFlow"
+}

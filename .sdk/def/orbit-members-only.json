@@ -1,0 +1,183 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Orbit Members API",
+    "version": "1.0.0",
+    "description": "Create, read, update, and delete Orbit community members."
+  },
+  "servers": [
+    { "url": "https://app.orbit.love/api/v1" }
+  ],
+  "security": [
+    { "bearerAuth": [] }
+  ],
+  "paths": {
+    "/{workspace}/members": {
+      "get": {
+        "operationId": "listMembers",
+        "summary": "List members",
+        "parameters": [
+          { "name": "workspace", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "tags", "in": "query", "required": false, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "A page of members",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Member" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createMember",
+        "summary": "Create a member",
+        "parameters": [
+          { "name": "workspace", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MemberInput" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The created member",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/Member" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{workspace}/members/{id}": {
+      "get": {
+        "operationId": "getMember",
+        "summary": "Retrieve a member",
+        "parameters": [
+          { "name": "workspace", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested member",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/Member" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateMember",
+        "summary": "Update a member",
+        "parameters": [
+          { "name": "workspace", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MemberInput" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated member",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/Member" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteMember",
+        "summary": "Delete a member",
+        "parameters": [
+          { "name": "workspace", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "204": { "description": "Deleted" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "MemberInput": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "slug": { "type": "string" },
+          "bio": { "type": "string" },
+          "title": { "type": "string" },
+          "company": { "type": "string" },
+          "location": { "type": "string" },
+          "tags_to_add": { "type": "string" }
+        }
+      },
+      "Member": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "slug": { "type": "string" },
+          "bio": { "type": "string" },
+          "title": { "type": "string" },
+          "company": { "type": "string" },
+          "location": { "type": "string" },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "orbit_level": { "type": "integer" },
+          "love": { "type": "number" },
+          "reach": { "type": "integer" },
+          "created_at": { "type": "string" }
+        }
+      }
+    }
+  }
+}

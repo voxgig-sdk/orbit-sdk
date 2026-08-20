@@ -1,0 +1,72 @@
+{
+  "existing": {
+    "member": {
+      "MEMBER00": {
+        "bio": "s82",
+        "company": "s83",
+        "created_at": "s84",
+        "id": "MEMBER00",
+        "location": "s86",
+        "love": 135,
+        "name": "s88",
+        "orbit_level": "s89",
+        "reach": "s8a",
+        "slug": "s8b",
+        "tags": [],
+        "tags_to_add": "s8d",
+        "title": "s8e",
+        "workspace": "WORKSPACE01"
+      },
+      "MEMBER01": {
+        "bio": "s104",
+        "company": "s105",
+        "created_at": "s106",
+        "id": "MEMBER01",
+        "location": "s108",
+        "love": 265,
+        "name": "s10a",
+        "orbit_level": "s10b",
+        "reach": "s10c",
+        "slug": "s10d",
+        "tags": [],
+        "tags_to_add": "s10f",
+        "title": "s110",
+        "workspace": "WORKSPACE01"
+      },
+      "MEMBER02": {
+        "bio": "s186",
+        "company": "s187",
+        "created_at": "s188",
+        "id": "MEMBER02",
+        "location": "s18a",
+        "love": 395,
+        "name": "s18c",
+        "orbit_level": "s18d",
+        "reach": "s18e",
+        "slug": "s18f",
+        "tags": [],
+        "tags_to_add": "s191",
+        "title": "s192",
+        "workspace": "WORKSPACE01"
+      }
+    }
+  },
+  "new": {
+    "member": {
+      "member_ref01": {
+        "bio": "s208",
+        "company": "s209",
+        "created_at": "s20a",
+        "location": "s20c",
+        "love": 525,
+        "name": "s20e",
+        "orbit_level": "s20f",
+        "reach": "s210",
+        "slug": "s211",
+        "tags": [],
+        "tags_to_add": "s213",
+        "title": "s214"
+      }
+    }
+  }
+}

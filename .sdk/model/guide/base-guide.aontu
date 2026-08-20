@@ -1,0 +1,24 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 1
+  metrics: count: path: 2
+  metrics: count: method: 5
+
+  entity: member: {
+    path: "/{workspace}/members": {
+      op: create: method: *POST
+      op: create: transform: res: *("`body.data`")|top
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+    path: "/{workspace}/members/{id}": {
+      op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
+      op: remove: method: *DELETE
+      op: update: method: *PUT
+      op: update: transform: res: *("`body.data`")|top
+    }
+  }
+
+}

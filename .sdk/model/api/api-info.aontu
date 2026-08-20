@@ -1,0 +1,27 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      description: "Create, read, update, and delete Orbit community members."
+      security: {
+        in: "header"
+        name: "Authorization"
+        prefix: "Bearer"
+        scheme: "bearerAuth"
+        type: "http"
+      }
+      servers: [
+        {
+          url: "https://app.orbit.love/api/v1"
+        }
+      ]
+      summary: "Create, read, update, and delete Orbit community members."
+      title: "Orbit Members API"
+      version: "1.0.0"
+      website: "https://app.orbit.love"
+    }
+  }
+}
+
