@@ -1,15 +1,6 @@
 {
-  "NAME": "ORBIT",
-  "Name": "Orbit",
   "def": "orbit-members-only.json",
   "main": {
-    "api": {
-      "entity": {},
-      "guide": {}
-    },
-    "custom": {
-      "plurals": {}
-    },
     "def": {
       "desc": ""
     },
@@ -1153,8 +1144,5 @@
     }
   },
   "name": "orbit",
-  "name-": "orbit",
-  "name_": "orbit",
-  "name__orig": "orbit",
   "origin": "voxgig-sdk"
 }
