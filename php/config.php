@@ -42,6 +42,7 @@ class OrbitConfig
           'options' => [
             'active' => false,
           ],
+          'transport' => 'base',
         ],
             ],
             "options" => [
