@@ -177,7 +177,7 @@ def _member_basic_setup(extra):
         "ORBIT_TEST_MEMBER_ENTID": idmap,
         "ORBIT_TEST_LIVE": "FALSE",
         "ORBIT_TEST_EXPLAIN": "FALSE",
-        "ORBIT_APIKEY": "NONE",
+        "ORBIT_APIKEY": "",
     })
 
     idmap_resolved = helpers.to_map(
@@ -189,6 +189,10 @@ def _member_basic_setup(extra):
 
     if env.get("ORBIT_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
+            # FIRST, so the generated fields below win: sdk-test-control.json's
+            # test.client.options adds to the live client, it does not
+            # redirect it.
+            runner.live_client_options(),
             {
                 "apikey": env.get("ORBIT_APIKEY"),
             },

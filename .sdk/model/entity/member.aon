@@ -96,9 +96,13 @@ main: kit: entity: member: {
           }
           method: "POST"
           orig: "/{workspace}/members"
-          parts: [
-            "{workspace}"
-            "members"
+          segments: [
+            {
+              var: "workspace"
+            }
+            {
+              lit: "members"
+            }
           ]
           select: {
             exist: [
@@ -138,9 +142,13 @@ main: kit: entity: member: {
           }
           method: "GET"
           orig: "/{workspace}/members"
-          parts: [
-            "{workspace}"
-            "members"
+          segments: [
+            {
+              var: "workspace"
+            }
+            {
+              lit: "members"
+            }
           ]
           select: {
             exist: [
@@ -179,10 +187,16 @@ main: kit: entity: member: {
           }
           method: "GET"
           orig: "/{workspace}/members/{id}"
-          parts: [
-            "{workspace}"
-            "members"
-            "{id}"
+          segments: [
+            {
+              var: "workspace"
+            }
+            {
+              lit: "members"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -221,10 +235,16 @@ main: kit: entity: member: {
           }
           method: "DELETE"
           orig: "/{workspace}/members/{id}"
-          parts: [
-            "{workspace}"
-            "members"
-            "{id}"
+          segments: [
+            {
+              var: "workspace"
+            }
+            {
+              lit: "members"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -263,10 +283,16 @@ main: kit: entity: member: {
           }
           method: "PUT"
           orig: "/{workspace}/members/{id}"
-          parts: [
-            "{workspace}"
-            "members"
-            "{id}"
+          segments: [
+            {
+              var: "workspace"
+            }
+            {
+              lit: "members"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

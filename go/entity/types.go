@@ -38,6 +38,7 @@ type MemberLoadMatch struct {
 // MemberListMatch is the typed request payload for Member.ListTyped.
 type MemberListMatch struct {
 	Workspace string `json:"workspace"`
+	Tag *string `json:"tag,omitempty"`
 }
 
 // MemberCreateData is the typed request payload for Member.CreateTyped.

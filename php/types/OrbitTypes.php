@@ -41,6 +41,7 @@ class MemberLoadMatch
 class MemberListMatch
 {
     public string $workspace;
+    public ?string $tag = null;
 }
 
 /** Request payload for Member#create. */

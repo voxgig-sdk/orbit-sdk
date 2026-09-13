@@ -113,6 +113,10 @@ class OrbitConfig
               'type' => '`$STRING`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'member',
           'op' => [
             'create' => [
@@ -134,9 +138,13 @@ class OrbitConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/{workspace}/members',
-                  'parts' => [
-                    '{workspace}',
-                    'members',
+                  'segments' => [
+                    [
+                      'var' => 'workspace',
+                    ],
+                    [
+                      'lit' => 'members',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -146,6 +154,10 @@ class OrbitConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    '{workspace}',
+                    'members',
                   ],
                 ],
               ],
@@ -177,9 +189,13 @@ class OrbitConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/{workspace}/members',
-                  'parts' => [
-                    '{workspace}',
-                    'members',
+                  'segments' => [
+                    [
+                      'var' => 'workspace',
+                    ],
+                    [
+                      'lit' => 'members',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -190,6 +206,10 @@ class OrbitConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    '{workspace}',
+                    'members',
                   ],
                 ],
               ],
@@ -220,10 +240,16 @@ class OrbitConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/{workspace}/members/{id}',
-                  'parts' => [
-                    '{workspace}',
-                    'members',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'var' => 'workspace',
+                    ],
+                    [
+                      'lit' => 'members',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -234,6 +260,11 @@ class OrbitConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    '{workspace}',
+                    'members',
+                    '{id}',
                   ],
                 ],
               ],
@@ -264,10 +295,16 @@ class OrbitConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/{workspace}/members/{id}',
-                  'parts' => [
-                    '{workspace}',
-                    'members',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'var' => 'workspace',
+                    ],
+                    [
+                      'lit' => 'members',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -278,6 +315,11 @@ class OrbitConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    '{workspace}',
+                    'members',
+                    '{id}',
                   ],
                 ],
               ],
@@ -308,10 +350,16 @@ class OrbitConfig
                   'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/{workspace}/members/{id}',
-                  'parts' => [
-                    '{workspace}',
-                    'members',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'var' => 'workspace',
+                    ],
+                    [
+                      'lit' => 'members',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -322,6 +370,11 @@ class OrbitConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    '{workspace}',
+                    'members',
+                    '{id}',
                   ],
                 ],
               ],

@@ -87,6 +87,10 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
         },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
+        },
         ["name"] = "member",
         ["op"] = {
           ["create"] = {
@@ -108,9 +112,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/{workspace}/members",
-                ["parts"] = {
-                  "{workspace}",
-                  "members",
+                ["segments"] = {
+                  {
+                    ["var"] = "workspace",
+                  },
+                  {
+                    ["lit"] = "members",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -120,6 +128,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
+                },
+                ["parts"] = {
+                  "{workspace}",
+                  "members",
                 },
               },
             },
@@ -151,9 +163,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/{workspace}/members",
-                ["parts"] = {
-                  "{workspace}",
-                  "members",
+                ["segments"] = {
+                  {
+                    ["var"] = "workspace",
+                  },
+                  {
+                    ["lit"] = "members",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -164,6 +180,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
+                },
+                ["parts"] = {
+                  "{workspace}",
+                  "members",
                 },
               },
             },
@@ -194,10 +214,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/{workspace}/members/{id}",
-                ["parts"] = {
-                  "{workspace}",
-                  "members",
-                  "{id}",
+                ["segments"] = {
+                  {
+                    ["var"] = "workspace",
+                  },
+                  {
+                    ["lit"] = "members",
+                  },
+                  {
+                    ["var"] = "id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -208,6 +234,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
+                },
+                ["parts"] = {
+                  "{workspace}",
+                  "members",
+                  "{id}",
                 },
               },
             },
@@ -238,10 +269,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/{workspace}/members/{id}",
-                ["parts"] = {
-                  "{workspace}",
-                  "members",
-                  "{id}",
+                ["segments"] = {
+                  {
+                    ["var"] = "workspace",
+                  },
+                  {
+                    ["lit"] = "members",
+                  },
+                  {
+                    ["var"] = "id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -252,6 +289,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "{workspace}",
+                  "members",
+                  "{id}",
                 },
               },
             },
@@ -282,10 +324,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "PUT",
                 ["orig"] = "/{workspace}/members/{id}",
-                ["parts"] = {
-                  "{workspace}",
-                  "members",
-                  "{id}",
+                ["segments"] = {
+                  {
+                    ["var"] = "workspace",
+                  },
+                  {
+                    ["lit"] = "members",
+                  },
+                  {
+                    ["var"] = "id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -296,6 +344,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
+                },
+                ["parts"] = {
+                  "{workspace}",
+                  "members",
+                  "{id}",
                 },
               },
             },

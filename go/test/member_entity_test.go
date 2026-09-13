@@ -101,7 +101,7 @@ func TestMemberEntity(t *testing.T) {
 		// CREATE
 		memberRef01Ent := client.Member(nil)
 		memberRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "member"}, setup.data), "member_ref01"))
+			vs.GetPath(setup.data, []any{"new", "member"}), "member_ref01"))
 		memberRef01Data["workspace"] = setup.idmap["workspace01"]
 
 		memberRef01DataResult, err := memberRef01Ent.Create(memberRef01Data, nil)
@@ -231,7 +231,7 @@ func memberBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"member01", "member02", "member03", "workspace01"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -251,7 +251,7 @@ func memberBasicSetup(extra map[string]any) *entityTestSetup {
 		"ORBIT_TEST_MEMBER_ENTID": idmap,
 		"ORBIT_TEST_LIVE":      "FALSE",
 		"ORBIT_TEST_EXPLAIN":   "FALSE",
-		"ORBIT_APIKEY":         "NONE",
+		"ORBIT_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["ORBIT_TEST_MEMBER_ENTID"])
@@ -264,11 +264,23 @@ func memberBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["ORBIT_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["ORBIT_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewOrbitSDK(core.ToMapAny(mergedOpts))
 	}

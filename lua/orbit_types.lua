@@ -27,6 +27,7 @@
 
 ---@class MemberListMatch
 ---@field workspace string
+---@field tag? string
 
 ---@class MemberCreateData
 ---@field workspace string

@@ -32,6 +32,7 @@
 /**
  * @typedef {Object} MemberListMatch
  * @property {string} workspace
+ * @property {string} [tag]
  */
 
 /**

@@ -37,8 +37,12 @@ class MemberLoadMatch(TypedDict):
     workspace: str
 
 
-class MemberListMatch(TypedDict):
+class MemberListMatchRequired(TypedDict):
     workspace: str
+
+
+class MemberListMatch(MemberListMatchRequired, total=False):
+    tag: str
 
 
 class MemberCreateDataRequired(TypedDict):

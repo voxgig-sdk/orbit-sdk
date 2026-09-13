@@ -28,6 +28,7 @@ export interface MemberLoadMatch {
 
 export interface MemberListMatch {
   workspace: string
+  tag?: string
 }
 
 export interface MemberCreateData {
