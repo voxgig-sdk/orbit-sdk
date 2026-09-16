@@ -94,6 +94,12 @@ main: kit: entity: member: {
               }
             ]
           }
+          contract: {
+            id: "POST /{workspace}/members"
+            json: "{\"operationId\":\"createMember\",\"parameters\":[{\"in\":\"path\",\"name\":\"workspace\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"bio\":{\"type\":\"string\"},\"company\":{\"type\":\"string\"},\"location\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"slug\":{\"type\":\"string\"},\"tags_to_add\":{\"type\":\"string\"},\"title\":{\"type\":\"string\"}},\"type\":\"object\"}}},\"required\":true},\"responses\":{\"201\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"data\":{\"properties\":{\"bio\":{\"type\":\"string\"},\"company\":{\"type\":\"string\"},\"created_at\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"location\":{\"type\":\"string\"},\"love\":{\"type\":\"number\"},\"name\":{\"type\":\"string\"},\"orbit_level\":{\"type\":\"integer\"},\"reach\":{\"type\":\"integer\"},\"slug\":{\"type\":\"string\"},\"tags\":{\"items\":{\"type\":\"string\"},\"type\":\"array\"},\"title\":{\"type\":\"string\"}},\"type\":\"object\"}},\"type\":\"object\"}}},\"description\":\"The created member\"}},\"security\":[{\"bearerAuth\":[]}],\"securitySchemes\":{\"bearerAuth\":{\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"definition\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "POST"
           orig: "/{workspace}/members"
           segments: [
@@ -140,6 +146,12 @@ main: kit: entity: member: {
               }
             ]
           }
+          contract: {
+            id: "GET /{workspace}/members"
+            json: "{\"operationId\":\"listMembers\",\"parameters\":[{\"in\":\"path\",\"name\":\"workspace\",\"required\":true,\"schema\":{\"type\":\"string\"}},{\"in\":\"query\",\"name\":\"tags\",\"required\":false,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"data\":{\"items\":{\"properties\":{\"bio\":{\"type\":\"string\"},\"company\":{\"type\":\"string\"},\"created_at\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"location\":{\"type\":\"string\"},\"love\":{\"type\":\"number\"},\"name\":{\"type\":\"string\"},\"orbit_level\":{\"type\":\"integer\"},\"reach\":{\"type\":\"integer\"},\"slug\":{\"type\":\"string\"},\"tags\":{\"items\":{\"type\":\"string\"},\"type\":\"array\"},\"title\":{\"type\":\"string\"}},\"type\":\"object\"},\"type\":\"array\"}},\"type\":\"object\"}}},\"description\":\"A page of members\"}},\"security\":[{\"bearerAuth\":[]}],\"securitySchemes\":{\"bearerAuth\":{\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"definition\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "GET"
           orig: "/{workspace}/members"
           segments: [
@@ -184,6 +196,12 @@ main: kit: entity: member: {
                 type: "`$STRING`"
               }
             ]
+          }
+          contract: {
+            id: "GET /{workspace}/members/{id}"
+            json: "{\"operationId\":\"getMember\",\"parameters\":[{\"in\":\"path\",\"name\":\"workspace\",\"required\":true,\"schema\":{\"type\":\"string\"}},{\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"data\":{\"properties\":{\"bio\":{\"type\":\"string\"},\"company\":{\"type\":\"string\"},\"created_at\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"location\":{\"type\":\"string\"},\"love\":{\"type\":\"number\"},\"name\":{\"type\":\"string\"},\"orbit_level\":{\"type\":\"integer\"},\"reach\":{\"type\":\"integer\"},\"slug\":{\"type\":\"string\"},\"tags\":{\"items\":{\"type\":\"string\"},\"type\":\"array\"},\"title\":{\"type\":\"string\"}},\"type\":\"object\"}},\"type\":\"object\"}}},\"description\":\"The requested member\"}},\"security\":[{\"bearerAuth\":[]}],\"securitySchemes\":{\"bearerAuth\":{\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"definition\"}"
+            source: "openapi3"
+            version: 1
           }
           method: "GET"
           orig: "/{workspace}/members/{id}"
@@ -233,6 +251,12 @@ main: kit: entity: member: {
               }
             ]
           }
+          contract: {
+            id: "DELETE /{workspace}/members/{id}"
+            json: "{\"operationId\":\"deleteMember\",\"parameters\":[{\"in\":\"path\",\"name\":\"workspace\",\"required\":true,\"schema\":{\"type\":\"string\"}},{\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"responses\":{\"204\":{\"description\":\"Deleted\"}},\"security\":[{\"bearerAuth\":[]}],\"securitySchemes\":{\"bearerAuth\":{\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"definition\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "DELETE"
           orig: "/{workspace}/members/{id}"
           segments: [
@@ -280,6 +304,12 @@ main: kit: entity: member: {
                 type: "`$STRING`"
               }
             ]
+          }
+          contract: {
+            id: "PUT /{workspace}/members/{id}"
+            json: "{\"operationId\":\"updateMember\",\"parameters\":[{\"in\":\"path\",\"name\":\"workspace\",\"required\":true,\"schema\":{\"type\":\"string\"}},{\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"bio\":{\"type\":\"string\"},\"company\":{\"type\":\"string\"},\"location\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"slug\":{\"type\":\"string\"},\"tags_to_add\":{\"type\":\"string\"},\"title\":{\"type\":\"string\"}},\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"data\":{\"properties\":{\"bio\":{\"type\":\"string\"},\"company\":{\"type\":\"string\"},\"created_at\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"location\":{\"type\":\"string\"},\"love\":{\"type\":\"number\"},\"name\":{\"type\":\"string\"},\"orbit_level\":{\"type\":\"integer\"},\"reach\":{\"type\":\"integer\"},\"slug\":{\"type\":\"string\"},\"tags\":{\"items\":{\"type\":\"string\"},\"type\":\"array\"},\"title\":{\"type\":\"string\"}},\"type\":\"object\"}},\"type\":\"object\"}}},\"description\":\"The updated member\"}},\"security\":[{\"bearerAuth\":[]}],\"securitySchemes\":{\"bearerAuth\":{\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"definition\"}"
+            source: "openapi3"
+            version: 1
           }
           method: "PUT"
           orig: "/{workspace}/members/{id}"
