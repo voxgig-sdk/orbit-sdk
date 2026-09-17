@@ -7,7 +7,7 @@
 # SDK Details.
 name: 'orbit'
 origin: 'voxgig-sdk'
-def: 'orbit-members-only.json'
+def: 'orbit-v1-openapi.json'
 
 
 # API Information
