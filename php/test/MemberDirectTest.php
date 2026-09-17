@@ -10,66 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class MemberDirectTest extends TestCase
 {
-    public function test_direct_list_member(): void
-    {
-        $setup = member_direct_setup([
-            ["id" => "direct01"],
-            ["id" => "direct02"],
-        ]);
-        [$_shouldSkip, $_reason] = Runner::is_control_skipped("direct", "direct-list-member", $setup["live"] ? "live" : "unit");
-        if ($_shouldSkip) {
-            $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
-            return;
-        }
-        if ($setup["live"]) {
-            foreach (["workspace01"] as $_liveKey) {
-                if (!isset($setup["idmap"][$_liveKey]) || $setup["idmap"][$_liveKey] === null) {
-                    $this->markTestSkipped("live test needs $_liveKey via *_ENTID env var (synthetic IDs only)");
-                    return;
-                }
-            }
-        }
-        $client = $setup["client"];
-
-        $params = [];
-        if ($setup["live"]) {
-            $params["workspace"] = $setup["idmap"]["workspace01"];
-        } else {
-            $params["workspace"] = "direct01";
-        }
-
-        $result = $client->direct([
-            "path" => "{workspace}/members",
-            "method" => "GET",
-            "params" => $params,
-        ]);
-        if ($setup["live"]) {
-            // Live mode is lenient: synthetic IDs frequently 4xx and the
-            // list-response shape varies wildly across public APIs. Skip
-            // rather than fail when the call doesn't return a usable list.
-            if (!empty($result["err"])) {
-                $this->markTestSkipped("list call failed (likely synthetic IDs against live API): " . (string)$result["err"]);
-                return;
-            }
-            if (empty($result["ok"])) {
-                $this->markTestSkipped("list call not ok (likely synthetic IDs against live API)");
-                return;
-            }
-            $status = Helpers::to_int($result["status"]);
-            if ($status < 200 || $status >= 300) {
-                $this->markTestSkipped("expected 2xx status, got " . $status);
-                return;
-            }
-        } else {
-            $this->assertArrayNotHasKey("err", $result);
-            $this->assertTrue($result["ok"]);
-            $this->assertEquals(200, Helpers::to_int($result["status"]));
-            $this->assertIsArray($result["data"]);
-            $this->assertCount(2, $result["data"]);
-            $this->assertCount(1, $setup["calls"]);
-        }
-    }
-
     public function test_direct_load_member(): void
     {
         $setup = member_direct_setup(["id" => "direct01"]);
@@ -87,12 +27,11 @@ class MemberDirectTest extends TestCase
         $params = [];
         $query = [];
         if (!$setup["live"]) {
-            $params["id"] = "direct01";
-            $params["workspace"] = "direct02";
+            $params["workspace_slug"] = "direct01";
         }
 
         $result = $client->direct([
-            "path" => "{workspace}/members/{id}",
+            "path" => "{workspace_slug}/members",
             "method" => "GET",
             "params" => $params,
             "query" => $query,

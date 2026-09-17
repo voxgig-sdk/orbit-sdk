@@ -353,6 +353,34 @@ end
 
 
 
+-- Idiomatic facade: client:Activity():list() / client:Activity():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function OrbitSDK:Activity(data)
+  local EntityMod = require("entity.activity_entity")
+  if data == nil then
+    if self._activity == nil then
+      self._activity = EntityMod.new(self, nil)
+    end
+    return self._activity
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:ActivityType():list() / client:ActivityType():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function OrbitSDK:ActivityType(data)
+  local EntityMod = require("entity.activity_type_entity")
+  if data == nil then
+    if self._activity_type == nil then
+      self._activity_type = EntityMod.new(self, nil)
+    end
+    return self._activity_type
+  end
+  return EntityMod.new(self, data)
+end
+
+
 -- Idiomatic facade: client:Member():list() / client:Member():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
 function OrbitSDK:Member(data)
@@ -362,6 +390,90 @@ function OrbitSDK:Member(data)
       self._member = EntityMod.new(self, nil)
     end
     return self._member
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Note():list() / client:Note():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function OrbitSDK:Note(data)
+  local EntityMod = require("entity.note_entity")
+  if data == nil then
+    if self._note == nil then
+      self._note = EntityMod.new(self, nil)
+    end
+    return self._note
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Organization():list() / client:Organization():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function OrbitSDK:Organization(data)
+  local EntityMod = require("entity.organization_entity")
+  if data == nil then
+    if self._organization == nil then
+      self._organization = EntityMod.new(self, nil)
+    end
+    return self._organization
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Report():list() / client:Report():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function OrbitSDK:Report(data)
+  local EntityMod = require("entity.report_entity")
+  if data == nil then
+    if self._report == nil then
+      self._report = EntityMod.new(self, nil)
+    end
+    return self._report
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:User():list() / client:User():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function OrbitSDK:User(data)
+  local EntityMod = require("entity.user_entity")
+  if data == nil then
+    if self._user == nil then
+      self._user = EntityMod.new(self, nil)
+    end
+    return self._user
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Webhook():list() / client:Webhook():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function OrbitSDK:Webhook(data)
+  local EntityMod = require("entity.webhook_entity")
+  if data == nil then
+    if self._webhook == nil then
+      self._webhook = EntityMod.new(self, nil)
+    end
+    return self._webhook
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Workspace():list() / client:Workspace():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function OrbitSDK:Workspace(data)
+  local EntityMod = require("entity.workspace_entity")
+  if data == nil then
+    if self._workspace == nil then
+      self._workspace = EntityMod.new(self, nil)
+    end
+    return self._workspace
   end
   return EntityMod.new(self, data)
 end

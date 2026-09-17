@@ -1,22 +1,94 @@
-# Orbit Members API
+# Orbit API
 
-Create, read, update, and delete Orbit community members.
+Please see the complete Orbit API documentation at [https://api.orbit.love/](https://api.orbit.love/).
 
 ## Start here
 
 This guide introduces the API, the client libraries, and the companion tools in this repository. Start with the API capabilities, choose a client for your application, and use the linked reference when you need exact request and response details.
 
-The selected API surface contains 1 entities and 5 HTTP routes. There are 6 SDK targets and 2 companion tools.
+The selected API surface contains 9 entities and 33 HTTP routes. There are 6 SDK targets and 2 companion tools.
 
 An entity groups related API operations. An operation can have several routes with different inputs or authentication requirements. The SDK exposes the entity and its operations using the conventions of the selected language.
 
 ## What the API provides
 
+### [Activity](docs/api/activity.html)
+
+Results: success; activity deleted; activity updated.
+
+SDK operations: `create`, `load`, `remove`, `update`.
+
+Key fields to recognise:
+
+- `activity_type`: The type of activity - what action was done by the member.
+- `activity_type_key`: The key for a custom activity type for the workspace.
+- `description`: A description of the activity; displayed in the timeline
+- `identity`: Represents an email address, a profile on networks like github and twitter, or a record in another system.
+- `key`: Supply a key that must be unique or leave blank to have one generated.
+
+### [ActivityType](docs/api/activity_type.html)
+
+Results: success.
+
+SDK operations: `load`.
+
 ### [Member](docs/api/member.html)
 
-Results: The created member; A page of members; The requested member; Deleted; The updated member.
+Results: success; created; member deleted; identity deleted; member updated.
 
-SDK operations: `create`, `list`, `load`, `remove`, `update`.
+SDK operations: `create`, `load`, `remove`, `update`.
+
+Key fields to recognise:
+
+- `devto`: The member&#39;s DEV username
+- `email`: The member&#39;s email
+- `github`: The member&#39;s GitHub username
+- `identity`: Represents an email address, a profile on networks like github and twitter, or a record in another system.
+- `linkedin`: The member&#39;s LinkedIn username, without the in/ or pub/
+
+### [Note](docs/api/note.html)
+
+Results: note created; success; note updated.
+
+SDK operations: `create`, `load`, `update`.
+
+### [Organization](docs/api/organization.html)
+
+Results: success; organization updated.
+
+SDK operations: `load`, `update`.
+
+Key fields to recognise:
+
+- `crm_uid`: The unique identifier of the organization in your CRM.
+- `crm_url`: A link to the organization profile in your CRM.
+- `deal_closed_date`: The date the organization became a customer.
+- `lifecycle_stage`: The current stage of the organization in the marketing or sales process.
+- `owner_email`: The email of the team member who is in charge of the organization.
+
+### [Report](docs/api/report.html)
+
+Results: success.
+
+SDK operations: `load`.
+
+### [User](docs/api/user.html)
+
+Results: success.
+
+SDK operations: `load`.
+
+### [Webhook](docs/api/webhook.html)
+
+Results: webhook created; success; webhook deleted; webhook updated.
+
+SDK operations: `create`, `load`, `remove`, `update`.
+
+### [Workspace](docs/api/workspace.html)
+
+Results: success.
+
+SDK operations: `load`.
 
 ### Route map
 
@@ -24,17 +96,49 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 
 | Entity | SDK operation | HTTP route | Authentication |
 | --- | --- | --- | --- |
-| [Member](docs/api/member.html) | `create` | `POST /{workspace}/members` | Required |
-| [Member](docs/api/member.html) | `list` | `GET /{workspace}/members` | Required |
-| [Member](docs/api/member.html) | `load` | `GET /{workspace}/members/{id}` | Required |
-| [Member](docs/api/member.html) | `remove` | `DELETE /{workspace}/members/{id}` | Required |
-| [Member](docs/api/member.html) | `update` | `PUT /{workspace}/members/{id}` | Required |
+| [Activity](docs/api/activity.html) | `create` | `POST /{workspace_slug}/members/{member_slug}/activities` | Required |
+| [Activity](docs/api/activity.html) | `create` | `POST /{workspace_slug}/activities` | Required |
+| [Activity](docs/api/activity.html) | `load` | `GET /{workspace_slug}/activities` | Required |
+| [Activity](docs/api/activity.html) | `load` | `GET /{workspace_slug}/members/{member_slug}/activities` | Required |
+| [Activity](docs/api/activity.html) | `load` | `GET /{workspace_slug}/organizations/{organization_id}/activities` | Required |
+| [Activity](docs/api/activity.html) | `load` | `GET /{workspace_slug}/activities/{id}` | Required |
+| [Activity](docs/api/activity.html) | `remove` | `DELETE /{workspace_slug}/members/{member_slug}/activities/{id}` | Required |
+| [Activity](docs/api/activity.html) | `update` | `PUT /{workspace_slug}/members/{member_slug}/activities/{id}` | Required |
+| [ActivityType](docs/api/activity_type.html) | `load` | `GET /{workspace_slug}/activity_types` | Required |
+| [Member](docs/api/member.html) | `create` | `POST /{workspace_slug}/members/{member_slug}/identities` | Required |
+| [Member](docs/api/member.html) | `create` | `POST /{workspace_slug}/members` | Required |
+| [Member](docs/api/member.html) | `load` | `GET /{workspace_slug}/members` | Required |
+| [Member](docs/api/member.html) | `load` | `GET /{workspace_slug}/members/find` | Required |
+| [Member](docs/api/member.html) | `load` | `GET /{workspace_slug}/organizations/{organization_id}/members` | Required |
+| [Member](docs/api/member.html) | `load` | `GET /{workspace_slug}/members/{member_slug}` | Required |
+| [Member](docs/api/member.html) | `remove` | `DELETE /{workspace_slug}/members/{member_slug}` | Required |
+| [Member](docs/api/member.html) | `remove` | `DELETE /{workspace_slug}/members/{member_slug}/identities` | Required |
+| [Member](docs/api/member.html) | `update` | `PUT /{workspace_slug}/members/{member_slug}` | Required |
+| [Note](docs/api/note.html) | `create` | `POST /{workspace_slug}/members/{member_slug}/notes` | Required |
+| [Note](docs/api/note.html) | `load` | `GET /{workspace_slug}/members/{member_slug}/notes` | Required |
+| [Note](docs/api/note.html) | `update` | `PUT /{workspace_slug}/members/{member_slug}/notes/{id}` | Required |
+| [Organization](docs/api/organization.html) | `load` | `GET /{workspace_slug}/organizations` | Required |
+| [Organization](docs/api/organization.html) | `load` | `GET /{workspace_slug}/organizations/{organization_id}` | Required |
+| [Organization](docs/api/organization.html) | `update` | `PUT /{workspace_slug}/organizations/{organization_id}` | Required |
+| [Report](docs/api/report.html) | `load` | `GET /{workspace_slug}/reports` | Required |
+| [User](docs/api/user.html) | `load` | `GET /user` | Required |
+| [Webhook](docs/api/webhook.html) | `create` | `POST /{workspace_slug}/webhooks` | Required |
+| [Webhook](docs/api/webhook.html) | `load` | `GET /{workspace_slug}/webhooks/{id}` | Required |
+| [Webhook](docs/api/webhook.html) | `load` | `GET /{workspace_slug}/webhooks` | Required |
+| [Webhook](docs/api/webhook.html) | `remove` | `DELETE /{workspace_slug}/webhooks/{id}` | Required |
+| [Webhook](docs/api/webhook.html) | `update` | `PUT /{workspace_slug}/webhooks/{id}` | Required |
+| [Workspace](docs/api/workspace.html) | `load` | `GET /workspaces/{workspace_slug}` | Required |
+| [Workspace](docs/api/workspace.html) | `load` | `GET /workspaces` | Required |
 
 ## Connect to the API
 
 - API server: `https://app.orbit.love/api/v1`
 
-The default credential is sent in the `Authorization` header with the `Bearer` prefix.
+The default credential is sent in the `api_key` query.
+
+Provide the API key in a query param called api_key. This is the least secure method, please use only for testing.
+
+Provide a Authorization header with format &#39;Bearer &lt;api_key&gt;&#39;. This is the recommended approach. Make sure to include the &#39;Bearer&#39; part in the text box here.
 
 Check authentication for the route you plan to call. A route that declares no authentication can be used without credentials; this does not change the requirements of other routes. Keep credentials in environment variables or a configured secret provider, and keep them out of source control and logs.
 
@@ -78,8 +182,8 @@ Use the MCP server to expose supported API operations to an MCP client.
 
 Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
-- `orbit_list`: List records for an entity. Supported entities: `member`.
-- `orbit_load`: Load one record for an entity. Supported entities: `member`.
+- `orbit_list`: List records for an entity. No active entity supports this operation.
+- `orbit_load`: Load one record for an entity. Supported entities: `activity`, `activity_type`, `member`, `note`, `organization`, `report`, `user`, `webhook`, `workspace`.
 
 ## Operational features
 

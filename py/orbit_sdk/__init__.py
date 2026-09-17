@@ -307,10 +307,58 @@ class OrbitSDK:
         return res
 
 
+    def Activity(self, data=None) -> "ActivityEntity":
+        """Entity factory: client.Activity().list() / client.Activity().load({"id": ...})."""
+        from orbit_sdk.entity.activity_entity import ActivityEntity
+        return ActivityEntity(self, data)
+
+
+    def ActivityType(self, data=None) -> "ActivityTypeEntity":
+        """Entity factory: client.ActivityType().list() / client.ActivityType().load({"id": ...})."""
+        from orbit_sdk.entity.activity_type_entity import ActivityTypeEntity
+        return ActivityTypeEntity(self, data)
+
+
     def Member(self, data=None) -> "MemberEntity":
         """Entity factory: client.Member().list() / client.Member().load({"id": ...})."""
         from orbit_sdk.entity.member_entity import MemberEntity
         return MemberEntity(self, data)
+
+
+    def Note(self, data=None) -> "NoteEntity":
+        """Entity factory: client.Note().list() / client.Note().load({"id": ...})."""
+        from orbit_sdk.entity.note_entity import NoteEntity
+        return NoteEntity(self, data)
+
+
+    def Organization(self, data=None) -> "OrganizationEntity":
+        """Entity factory: client.Organization().list() / client.Organization().load({"id": ...})."""
+        from orbit_sdk.entity.organization_entity import OrganizationEntity
+        return OrganizationEntity(self, data)
+
+
+    def Report(self, data=None) -> "ReportEntity":
+        """Entity factory: client.Report().list() / client.Report().load({"id": ...})."""
+        from orbit_sdk.entity.report_entity import ReportEntity
+        return ReportEntity(self, data)
+
+
+    def User(self, data=None) -> "UserEntity":
+        """Entity factory: client.User().list() / client.User().load({"id": ...})."""
+        from orbit_sdk.entity.user_entity import UserEntity
+        return UserEntity(self, data)
+
+
+    def Webhook(self, data=None) -> "WebhookEntity":
+        """Entity factory: client.Webhook().list() / client.Webhook().load({"id": ...})."""
+        from orbit_sdk.entity.webhook_entity import WebhookEntity
+        return WebhookEntity(self, data)
+
+
+    def Workspace(self, data=None) -> "WorkspaceEntity":
+        """Entity factory: client.Workspace().list() / client.Workspace().load({"id": ...})."""
+        from orbit_sdk.entity.workspace_entity import WorkspaceEntity
+        return WorkspaceEntity(self, data)
 
 
 
@@ -340,4 +388,12 @@ class OrbitSDK:
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from orbit_sdk.entity.activity_entity import ActivityEntity
+    from orbit_sdk.entity.activity_type_entity import ActivityTypeEntity
     from orbit_sdk.entity.member_entity import MemberEntity
+    from orbit_sdk.entity.note_entity import NoteEntity
+    from orbit_sdk.entity.organization_entity import OrganizationEntity
+    from orbit_sdk.entity.report_entity import ReportEntity
+    from orbit_sdk.entity.user_entity import UserEntity
+    from orbit_sdk.entity.webhook_entity import WebhookEntity
+    from orbit_sdk.entity.workspace_entity import WorkspaceEntity

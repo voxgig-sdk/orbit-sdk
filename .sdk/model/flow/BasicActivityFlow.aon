@@ -1,0 +1,85 @@
+# BasicActivityFlow
+
+main: kit: flow: BasicActivityFlow:
+{
+  entity: "activity",
+  kind: "basic",
+  name: "BasicActivityFlow",
+  step: [
+    {
+      input: {
+        ref: "activity_ref01"
+      }
+
+      match: {
+        member_id: "member01",
+        workspace_slug: "workspace_slug01"
+      }
+
+      op: "create"
+    }
+
+    {
+      data: {
+        member_id: "member01",
+        workspace_slug: "workspace_slug01"
+      }
+
+      input: {
+        ref: "activity_ref01",
+        srcdatavar: "activity_ref01_data",
+        suffix: "_up0",
+        textfield: "activity_type"
+      }
+
+      op: "update",
+      spec: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-activity_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "activity_ref01",
+        srcdatavar: "activity_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "activity01",
+        workspace_slug: "workspace_slug01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-activity_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "activity_ref01",
+        suffix: "_rm0"
+      }
+
+      match: {
+        id: "activity01",
+        member_id: "member01",
+        workspace_slug: "workspace_slug01"
+      }
+
+      op: "remove"
+    }
+  ],
+  "key$": "BasicActivityFlow"
+}

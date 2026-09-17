@@ -76,7 +76,15 @@ _CLIENT_VARS = ("client", "sdk")
 
 # The API's capitalised semantic entities -> lowercase fixture key.
 _ENTITIES = {
+    "Activity": "activity",
+    "ActivityType": "activity_type",
     "Member": "member",
+    "Note": "note",
+    "Organization": "organization",
+    "Report": "report",
+    "User": "user",
+    "Webhook": "webhook",
+    "Workspace": "workspace",
 }
 
 # The three documents held to the gate, tagged by human label.

@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Organization | Orbit API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">Orbit API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/orbit-sdk">voxgig-sdk/orbit-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Orbit API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/activity.html">Activity</a>
+<a href="../api/activity_type.html">ActivityType</a>
+<a href="../api/member.html">Member</a>
+<a href="../api/note.html">Note</a>
+<a aria-current="page" href="../api/organization.html">Organization</a><div class="nav-sections"><a class="nav-section" href="#get-workspace_slugorganizations">GET /{workspace_slug}/organizations</a>
+<a class="nav-section" href="#get-workspace_slugorganizationsorganization_id">GET /{workspace_slug}/organizations/{organization_id}</a>
+<a class="nav-section" href="#put-workspace_slugorganizationsorganization_id">PUT /{workspace_slug}/organizations/{organization_id}</a></div>
+<a href="../api/report.html">Report</a>
+<a href="../api/user.html">User</a>
+<a href="../api/webhook.html">Webhook</a>
+<a href="../api/workspace.html">Workspace</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/js.html">JavaScript</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="organization">Organization</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-workspace_slugorganizations"><code>/{workspace_slug}/organizations</code></a></td>
+<td><code>load</code></td>
+<td>success</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-workspace_slugorganizationsorganization_id"><code>/{workspace_slug}/organizations/{organization_id}</code></a></td>
+<td><code>load</code></td>
+<td>success</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><a href="#put-workspace_slugorganizationsorganization_id"><code>/{workspace_slug}/organizations/{organization_id}</code></a></td>
+<td><code>update</code></td>
+<td>organization updated</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>crm_uid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier of the organization in your CRM.</td>
+</tr>
+<tr>
+<td><code>crm_url</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A link to the organization profile in your CRM.</td>
+</tr>
+<tr>
+<td><code>data</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>deal_closed_date</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The date the organization became a customer.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>lifecycle_stage</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The current stage of the organization in the marketing or sales process.</td>
+</tr>
+<tr>
+<td><code>links</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>owner_email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The email of the team member who is in charge of the organization.</td>
+</tr>
+<tr>
+<td><code>owner_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the team member who is in charge of the organization.</td>
+</tr>
+<tr>
+<td><code>price_plan</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The pricing plan the organization is on.</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The name of the CRM you use for tracking the organization.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="load">load</h2>
+<h3 id="get-workspace_slugorganizations" class="operation" data-method="get"><code>GET</code> /{workspace_slug}/organizations</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>query</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>page</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>direction</code> | <code>query</code> | <code>enum: ASC, DESC</code> | No |  |
+| <code>items</code> | <code>query</code> | <code>enum: 10, 50, 100</code> | No |  |
+| <code>sort</code> | <code>query</code> | <code>enum: name, website, members_count, employees_count</code> | No |  |</p>
+<h4 id="responses">Responses</h4>
+<h5 id="200-success" class="status" data-status="2xx">200: success</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;active_since&quot;: null,
+        &quot;created_at&quot;: &quot;2023-02-28T19:21:11.655Z&quot;,
+        &quot;crm_uid&quot;: null,
+        &quot;crm_url&quot;: null,
+        &quot;crunchbase&quot;: null,
+        &quot;deal_closed_date&quot;: null,
+        &quot;email_addresses&quot;: null,
+        &quot;employees_count&quot;: null,
+        &quot;estimated_annual_revenue&quot;: null,
+        &quot;facebook&quot;: null,
+        &quot;facebook_followers&quot;: null,
+        &quot;founded_in&quot;: null,
+        &quot;id&quot;: &quot;nAeF3p&quot;,
+        &quot;industry&quot;: null,
+        &quot;last_active&quot;: null,
+        &quot;lifecycle_stage&quot;: null,
+        &quot;linkedin&quot;: null,
+        &quot;location&quot;: null,
+        &quot;members_count&quot;: 1,
+        &quot;name&quot;: &quot;Organization2&quot;,
+        &quot;organization_type&quot;: null,
+        &quot;owner_email&quot;: null,
+        &quot;owner_name&quot;: null,
+        &quot;price_plan&quot;: null,
+        &quot;source&quot;: null,
+        &quot;twitter&quot;: null,
+        &quot;twitter_followers&quot;: null,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:21:11.655Z&quot;,
+        &quot;website&quot;: &quot;org2.example.com&quot;
+      },
+      &quot;id&quot;: &quot;nAeF3p&quot;,
+      &quot;type&quot;: &quot;organization&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;active_since&quot;: null,
+        &quot;created_at&quot;: &quot;2023-02-28T19:21:11.652Z&quot;,
+        &quot;crm_uid&quot;: &quot;abcde123451&quot;,
+        &quot;crm_url&quot;: &quot;https://example.com/1&quot;,
+        &quot;crunchbase&quot;: null,
+        &quot;deal_closed_date&quot;: &quot;2023-02-28T19:21:11.668Z&quot;,
+        &quot;email_addresses&quot;: null,
+        &quot;employees_count&quot;: null,
+        &quot;estimated_annual_revenue&quot;: null,
+        &quot;facebook&quot;: null,
+        &quot;facebook_followers&quot;: null,
+        &quot;founded_in&quot;: null,
+        &quot;id&quot;: &quot;n27FjR&quot;,
+        &quot;industry&quot;: null,
+        &quot;last_active&quot;: null,
+        &quot;lifecycle_stage&quot;: &quot;customer&quot;,
+        &quot;linkedin&quot;: null,
+        &quot;location&quot;: null,
+        &quot;members_count&quot;: 1,
+        &quot;name&quot;: &quot;Organization1&quot;,
+        &quot;organization_type&quot;: null,
+        &quot;owner_email&quot;: &quot;john.toto@example.com&quot;,
+        &quot;owner_name&quot;: &quot;John Toto&quot;,
+        &quot;price_plan&quot;: &quot;Enterprise&quot;,
+        &quot;source&quot;: &quot;Fake CRM&quot;,
+        &quot;twitter&quot;: null,
+        &quot;twitter_followers&quot;: null,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:21:11.652Z&quot;,
+        &quot;website&quot;: &quot;org1.example.com&quot;
+      },
+      &quot;id&quot;: &quot;n27FjR&quot;,
+      &quot;type&quot;: &quot;organization&quot;
+    }
+  ],
+  &quot;links&quot;: {
+    &quot;first&quot;: &quot;http://localhost:3000/api/v1/bartonbrakus/organizations?direction=DESC&amp;items=10&amp;page=1&amp;query=&amp;sort=name&amp;workspace=bartonbrakus&quot;,
+    &quot;next&quot;: null,
+    &quot;prev&quot;: null
+  }
+}
+</code></pre>
+<h3 id="get-workspace_slugorganizationsorganization_id" class="operation" data-method="get"><code>GET</code> /{workspace_slug}/organizations/{organization_id}</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>organization_id</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-success-1" class="status" data-status="2xx">200: success</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;attributes&quot;: {
+      &quot;active_since&quot;: null,
+      &quot;created_at&quot;: &quot;2023-02-28T19:21:12.080Z&quot;,
+      &quot;crm_uid&quot;: null,
+      &quot;crm_url&quot;: null,
+      &quot;crunchbase&quot;: null,
+      &quot;deal_closed_date&quot;: null,
+      &quot;email_addresses&quot;: null,
+      &quot;employees_count&quot;: null,
+      &quot;estimated_annual_revenue&quot;: null,
+      &quot;facebook&quot;: null,
+      &quot;facebook_followers&quot;: null,
+      &quot;founded_in&quot;: null,
+      &quot;id&quot;: &quot;VlOFP7&quot;,
+      &quot;industry&quot;: null,
+      &quot;last_active&quot;: null,
+      &quot;lifecycle_stage&quot;: null,
+      &quot;linkedin&quot;: null,
+      &quot;location&quot;: null,
+      &quot;members_count&quot;: 1,
+      &quot;name&quot;: &quot;Organization1&quot;,
+      &quot;organization_type&quot;: null,
+      &quot;owner_email&quot;: null,
+      &quot;owner_name&quot;: null,
+      &quot;price_plan&quot;: null,
+      &quot;source&quot;: null,
+      &quot;twitter&quot;: null,
+      &quot;twitter_followers&quot;: null,
+      &quot;updated_at&quot;: &quot;2023-02-28T19:21:12.080Z&quot;,
+      &quot;website&quot;: &quot;example-47.com&quot;
+    },
+    &quot;id&quot;: &quot;VlOFP7&quot;,
+    &quot;type&quot;: &quot;organization&quot;
+  }
+}
+</code></pre>
+<h2 id="update">update</h2>
+<h3 id="put-workspace_slugorganizationsorganization_id" class="operation" data-method="put"><code>PUT</code> /{workspace_slug}/organizations/{organization_id}</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-2">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>organization_id</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>crm_uid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier of the organization in your CRM.</td>
+</tr>
+<tr>
+<td><code>crm_url</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A link to the organization profile in your CRM.</td>
+</tr>
+<tr>
+<td><code>deal_closed_date</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The date the organization became a customer.</td>
+</tr>
+<tr>
+<td><code>lifecycle_stage</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The current stage of the organization in the marketing or sales process.</td>
+</tr>
+<tr>
+<td><code>owner_email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The email of the team member who is in charge of the organization.</td>
+</tr>
+<tr>
+<td><code>owner_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the team member who is in charge of the organization.</td>
+</tr>
+<tr>
+<td><code>price_plan</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The pricing plan the organization is on.</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The name of the CRM you use for tracking the organization.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-2">Responses</h4>
+<h5 id="204-organization-updated" class="status" data-status="2xx">204: organization updated</h5>
+<h5 id="403-forbidden" class="status" data-status="4xx">403: forbidden</h5>
+<h5 id="422-deal_closed_date-is-invalid" class="status" data-status="4xx">422: deal_closed_date is invalid</h5>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

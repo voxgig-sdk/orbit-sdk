@@ -5,7 +5,7 @@
 The TypeScript SDK for the Orbit API — a type-safe, entity-oriented client with full async/await support.
 
 The API is exposed as capitalised, semantic **Entities** — e.g.
-`client.Member()` — each with a small set of operations (`list`, `load`, `create`, `update`, `remove`)
+`client.Activity()` — each with a small set of operations (`load`, `create`, `update`, `remove`)
 instead of raw URL paths and query parameters. This keeps the surface
 predictable and low-friction for both humans and AI agents.
 
@@ -35,28 +35,17 @@ const client = new OrbitSDK({
 })
 ```
 
-### 2. List member records
+### 3. Load an activity
 
-`list()` resolves to an array of Member ENTITIES — every operation
-resolves to entities, not raw records. Iterate them directly, and call
-`.data()` on one for the record it holds:
-
-```ts
-const members = await client.Member().list({ workspace: "example" })
-
-for (const member of members) {
-  console.log(member)
-}
-```
-
-### 3. Load a member
-
+Activity is nested under workspace_slug, so provide the `workspace_slug`.
 `load()` returns the entity directly and throws on failure:
 
 ```ts
 try {
-  const member = await client.Member().load({ id: 'example_id', workspace: 'example_workspace' })
-  console.log(member)
+  const activity = await client.Activity().load({
+    workspace_slug: 'example_workspace_slug',
+  })
+  console.log(activity)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -65,22 +54,25 @@ try {
 ### 4. Create, update, and remove
 
 ```ts
-// Create — returns the created Member ENTITY (.data() for the record)
-const created = await client.Member().create({
-  workspace: 'example_workspace',
+// Create — returns the created Activity ENTITY (.data() for the record)
+const created = await client.Activity().create({
+  workspace_slug: 'example_workspace_slug',
+  identity: {},
+  title: 'example_title',
 })
 
 // Update — the id comes off the returned entity's data()
-const updated = await client.Member().update({
+const updated = await client.Activity().update({
   id: created.data().id!,
-  workspace: 'example_workspace',
-  bio: 'example_bio',
+  member_id: 'example_member_id',
+  workspace_slug: 'example_workspace_slug',
 })
 
 // Remove
-await client.Member().remove({
+await client.Activity().remove({
   id: created.data().id!,
-  workspace: 'example_workspace',
+  member_id: 'example_member_id',
+  workspace_slug: 'example_workspace_slug',
 })
 ```
 
@@ -91,10 +83,10 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const members = await client.Member().list()
-  console.log(members)
+  const note = await client.Note().load({ member_slug: "example", workspace_slug: "example" })
+  console.log(note)
 } catch (err) {
-  console.error('list failed:', err)
+  console.error('load failed:', err)
 }
 ```
 
@@ -158,10 +150,10 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = OrbitSDK.test()
 
-const member = await client.Member().list()
-// member is the entity, populated with mock response data
-// — call member.data() for the record itself
-console.log(member)
+const note = await client.Note().load({ member_slug: 'example_member_slug', workspace_slug: 'example_workspace_slug' })
+// note is the entity, populated with mock response data
+// — call note.data() for the record itself
+console.log(note)
 ```
 
 You can also use the instance method:
@@ -176,10 +168,10 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.Member()
+const entity = client.Note()
 
 // First call runs the operation and stores its result
-await entity.list()
+await entity.load({ member_slug: 'example_member_slug', workspace_slug: 'example_workspace_slug' })
 
 // Subsequent calls reuse the stored state
 const data = entity.data()
@@ -263,7 +255,15 @@ new OrbitSDK(options?: {
 | `utility()` | `Utility` | Deep copy of the SDK utility object. |
 | `prepare(fetchargs?)` | `Promise<FetchDef>` | Build an HTTP request definition without sending it. |
 | `direct(fetchargs?)` | `Promise<DirectResult>` | Build and send an HTTP request. |
+| `Activity(data?)` | `ActivityEntity` | Create an Activity entity instance. |
+| `ActivityType(data?)` | `ActivityTypeEntity` | Create an ActivityType entity instance. |
 | `Member(data?)` | `MemberEntity` | Create a Member entity instance. |
+| `Note(data?)` | `NoteEntity` | Create a Note entity instance. |
+| `Organization(data?)` | `OrganizationEntity` | Create an Organization entity instance. |
+| `Report(data?)` | `ReportEntity` | Create a Report entity instance. |
+| `User(data?)` | `UserEntity` | Create an User entity instance. |
+| `Webhook(data?)` | `WebhookEntity` | Create a Webhook entity instance. |
+| `Workspace(data?)` | `WorkspaceEntity` | Create a Workspace entity instance. |
 | `tester(testopts?, sdkopts?)` | `OrbitSDK` | Create a test-mode client instance. |
 
 #### Static methods
@@ -281,7 +281,6 @@ All entities share the same interface.
 | Method | Signature | Description |
 | --- | --- | --- |
 | `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
-| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
 | `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
 | `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
 | `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
@@ -297,8 +296,6 @@ Entity operations resolve to the entity data directly — there is no
 result envelope:
 
 - `load`, `create` and `update` resolve to a single entity object.
-- `list` resolves to an **array** of entity objects (iterate it directly;
-  there is no `.data` and no `.ok`).
 - `remove` resolves to `void`.
 
 On a failed request these methods **throw**, so wrap calls in
@@ -335,31 +332,240 @@ The `prepare()` method returns:
 
 ### Entities
 
+#### Activity
+
+| Field | Description |
+| --- | --- |
+| `activity` |  |
+| `activity_type` | The type of activity - what action was done by the member. |
+| `activity_type_key` | The key for a custom activity type for the workspace. |
+| `data` |  |
+| `description` | A description of the activity; displayed in the timeline |
+| `id` |  |
+| `identity` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` |  |
+| `key` | Supply a key that must be unique or leave blank to have one generated. |
+| `link` | A URL for the activity; displayed in the timeline |
+| `link_text` | The text for the timeline link |
+| `links` |  |
+| `occurred_at` | The date and time the activity occurred; defaults to now |
+| `properties` | Key-value pairs to provide contextual metadata about an activity. |
+| `title` | A title for the activity; displayed in the timeline |
+| `weight` | A custom weight to be used in filters and reports; defaults to 1. |
+
+Operations: create, load, remove, update.
+
+API path: `/{workspace_slug}/members/{member_slug}/activities`
+
+#### ActivityType
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+| `links` |  |
+
+Operations: load.
+
+API path: `/{workspace_slug}/activity_types`
+
 #### Member
 
 | Field | Description |
 | --- | --- |
 | `bio` |  |
+| `birthday` |  |
 | `company` |  |
-| `created_at` |  |
+| `data` |  |
+| `devto` | The member's DEV username |
+| `email` | The member's email |
+| `github` | The member's GitHub username |
 | `id` |  |
+| `identity` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` |  |
+| `linkedin` | The member's LinkedIn username, without the in/ or pub/ |
+| `links` |  |
 | `location` |  |
-| `love` |  |
+| `member` |  |
 | `name` |  |
-| `orbit_level` |  |
-| `reach` |  |
+| `pronouns` |  |
+| `shipping_address` |  |
 | `slug` |  |
-| `tags` |  |
-| `tags_to_add` |  |
+| `tag_list` | Deprecated: Please use the tags attribute instead |
+| `tags` | Replaces all tags for the member; comma-separated string or array |
+| `tags_to_add` | Adds tags to member; comma-separated string or array |
+| `teammate` |  |
 | `title` |  |
+| `tshirt` |  |
+| `twitter` | The member's Twitter username |
+| `url` |  |
 
-Operations: create, list, load, remove, update.
+Operations: create, load, remove, update.
 
-API path: `/{workspace}/members`
+API path: `/{workspace_slug}/members/{member_slug}/identities`
+
+#### Note
+
+| Field | Description |
+| --- | --- |
+| `body` |  |
+| `data` |  |
+| `id` |  |
+| `included` |  |
+| `links` |  |
+
+Operations: create, load, update.
+
+API path: `/{workspace_slug}/members/{member_slug}/notes`
+
+#### Organization
+
+| Field | Description |
+| --- | --- |
+| `crm_uid` | The unique identifier of the organization in your CRM. |
+| `crm_url` | A link to the organization profile in your CRM. |
+| `data` |  |
+| `deal_closed_date` | The date the organization became a customer. |
+| `id` |  |
+| `lifecycle_stage` | The current stage of the organization in the marketing or sales process. |
+| `links` |  |
+| `owner_email` | The email of the team member who is in charge of the organization. |
+| `owner_name` | The name of the team member who is in charge of the organization. |
+| `price_plan` | The pricing plan the organization is on. |
+| `source` | The name of the CRM you use for tracking the organization. |
+
+Operations: load, update.
+
+API path: `/{workspace_slug}/organizations`
+
+#### Report
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+
+Operations: load.
+
+API path: `/{workspace_slug}/reports`
+
+#### User
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+
+Operations: load.
+
+API path: `/user`
+
+#### Webhook
+
+| Field | Description |
+| --- | --- |
+| `activity_tags` |  |
+| `activity_types` |  |
+| `data` |  |
+| `event_type` |  |
+| `id` |  |
+| `links` |  |
+| `member_tags` |  |
+| `name` |  |
+| `secret` |  |
+| `url` |  |
+
+Operations: create, load, remove, update.
+
+API path: `/{workspace_slug}/webhooks`
+
+#### Workspace
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+| `id` |  |
+| `included` |  |
+
+Operations: load.
+
+API path: `/workspaces/{workspace_slug}`
 
 
 
 ## Entities
+
+
+### Activity
+
+Create an instance: `const activity = client.Activity()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `activity` | `any` |  |
+| `activity_type` | `string` | The type of activity - what action was done by the member. |
+| `activity_type_key` | `string` | The key for a custom activity type for the workspace. |
+| `data` | `any[]` |  |
+| `description` | `string` | A description of the activity; displayed in the timeline |
+| `id` | `string` |  |
+| `identity` | `Record<string, any>` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` | `any[]` |  |
+| `key` | `string` | Supply a key that must be unique or leave blank to have one generated. |
+| `link` | `string` | A URL for the activity; displayed in the timeline |
+| `link_text` | `string` | The text for the timeline link |
+| `links` | `Record<string, any>` |  |
+| `occurred_at` | `string` | The date and time the activity occurred; defaults to now |
+| `properties` | `Record<string, any>` | Key-value pairs to provide contextual metadata about an activity. |
+| `title` | `string` | A title for the activity; displayed in the timeline |
+| `weight` | `string` | A custom weight to be used in filters and reports; defaults to 1. |
+
+#### Example: Load
+
+```ts
+const activity = await client.Activity().load({ id: 'activity_id', workspace_slug: 'workspace_slug' })
+```
+
+#### Example: Create
+
+```ts
+const activity = await client.Activity().create({
+  workspace_slug: 'example_workspace_slug',
+  identity: {},
+  title: 'example_title',
+})
+```
+
+
+### ActivityType
+
+Create an instance: `const activity_type = client.ActivityType()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `any[]` |  |
+| `links` | `Record<string, any>` |  |
+
+#### Example: Load
+
+```ts
+const activity_type = await client.ActivityType().load({ workspace_slug: 'workspace_slug' })
+```
 
 
 ### Member
@@ -371,7 +577,6 @@ Create an instance: `const member = client.Member()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
-| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
@@ -381,37 +586,235 @@ Create an instance: `const member = client.Member()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bio` | `string` |  |
+| `birthday` | `string` |  |
 | `company` | `string` |  |
-| `created_at` | `string` |  |
+| `data` | `any[]` |  |
+| `devto` | `string` | The member's DEV username |
+| `email` | `string` | The member's email |
+| `github` | `string` | The member's GitHub username |
 | `id` | `string` |  |
+| `identity` | `Record<string, any>` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` | `any[]` |  |
+| `linkedin` | `string` | The member's LinkedIn username, without the in/ or pub/ |
+| `links` | `Record<string, any>` |  |
 | `location` | `string` |  |
-| `love` | `number` |  |
+| `member` | `Record<string, any>` |  |
 | `name` | `string` |  |
-| `orbit_level` | `number` |  |
-| `reach` | `number` |  |
+| `pronouns` | `string` |  |
+| `shipping_address` | `string` |  |
 | `slug` | `string` |  |
-| `tags` | `any[]` |  |
-| `tags_to_add` | `string` |  |
+| `tag_list` | `string` | Deprecated: Please use the tags attribute instead |
+| `tags` | `string` | Replaces all tags for the member; comma-separated string or array |
+| `tags_to_add` | `string` | Adds tags to member; comma-separated string or array |
+| `teammate` | `boolean` |  |
 | `title` | `string` |  |
+| `tshirt` | `string` |  |
+| `twitter` | `string` | The member's Twitter username |
+| `url` | `string` |  |
 
 #### Example: Load
 
 ```ts
-const member = await client.Member().load({ id: 'member_id', workspace: 'workspace' })
-```
-
-#### Example: List
-
-```ts
-const members = await client.Member().list({ workspace: "example" })
+const member = await client.Member().load({ id: 'member_id', workspace_slug: 'workspace_slug' })
 ```
 
 #### Example: Create
 
 ```ts
 const member = await client.Member().create({
-  workspace: 'example_workspace',
+  workspace_slug: 'example_workspace_slug',
+  identity: {},
 })
+```
+
+
+### Note
+
+Create an instance: `const note = client.Note()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `body` | `string` |  |
+| `data` | `any[]` |  |
+| `id` | `string` |  |
+| `included` | `any[]` |  |
+| `links` | `Record<string, any>` |  |
+
+#### Example: Load
+
+```ts
+const note = await client.Note().load({ member_slug: 'member_slug', workspace_slug: 'workspace_slug' })
+```
+
+#### Example: Create
+
+```ts
+const note = await client.Note().create({
+  member_slug: 'example_member_slug',
+  workspace_slug: 'example_workspace_slug',
+  body: 'example_body',
+})
+```
+
+
+### Organization
+
+Create an instance: `const organization = client.Organization()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `crm_uid` | `string` | The unique identifier of the organization in your CRM. |
+| `crm_url` | `string` | A link to the organization profile in your CRM. |
+| `data` | `any[]` |  |
+| `deal_closed_date` | `string` | The date the organization became a customer. |
+| `id` | `string` |  |
+| `lifecycle_stage` | `string` | The current stage of the organization in the marketing or sales process. |
+| `links` | `Record<string, any>` |  |
+| `owner_email` | `string` | The email of the team member who is in charge of the organization. |
+| `owner_name` | `string` | The name of the team member who is in charge of the organization. |
+| `price_plan` | `string` | The pricing plan the organization is on. |
+| `source` | `string` | The name of the CRM you use for tracking the organization. |
+
+#### Example: Load
+
+```ts
+const organization = await client.Organization().load({ id: 'organization_id', workspace_slug: 'workspace_slug' })
+```
+
+
+### Report
+
+Create an instance: `const report = client.Report()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `Record<string, any>` |  |
+
+#### Example: Load
+
+```ts
+const report = await client.Report().load({ workspace_slug: 'workspace_slug' })
+```
+
+
+### User
+
+Create an instance: `const user = client.User()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `Record<string, any>` |  |
+
+#### Example: Load
+
+```ts
+const user = await client.User().load()
+```
+
+
+### Webhook
+
+Create an instance: `const webhook = client.Webhook()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `activity_tags` | `any[]` |  |
+| `activity_types` | `any[]` |  |
+| `data` | `Record<string, any>` |  |
+| `event_type` | `string` |  |
+| `id` | `string` |  |
+| `links` | `Record<string, any>` |  |
+| `member_tags` | `any[]` |  |
+| `name` | `string` |  |
+| `secret` | `string` |  |
+| `url` | `string` |  |
+
+#### Example: Load
+
+```ts
+const webhook = await client.Webhook().load({ id: 'webhook_id', workspace_slug: 'workspace_slug' })
+```
+
+#### Example: Create
+
+```ts
+const webhook = await client.Webhook().create({
+  workspace_slug: 'example_workspace_slug',
+  event_type: 'example_event_type',
+  name: 'example_name',
+  url: 'example_url',
+})
+```
+
+
+### Workspace
+
+Create an instance: `const workspace = client.Workspace()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `Record<string, any>` |  |
+| `id` | `string` |  |
+| `included` | `any[]` |  |
+
+#### Example: Load
+
+```ts
+const workspace = await client.Workspace().load({ id: 'workspace_id' })
 ```
 
 ## Features
@@ -622,16 +1025,16 @@ import { OrbitSDK } from '@voxgig-sdk/orbit'
 
 ### Entity state
 
-Entity instances are stateful. After a successful `list`, the entity
+Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const member = client.Member()
-await member.list()
+const note = client.Note()
+await note.load({ member_slug: "example", workspace_slug: "example" })
 
-// member.data() now returns the member data from the last `list`
-// member.match() returns the last match criteria
+// note.data() now returns the note data from the last `load`
+// note.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

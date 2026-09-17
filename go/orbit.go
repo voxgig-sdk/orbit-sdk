@@ -53,8 +53,32 @@ func init() {
 	core.NewTimeoutFeatureFunc = func() core.Feature {
 		return feature.NewTimeoutFeature()
 	}
+	core.NewActivityEntityFunc = func(client *core.OrbitSDK, entopts map[string]any) core.OrbitEntity {
+		return entity.NewActivityEntity(client, entopts)
+	}
+	core.NewActivityTypeEntityFunc = func(client *core.OrbitSDK, entopts map[string]any) core.OrbitEntity {
+		return entity.NewActivityTypeEntity(client, entopts)
+	}
 	core.NewMemberEntityFunc = func(client *core.OrbitSDK, entopts map[string]any) core.OrbitEntity {
 		return entity.NewMemberEntity(client, entopts)
+	}
+	core.NewNoteEntityFunc = func(client *core.OrbitSDK, entopts map[string]any) core.OrbitEntity {
+		return entity.NewNoteEntity(client, entopts)
+	}
+	core.NewOrganizationEntityFunc = func(client *core.OrbitSDK, entopts map[string]any) core.OrbitEntity {
+		return entity.NewOrganizationEntity(client, entopts)
+	}
+	core.NewReportEntityFunc = func(client *core.OrbitSDK, entopts map[string]any) core.OrbitEntity {
+		return entity.NewReportEntity(client, entopts)
+	}
+	core.NewUserEntityFunc = func(client *core.OrbitSDK, entopts map[string]any) core.OrbitEntity {
+		return entity.NewUserEntity(client, entopts)
+	}
+	core.NewWebhookEntityFunc = func(client *core.OrbitSDK, entopts map[string]any) core.OrbitEntity {
+		return entity.NewWebhookEntity(client, entopts)
+	}
+	core.NewWorkspaceEntityFunc = func(client *core.OrbitSDK, entopts map[string]any) core.OrbitEntity {
+		return entity.NewWorkspaceEntity(client, entopts)
 	}
 }
 

@@ -1,16 +1,28 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Member | Orbit Members API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Member | Orbit API</title><link rel="stylesheet" href="../assets/style.css"></head>
 <body><a class="skip" href="#content">Skip to content</a>
-<header class="site-header"><a class="site-title" href="../index.html">Orbit Members API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/orbit-sdk">voxgig-sdk/orbit-sdk</a></div></header>
+<header class="site-header"><a class="site-title" href="../index.html">Orbit API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/orbit-sdk">voxgig-sdk/orbit-sdk</a></div></header>
 <div class="site-notice" role="note"></div>
-<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Orbit Members API</a></details>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Orbit API</a></details>
 <details open><summary>API</summary><a href="../api/index.html">API overview</a>
-<a aria-current="page" href="../api/member.html">Member</a><div class="nav-sections"><a class="nav-section" href="#post-workspacemembers">POST /{workspace}/members</a>
-<a class="nav-section" href="#get-workspacemembers">GET /{workspace}/members</a>
-<a class="nav-section" href="#get-workspacemembersid">GET /{workspace}/members/{id}</a>
-<a class="nav-section" href="#delete-workspacemembersid">DELETE /{workspace}/members/{id}</a>
-<a class="nav-section" href="#put-workspacemembersid">PUT /{workspace}/members/{id}</a></div></details>
+<a href="../api/activity.html">Activity</a>
+<a href="../api/activity_type.html">ActivityType</a>
+<a aria-current="page" href="../api/member.html">Member</a><div class="nav-sections"><a class="nav-section" href="#post-workspace_slugmembersmember_slugidentities">POST /{workspace_slug}/members/{member_slug}/identities</a>
+<a class="nav-section" href="#post-workspace_slugmembers">POST /{workspace_slug}/members</a>
+<a class="nav-section" href="#get-workspace_slugmembers">GET /{workspace_slug}/members</a>
+<a class="nav-section" href="#get-workspace_slugmembersfind">GET /{workspace_slug}/members/find</a>
+<a class="nav-section" href="#get-workspace_slugorganizationsorganization_idmembers">GET /{workspace_slug}/organizations/{organization_id}/members</a>
+<a class="nav-section" href="#get-workspace_slugmembersmember_slug">GET /{workspace_slug}/members/{member_slug}</a>
+<a class="nav-section" href="#delete-workspace_slugmembersmember_slug">DELETE /{workspace_slug}/members/{member_slug}</a>
+<a class="nav-section" href="#delete-workspace_slugmembersmember_slugidentities">DELETE /{workspace_slug}/members/{member_slug}/identities</a>
+<a class="nav-section" href="#put-workspace_slugmembersmember_slug">PUT /{workspace_slug}/members/{member_slug}</a></div>
+<a href="../api/note.html">Note</a>
+<a href="../api/organization.html">Organization</a>
+<a href="../api/report.html">Report</a>
+<a href="../api/user.html">User</a>
+<a href="../api/webhook.html">Webhook</a>
+<a href="../api/workspace.html">Workspace</a></details>
 <details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
 <a href="../guides/first-call.html">Make your first API call</a>
 <a href="../guides/errors.html">Handle errors</a>
@@ -45,33 +57,57 @@
 <tbody>
 <tr>
 <td><code>POST</code></td>
-<td><a href="#post-workspacemembers"><code>/{workspace}/members</code></a></td>
+<td><a href="#post-workspace_slugmembersmember_slugidentities"><code>/{workspace_slug}/members/{member_slug}/identities</code></a></td>
 <td><code>create</code></td>
-<td>The created member</td>
+<td>success</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-workspace_slugmembers"><code>/{workspace_slug}/members</code></a></td>
+<td><code>create</code></td>
+<td>success</td>
 </tr>
 <tr>
 <td><code>GET</code></td>
-<td><a href="#get-workspacemembers"><code>/{workspace}/members</code></a></td>
-<td><code>list</code></td>
-<td>A page of members</td>
-</tr>
-<tr>
-<td><code>GET</code></td>
-<td><a href="#get-workspacemembersid"><code>/{workspace}/members/{id}</code></a></td>
+<td><a href="#get-workspace_slugmembers"><code>/{workspace_slug}/members</code></a></td>
 <td><code>load</code></td>
-<td>The requested member</td>
+<td>success</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-workspace_slugmembersfind"><code>/{workspace_slug}/members/find</code></a></td>
+<td><code>load</code></td>
+<td>success</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-workspace_slugorganizationsorganization_idmembers"><code>/{workspace_slug}/organizations/{organization_id}/members</code></a></td>
+<td><code>load</code></td>
+<td>success</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-workspace_slugmembersmember_slug"><code>/{workspace_slug}/members/{member_slug}</code></a></td>
+<td><code>load</code></td>
+<td>success</td>
 </tr>
 <tr>
 <td><code>DELETE</code></td>
-<td><a href="#delete-workspacemembersid"><code>/{workspace}/members/{id}</code></a></td>
+<td><a href="#delete-workspace_slugmembersmember_slug"><code>/{workspace_slug}/members/{member_slug}</code></a></td>
 <td><code>remove</code></td>
-<td>Deleted</td>
+<td>member deleted</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><a href="#delete-workspace_slugmembersmember_slugidentities"><code>/{workspace_slug}/members/{member_slug}/identities</code></a></td>
+<td><code>remove</code></td>
+<td>identity deleted</td>
 </tr>
 <tr>
 <td><code>PUT</code></td>
-<td><a href="#put-workspacemembersid"><code>/{workspace}/members/{id}</code></a></td>
+<td><a href="#put-workspace_slugmembersmember_slug"><code>/{workspace_slug}/members/{member_slug}</code></a></td>
 <td><code>update</code></td>
-<td>The updated member</td>
+<td>member updated</td>
 </tr>
 </tbody>
 </table>
@@ -93,20 +129,68 @@
 <td></td>
 </tr>
 <tr>
+<td><code>birthday</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
 <td><code>company</code></td>
 <td><code>string</code></td>
 <td>No</td>
 <td></td>
 </tr>
 <tr>
-<td><code>created_at</code></td>
+<td><code>data</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>devto</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The member's DEV username</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The member's email</td>
+</tr>
+<tr>
+<td><code>github</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The member's GitHub username</td>
+</tr>
+<tr>
+<td><code>id</code></td>
 <td><code>string</code></td>
 <td>No</td>
 <td></td>
 </tr>
 <tr>
-<td><code>id</code></td>
+<td><code>identity</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>Represents an email address, a profile on networks like github and twitter, or a record in another system.</td>
+</tr>
+<tr>
+<td><code>included</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>linkedin</code></td>
 <td><code>string</code></td>
+<td>No</td>
+<td>The member's LinkedIn username, without the in/ or pub/</td>
+</tr>
+<tr>
+<td><code>links</code></td>
+<td><code>object</code></td>
 <td>No</td>
 <td></td>
 </tr>
@@ -117,8 +201,8 @@
 <td></td>
 </tr>
 <tr>
-<td><code>love</code></td>
-<td><code>number</code></td>
+<td><code>member</code></td>
+<td><code>object</code></td>
 <td>No</td>
 <td></td>
 </tr>
@@ -129,14 +213,14 @@
 <td></td>
 </tr>
 <tr>
-<td><code>orbit_level</code></td>
-<td><code>integer</code></td>
+<td><code>pronouns</code></td>
+<td><code>string</code></td>
 <td>No</td>
 <td></td>
 </tr>
 <tr>
-<td><code>reach</code></td>
-<td><code>integer</code></td>
+<td><code>shipping_address</code></td>
+<td><code>string</code></td>
 <td>No</td>
 <td></td>
 </tr>
@@ -147,14 +231,26 @@
 <td></td>
 </tr>
 <tr>
-<td><code>tags</code></td>
-<td><code>array</code></td>
+<td><code>tag_list</code></td>
+<td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Deprecated: Please use the tags attribute instead</td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Replaces all tags for the member; comma-separated string or array</td>
 </tr>
 <tr>
 <td><code>tags_to_add</code></td>
 <td><code>string</code></td>
+<td>No</td>
+<td>Adds tags to member; comma-separated string or array</td>
+</tr>
+<tr>
+<td><code>teammate</code></td>
+<td><code>boolean</code></td>
 <td>No</td>
 <td></td>
 </tr>
@@ -164,16 +260,34 @@
 <td>No</td>
 <td></td>
 </tr>
+<tr>
+<td><code>tshirt</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>twitter</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The member's Twitter username</td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <h2 id="create">create</h2>
-<h3 id="post-workspacemembers" class="operation" data-method="post"><code>POST</code> /{workspace}/members</h3>
-<p>Operation ID: <code>createMember</code>.</p>
-<p>Authentication: bearer token (<code>bearerAuth</code>).</p>
+<h3 id="post-workspace_slugmembersmember_slugidentities" class="operation" data-method="post"><code>POST</code> /{workspace_slug}/members/{member_slug}/identities</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
 <h4 id="parameters">Parameters</h4>
 <p>| Parameter | In | Type | Required | Description |
 | --- | --- | --- | --- |
-| <code>workspace</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>member_slug</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
 <h4 id="request-body">Request body</h4>
 <p><code>application/json</code></p>
 <table>
@@ -187,366 +301,86 @@
 </thead>
 <tbody>
 <tr>
-<td><code>bio</code></td>
+<td><code>email</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>company</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>location</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
+<td>The email of the person in the source system</td>
 </tr>
 <tr>
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>The name of the person in the source system</td>
 </tr>
 <tr>
-<td><code>slug</code></td>
+<td><code>source</code></td>
 <td><code>string</code></td>
-<td>No</td>
-<td></td>
+<td>Yes</td>
+<td>The type of source: known values include github, twitter, discourse, email, linkedin, devto. Custom values can also be used</td>
 </tr>
 <tr>
-<td><code>tags_to_add</code></td>
+<td><code>source_host</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Specifies the location of the source, such as the host of a Discourse instance</td>
 </tr>
 <tr>
-<td><code>title</code></td>
+<td><code>uid</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>The uid of the person in the source system</td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>For custom identities, an optional link to the profile on the source system</td>
+</tr>
+<tr>
+<td><code>username</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The username of the person in the source system</td>
 </tr>
 </tbody>
 </table>
 <h4 id="responses">Responses</h4>
-<h5 id="201-the-created-member" class="status" data-status="2xx">201: The created member</h5>
+<h5 id="201-success" class="status" data-status="2xx">201: success</h5>
 <p><code>application/json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>data</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.bio</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.company</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.created_at</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.id</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.location</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.love</code></td>
-<td><code>number</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.orbit_level</code></td>
-<td><code>integer</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.reach</code></td>
-<td><code>integer</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.slug</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.tags</code></td>
-<td><code>array of string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.title</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="list">list</h2>
-<h3 id="get-workspacemembers" class="operation" data-method="get"><code>GET</code> /{workspace}/members</h3>
-<p>Operation ID: <code>listMembers</code>.</p>
-<p>Authentication: bearer token (<code>bearerAuth</code>).</p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;attributes&quot;: {
+      &quot;email&quot;: &quot;josh@orbit.love&quot;,
+      &quot;name&quot;: &quot;Josh&quot;,
+      &quot;source&quot;: &quot;twitch&quot;,
+      &quot;source_host&quot;: &quot;twitch.tv&quot;,
+      &quot;uid&quot;: &quot;12345&quot;,
+      &quot;username&quot;: &quot;dzello1&quot;
+    },
+    &quot;id&quot;: &quot;1adTJn&quot;,
+    &quot;type&quot;: &quot;other_identity&quot;
+  }
+}
+</code></pre>
+<h5 id="403-forbidden" class="status" data-status="4xx">403: forbidden</h5>
+<h5 id="422-identity-is-invalid" class="status" data-status="4xx">422: identity is invalid</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;errors&quot;: {
+    &quot;identity_id&quot;: [
+      &quot;has already been taken&quot;
+    ]
+  }
+}
+</code></pre>
+<h3 id="post-workspace_slugmembers" class="operation" data-method="post"><code>POST</code> /{workspace_slug}/members</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
 <h4 id="parameters-1">Parameters</h4>
 <p>| Parameter | In | Type | Required | Description |
 | --- | --- | --- | --- |
-| <code>workspace</code> | <code>path</code> | <code>string</code> | Yes |  |
-| <code>tags</code> | <code>query</code> | <code>string</code> | No |  |</p>
-<h4 id="responses-1">Responses</h4>
-<h5 id="200-a-page-of-members" class="status" data-status="2xx">200: A page of members</h5>
-<p><code>application/json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>data</code></td>
-<td><code>array of object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data[].bio</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data[].company</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data[].created_at</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data[].id</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data[].location</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data[].love</code></td>
-<td><code>number</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data[].name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data[].orbit_level</code></td>
-<td><code>integer</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data[].reach</code></td>
-<td><code>integer</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data[].slug</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data[].tags</code></td>
-<td><code>array of string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data[].title</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="load">load</h2>
-<h3 id="get-workspacemembersid" class="operation" data-method="get"><code>GET</code> /{workspace}/members/{id}</h3>
-<p>Operation ID: <code>getMember</code>.</p>
-<p>Authentication: bearer token (<code>bearerAuth</code>).</p>
-<h4 id="parameters-2">Parameters</h4>
-<p>| Parameter | In | Type | Required | Description |
-| --- | --- | --- | --- |
-| <code>workspace</code> | <code>path</code> | <code>string</code> | Yes |  |
-| <code>id</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
-<h4 id="responses-2">Responses</h4>
-<h5 id="200-the-requested-member" class="status" data-status="2xx">200: The requested member</h5>
-<p><code>application/json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>data</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.bio</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.company</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.created_at</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.id</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.location</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.love</code></td>
-<td><code>number</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.orbit_level</code></td>
-<td><code>integer</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.reach</code></td>
-<td><code>integer</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.slug</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.tags</code></td>
-<td><code>array of string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.title</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="remove">remove</h2>
-<h3 id="delete-workspacemembersid" class="operation" data-method="delete"><code>DELETE</code> /{workspace}/members/{id}</h3>
-<p>Operation ID: <code>deleteMember</code>.</p>
-<p>Authentication: bearer token (<code>bearerAuth</code>).</p>
-<h4 id="parameters-3">Parameters</h4>
-<p>| Parameter | In | Type | Required | Description |
-| --- | --- | --- | --- |
-| <code>workspace</code> | <code>path</code> | <code>string</code> | Yes |  |
-| <code>id</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
-<h4 id="responses-3">Responses</h4>
-<h5 id="204-deleted" class="status" data-status="2xx">204: Deleted</h5>
-<h2 id="update">update</h2>
-<h3 id="put-workspacemembersid" class="operation" data-method="put"><code>PUT</code> /{workspace}/members/{id}</h3>
-<p>Operation ID: <code>updateMember</code>.</p>
-<p>Authentication: bearer token (<code>bearerAuth</code>).</p>
-<h4 id="parameters-4">Parameters</h4>
-<p>| Parameter | In | Type | Required | Description |
-| --- | --- | --- | --- |
-| <code>workspace</code> | <code>path</code> | <code>string</code> | Yes |  |
-| <code>id</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
 <h4 id="request-body-1">Request body</h4>
 <p><code>application/json</code></p>
 <table>
@@ -560,7 +394,1042 @@
 </thead>
 <tbody>
 <tr>
+<td><code>identity</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Represents an email address, a profile on networks like github and twitter, or a record in another system.</td>
+</tr>
+<tr>
+<td><code>identity.email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The email of the person in the source system</td>
+</tr>
+<tr>
+<td><code>identity.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the person in the source system</td>
+</tr>
+<tr>
+<td><code>identity.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The type of source: known values include github, twitter, discourse, email, linkedin, devto. Custom values can also be used</td>
+</tr>
+<tr>
+<td><code>identity.source_host</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Specifies the location of the source, such as the host of a Discourse instance</td>
+</tr>
+<tr>
+<td><code>identity.uid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The uid of the person in the source system</td>
+</tr>
+<tr>
+<td><code>identity.url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>For custom identities, an optional link to the profile on the source system</td>
+</tr>
+<tr>
+<td><code>identity.username</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The username of the person in the source system</td>
+</tr>
+<tr>
+<td><code>member</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>member.bio</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>member.birthday</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>member.company</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>member.devto</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The member's DEV username</td>
+</tr>
+<tr>
+<td><code>member.email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The member's email</td>
+</tr>
+<tr>
+<td><code>member.github</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The member's GitHub username</td>
+</tr>
+<tr>
+<td><code>member.linkedin</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The member's LinkedIn username, without the in/ or pub/</td>
+</tr>
+<tr>
+<td><code>member.location</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>member.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>member.pronouns</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>member.shipping_address</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>member.slug</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>member.tag_list</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Deprecated: Please use the tags attribute instead</td>
+</tr>
+<tr>
+<td><code>member.tags</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Replaces all tags for the member; comma-separated string or array</td>
+</tr>
+<tr>
+<td><code>member.tags_to_add</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Adds tags to member; comma-separated string or array</td>
+</tr>
+<tr>
+<td><code>member.teammate</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>member.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>member.tshirt</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>member.twitter</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The member's Twitter username</td>
+</tr>
+<tr>
+<td><code>member.url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-success" class="status" data-status="2xx">200: success</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;attributes&quot;: {
+      &quot;activities_count&quot;: 0,
+      &quot;activities_score&quot;: 0,
+      &quot;avatar_url&quot;: &quot;http://github.com/avatar.png&quot;,
+      &quot;bio&quot;: null,
+      &quot;birthday&quot;: null,
+      &quot;company&quot;: null,
+      &quot;created&quot;: false,
+      &quot;created_at&quot;: &quot;2023-02-28T19:20:58.483Z&quot;,
+      &quot;deleted_at&quot;: null,
+      &quot;devto&quot;: null,
+      &quot;discord&quot;: null,
+      &quot;discourse&quot;: null,
+      &quot;email&quot;: &quot;dzello@orbit.love&quot;,
+      &quot;first_activity_occurred_at&quot;: null,
+      &quot;github&quot;: &quot;dzello&quot;,
+      &quot;github_followers&quot;: null,
+      &quot;id&quot;: &quot;4ndS8E&quot;,
+      &quot;languages&quot;: null,
+      &quot;last_activity_occurred_at&quot;: null,
+      &quot;linkedin&quot;: null,
+      &quot;location&quot;: null,
+      &quot;love&quot;: null,
+      &quot;merged_at&quot;: null,
+      &quot;name&quot;: &quot;KaterineRuecker&quot;,
+      &quot;orbit_level&quot;: null,
+      &quot;orbit_url&quot;: &quot;http://localhost:3000/missmarvisblanda/members/katerineruecker&quot;,
+      &quot;pronouns&quot;: null,
+      &quot;reach&quot;: 0,
+      &quot;shipping_address&quot;: null,
+      &quot;slug&quot;: &quot;katerineruecker&quot;,
+      &quot;source&quot;: &quot;installation&quot;,
+      &quot;tag_list&quot;: [
+        &quot;one&quot;,
+        &quot;two&quot;
+      ],
+      &quot;tags&quot;: [
+        &quot;one&quot;,
+        &quot;two&quot;
+      ],
+      &quot;teammate&quot;: false,
+      &quot;title&quot;: null,
+      &quot;topics&quot;: null,
+      &quot;tshirt&quot;: null,
+      &quot;twitter&quot;: &quot;dzello&quot;,
+      &quot;twitter_followers&quot;: null,
+      &quot;updated_at&quot;: &quot;2023-02-28T19:20:58.561Z&quot;,
+      &quot;url&quot;: null
+    },
+    &quot;id&quot;: &quot;4ndS8E&quot;,
+    &quot;relationships&quot;: {
+      &quot;identities&quot;: {
+        &quot;data&quot;: [
+          {
+            &quot;id&quot;: &quot;5ENTeK&quot;,
+            &quot;type&quot;: &quot;github_identity&quot;
+          },
+          {
+            &quot;id&quot;: &quot;nZRTEp&quot;,
+            &quot;type&quot;: &quot;twitter_identity&quot;
+          },
+          {
+            &quot;id&quot;: &quot;nqaT7d&quot;,
+            &quot;type&quot;: &quot;email_identity&quot;
+          }
+        ]
+      },
+      &quot;organizations&quot;: {
+        &quot;data&quot;: []
+      }
+    },
+    &quot;type&quot;: &quot;member&quot;
+  },
+  &quot;included&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;email&quot;: null,
+        &quot;name&quot;: null,
+        &quot;source&quot;: &quot;github&quot;,
+        &quot;source_host&quot;: &quot;github.com&quot;,
+        &quot;uid&quot;: &quot;uid-72&quot;,
+        &quot;username&quot;: &quot;dzello&quot;
+      },
+      &quot;id&quot;: &quot;5ENTeK&quot;,
+      &quot;type&quot;: &quot;github_identity&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;email&quot;: null,
+        &quot;name&quot;: null,
+        &quot;source&quot;: &quot;twitter&quot;,
+        &quot;source_host&quot;: &quot;twitter.com&quot;,
+        &quot;uid&quot;: null,
+        &quot;username&quot;: &quot;dzello&quot;
+      },
+      &quot;id&quot;: &quot;nZRTEp&quot;,
+      &quot;type&quot;: &quot;twitter_identity&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;email&quot;: &quot;dzello@orbit.love&quot;,
+        &quot;name&quot;: &quot;dzello&quot;,
+        &quot;source&quot;: &quot;email&quot;,
+        &quot;source_host&quot;: &quot;email.host&quot;,
+        &quot;uid&quot;: &quot;dzello@orbit.love&quot;,
+        &quot;username&quot;: null
+      },
+      &quot;id&quot;: &quot;nqaT7d&quot;,
+      &quot;type&quot;: &quot;email_identity&quot;
+    }
+  ]
+}
+</code></pre>
+<h5 id="201-created" class="status" data-status="2xx">201: created</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;attributes&quot;: {
+      &quot;activities_count&quot;: 0,
+      &quot;activities_score&quot;: 0,
+      &quot;avatar_url&quot;: &quot;https://avatars2.githubusercontent.com/u/174777?u=79e423dd07c19122115f52a1c97727ca193e6253&amp;v=4&quot;,
+      &quot;bio&quot;: &quot;Co-founder &amp; CTO @orbit-love · Developer Advocate · formerly @algolia and @keen&quot;,
+      &quot;birthday&quot;: null,
+      &quot;company&quot;: &quot;@orbit-love&quot;,
+      &quot;created&quot;: true,
+      &quot;created_at&quot;: &quot;2023-02-28T19:20:58.117Z&quot;,
+      &quot;deleted_at&quot;: null,
+      &quot;devto&quot;: null,
+      &quot;discord&quot;: null,
+      &quot;discourse&quot;: null,
+      &quot;email&quot;: &quot;josh@orbit.love&quot;,
+      &quot;first_activity_occurred_at&quot;: null,
+      &quot;github&quot;: &quot;dzello&quot;,
+      &quot;github_followers&quot;: 171,
+      &quot;id&quot;: &quot;40mSvV&quot;,
+      &quot;languages&quot;: null,
+      &quot;last_activity_occurred_at&quot;: null,
+      &quot;linkedin&quot;: null,
+      &quot;location&quot;: &quot;Paris&quot;,
+      &quot;love&quot;: null,
+      &quot;merged_at&quot;: null,
+      &quot;name&quot;: &quot;Josh Dzielak&quot;,
+      &quot;orbit_level&quot;: null,
+      &quot;orbit_url&quot;: &quot;http://localhost:3000/waylonhickle/members/dzello&quot;,
+      &quot;pronouns&quot;: null,
+      &quot;reach&quot;: 8,
+      &quot;shipping_address&quot;: null,
+      &quot;slug&quot;: &quot;dzello&quot;,
+      &quot;source&quot;: &quot;api&quot;,
+      &quot;tag_list&quot;: [
+        &quot;one&quot;,
+        &quot;two&quot;
+      ],
+      &quot;tags&quot;: [
+        &quot;one&quot;,
+        &quot;two&quot;
+      ],
+      &quot;teammate&quot;: false,
+      &quot;title&quot;: null,
+      &quot;topics&quot;: null,
+      &quot;tshirt&quot;: null,
+      &quot;twitter&quot;: &quot;dzello&quot;,
+      &quot;twitter_followers&quot;: null,
+      &quot;updated_at&quot;: &quot;2023-02-28T19:20:58.183Z&quot;,
+      &quot;url&quot;: &quot;https://dzello.com/&quot;
+    },
+    &quot;id&quot;: &quot;40mSvV&quot;,
+    &quot;relationships&quot;: {
+      &quot;identities&quot;: {
+        &quot;data&quot;: [
+          {
+            &quot;id&quot;: &quot;1ADTwV&quot;,
+            &quot;type&quot;: &quot;github_identity&quot;
+          },
+          {
+            &quot;id&quot;: &quot;3RgTbZ&quot;,
+            &quot;type&quot;: &quot;twitter_identity&quot;
+          },
+          {
+            &quot;id&quot;: &quot;3YETyv&quot;,
+            &quot;type&quot;: &quot;email_identity&quot;
+          }
+        ]
+      },
+      &quot;organizations&quot;: {
+        &quot;data&quot;: [
+          {
+            &quot;id&quot;: &quot;n9WF2V&quot;,
+            &quot;type&quot;: &quot;organization&quot;
+          }
+        ]
+      }
+    },
+    &quot;type&quot;: &quot;member&quot;
+  },
+  &quot;included&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;email&quot;: null,
+        &quot;name&quot;: &quot;Josh Dzielak&quot;,
+        &quot;source&quot;: &quot;github&quot;,
+        &quot;source_host&quot;: &quot;github.com&quot;,
+        &quot;uid&quot;: &quot;174777&quot;,
+        &quot;username&quot;: &quot;dzello&quot;
+      },
+      &quot;id&quot;: &quot;1ADTwV&quot;,
+      &quot;type&quot;: &quot;github_identity&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;email&quot;: null,
+        &quot;name&quot;: null,
+        &quot;source&quot;: &quot;twitter&quot;,
+        &quot;source_host&quot;: &quot;twitter.com&quot;,
+        &quot;uid&quot;: null,
+        &quot;username&quot;: &quot;dzello&quot;
+      },
+      &quot;id&quot;: &quot;3RgTbZ&quot;,
+      &quot;type&quot;: &quot;twitter_identity&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;email&quot;: &quot;josh@orbit.love&quot;,
+        &quot;name&quot;: &quot;josh&quot;,
+        &quot;source&quot;: &quot;email&quot;,
+        &quot;source_host&quot;: &quot;email.host&quot;,
+        &quot;uid&quot;: &quot;josh@orbit.love&quot;,
+        &quot;username&quot;: null
+      },
+      &quot;id&quot;: &quot;3YETyv&quot;,
+      &quot;type&quot;: &quot;email_identity&quot;
+    }
+  ]
+}
+</code></pre>
+<h5 id="403-forbidden-1" class="status" data-status="4xx">403: forbidden</h5>
+<h5 id="422-unprocessable" class="status" data-status="4xx">422: unprocessable</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;errors&quot;: {
+    &quot;email&quot;: [
+      &quot;is invalid&quot;
+    ],
+    &quot;name&quot;: [
+      &quot;can't be blank&quot;
+    ]
+  }
+}
+</code></pre>
+<h2 id="load">load</h2>
+<h3 id="get-workspace_slugmembers" class="operation" data-method="get"><code>GET</code> /{workspace_slug}/members</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-2">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>affiliation</code> | <code>query</code> | <code>enum: member, teammate</code> | No |  |
+| <code>member_tags</code> | <code>query</code> | <code>string</code> | No | The list of tags to filter against. Separate tags with <code>,</code> to do an intersection (AND), or with <code>\|</code> to do a union (OR) |
+| <code>orbit</code> | <code>query</code> | <code>string</code> | No | The list of orbit levels to filter against. Accepted values are 1, 2, 3, 4, n. In the request, a format like <code>23</code> would include levels 2 and 3. <code>n</code> is for members with no orbit level. |
+| <code>activity_type</code> | <code>query</code> | <code>enum: discourse:topic:created, discourse:post:liked, discourse:user:created, discourse:post:created, slack:message:sent, slack:thread:replied, ...</code> | No | Comma separated list of activity types |
+| <code>identity</code> | <code>query</code> | <code>enum: github, twitter, email, discourse, linkedin, devto, ...</code> | No |  |
+| <code>company[]</code> | <code>query</code> | <code>string</code> | No | Comma separated list of companies. The union (OR) of companies is applied. |
+| <code>title[]</code> | <code>query</code> | <code>string</code> | No | Comma separated list of job titles. The union (OR) of job titles is applied. |
+| <code>regions[]</code> | <code>query</code> | <code>string</code> | No | Comma separated list of regions. The union (OR) of regions is applied. |
+| <code>countries[]</code> | <code>query</code> | <code>string</code> | No | Comma separated list of countries. The union (OR) of countries is applied. |
+| <code>cities[]</code> | <code>query</code> | <code>string</code> | No | Comma separated list of cities. The union (OR) of cities is applied. |
+| <code>start_date</code> | <code>query</code> | <code>string</code> | No | Filter activities after this date. Format: YYYY-MM-DD. |
+| <code>end_date</code> | <code>query</code> | <code>string</code> | No | Filter activities before this date. Format: YYYY-MM-DD. |
+| <code>relative</code> | <code>query</code> | <code>string</code> | No | Relative timeframes. Format: this_&lt;integer&gt;_&lt;period&gt;, with period in [days, weeks, months, years]. For example, this_30_days. |
+| <code>query</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>page</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>direction</code> | <code>query</code> | <code>enum: ASC, DESC</code> | No |  |
+| <code>items</code> | <code>query</code> | <code>enum: 10, 50, 100</code> | No |  |
+| <code>activities_count_min</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>activities_count_max</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>sort</code> | <code>query</code> | <code>enum: activities_count, company, created_at, first_activity, github_followers, id, ...</code> | No |  |
+| <code>type</code> | <code>query</code> | <code>string</code> | No | Deprecated in favor of the activity_type parameter. |</p>
+<h4 id="responses-2">Responses</h4>
+<h5 id="200-success-1" class="status" data-status="2xx">200: success</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;activities_count&quot;: 2,
+        &quot;activities_score&quot;: 2,
+        &quot;avatar_url&quot;: &quot;http://github.com/avatar.png&quot;,
+        &quot;bio&quot;: null,
+        &quot;birthday&quot;: null,
+        &quot;company&quot;: null,
+        &quot;created&quot;: false,
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:49.655Z&quot;,
+        &quot;deleted_at&quot;: null,
+        &quot;devto&quot;: null,
+        &quot;discord&quot;: null,
+        &quot;discourse&quot;: null,
+        &quot;email&quot;: null,
+        &quot;first_activity_occurred_at&quot;: &quot;2023-02-26T19:20:49.764Z&quot;,
+        &quot;github&quot;: null,
+        &quot;github_followers&quot;: null,
+        &quot;id&quot;: &quot;jaPSJy&quot;,
+        &quot;languages&quot;: null,
+        &quot;last_activity_occurred_at&quot;: &quot;2023-02-28T18:20:49.806Z&quot;,
+        &quot;linkedin&quot;: null,
+        &quot;location&quot;: null,
+        &quot;love&quot;: null,
+        &quot;merged_at&quot;: null,
+        &quot;name&quot;: &quot;Sally&quot;,
+        &quot;orbit_level&quot;: null,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/vanstroman/members/sally&quot;,
+        &quot;pronouns&quot;: null,
+        &quot;reach&quot;: 0,
+        &quot;shipping_address&quot;: null,
+        &quot;slug&quot;: &quot;sally&quot;,
+        &quot;source&quot;: &quot;installation&quot;,
+        &quot;tag_list&quot;: [
+          &quot;ruby&quot;
+        ],
+        &quot;tags&quot;: [
+          &quot;ruby&quot;
+        ],
+        &quot;teammate&quot;: false,
+        &quot;title&quot;: null,
+        &quot;topics&quot;: null,
+        &quot;tshirt&quot;: null,
+        &quot;twitter&quot;: null,
+        &quot;twitter_followers&quot;: null,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:49.663Z&quot;,
+        &quot;url&quot;: null
+      },
+      &quot;id&quot;: &quot;jaPSJy&quot;,
+      &quot;relationships&quot;: {
+        &quot;identities&quot;: {
+          &quot;data&quot;: [
+            {
+              &quot;id&quot;: &quot;5geTxn&quot;,
+              &quot;type&quot;: &quot;spec_identity&quot;
+            }
+          ]
+        },
+        &quot;organizations&quot;: {
+          &quot;data&quot;: [
+            {
+              &quot;id&quot;: &quot;aWQFAB&quot;,
+              &quot;type&quot;: &quot;organization&quot;
+            }
+          ]
+        }
+      },
+      &quot;type&quot;: &quot;member&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;activities_count&quot;: 3,
+        &quot;activities_score&quot;: 3,
+        &quot;avatar_url&quot;: &quot;http://github.com/avatar.png&quot;,
+        &quot;bio&quot;: null,
+        &quot;birthday&quot;: null,
+        &quot;company&quot;: null,
+        &quot;created&quot;: false,
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:49.635Z&quot;,
+        &quot;deleted_at&quot;: null,
+        &quot;devto&quot;: null,
+        &quot;discord&quot;: null,
+        &quot;discourse&quot;: null,
+        &quot;email&quot;: null,
+        &quot;first_activity_occurred_at&quot;: &quot;2023-02-20T19:20:49.737Z&quot;,
+        &quot;github&quot;: null,
+        &quot;github_followers&quot;: null,
+        &quot;id&quot;: &quot;4EzSdZ&quot;,
+        &quot;languages&quot;: null,
+        &quot;last_activity_occurred_at&quot;: &quot;2023-02-24T19:20:49.668Z&quot;,
+        &quot;linkedin&quot;: null,
+        &quot;location&quot;: null,
+        &quot;love&quot;: null,
+        &quot;merged_at&quot;: null,
+        &quot;name&quot;: &quot;Josh&quot;,
+        &quot;orbit_level&quot;: null,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/vanstroman/members/josh&quot;,
+        &quot;pronouns&quot;: null,
+        &quot;reach&quot;: 0,
+        &quot;shipping_address&quot;: null,
+        &quot;slug&quot;: &quot;josh&quot;,
+        &quot;source&quot;: &quot;installation&quot;,
+        &quot;tag_list&quot;: [
+          &quot;ruby&quot;
+        ],
+        &quot;tags&quot;: [
+          &quot;ruby&quot;
+        ],
+        &quot;teammate&quot;: false,
+        &quot;title&quot;: null,
+        &quot;topics&quot;: null,
+        &quot;tshirt&quot;: null,
+        &quot;twitter&quot;: null,
+        &quot;twitter_followers&quot;: null,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:49.643Z&quot;,
+        &quot;url&quot;: null
+      },
+      &quot;id&quot;: &quot;4EzSdZ&quot;,
+      &quot;relationships&quot;: {
+        &quot;identities&quot;: {
+          &quot;data&quot;: [
+            {
+              &quot;id&quot;: &quot;nbWTe1&quot;,
+              &quot;type&quot;: &quot;spec_identity&quot;
+            }
+          ]
+        },
+        &quot;organizations&quot;: {
+          &quot;data&quot;: []
+        }
+      },
+      &quot;type&quot;: &quot;member&quot;
+    }
+  ],
+  &quot;included&quot;: [
+    {
+      &quot;id&quot;: &quot;43&quot;,
+      &quot;type&quot;: &quot;spec_identity&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;active_since&quot;: null,
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:49.844Z&quot;,
+        &quot;crm_uid&quot;: null,
+        &quot;crm_url&quot;: null,
+        &quot;crunchbase&quot;: null,
+        &quot;deal_closed_date&quot;: null,
+        &quot;email_addresses&quot;: null,
+        &quot;employees_count&quot;: null,
+        &quot;estimated_annual_revenue&quot;: null,
+        &quot;facebook&quot;: null,
+        &quot;facebook_followers&quot;: null,
+        &quot;founded_in&quot;: null,
+        &quot;id&quot;: &quot;aWQFAB&quot;,
+        &quot;industry&quot;: null,
+        &quot;last_active&quot;: null,
+        &quot;lifecycle_stage&quot;: null,
+        &quot;linkedin&quot;: null,
+        &quot;location&quot;: null,
+        &quot;members_count&quot;: 1,
+        &quot;name&quot;: &quot;MitchelHeaney&quot;,
+        &quot;organization_type&quot;: null,
+        &quot;owner_email&quot;: null,
+        &quot;owner_name&quot;: null,
+        &quot;price_plan&quot;: null,
+        &quot;source&quot;: null,
+        &quot;twitter&quot;: null,
+        &quot;twitter_followers&quot;: null,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:49.844Z&quot;,
+        &quot;website&quot;: &quot;example-1.com&quot;
+      },
+      &quot;id&quot;: &quot;aWQFAB&quot;,
+      &quot;type&quot;: &quot;organization&quot;
+    },
+    {
+      &quot;id&quot;: &quot;42&quot;,
+      &quot;type&quot;: &quot;spec_identity&quot;
+    }
+  ],
+  &quot;links&quot;: {
+    &quot;first&quot;: &quot;http://localhost:3000/api/v1/vanstroman/members?activities_count_max=99&amp;activities_count_min=1&amp;activity_type=type%3Anew%2Cspec%3Aactivity&amp;affiliation=&amp;cities%5B%5D=&amp;company%5B%5D=&amp;countries%5B%5D=&amp;direction=DESC&amp;end_date=&amp;identity=&amp;items=10&amp;member_tags=ruby%7Crails%2C-go&amp;orbit=&amp;page=1&amp;query=&amp;regions%5B%5D=&amp;relative=&amp;sort=last_activity&amp;start_date=&amp;title%5B%5D=&amp;workspace=vanstroman&quot;,
+    &quot;next&quot;: null,
+    &quot;prev&quot;: null
+  }
+}
+</code></pre>
+<h3 id="get-workspace_slugmembersfind" class="operation" data-method="get"><code>GET</code> /{workspace_slug}/members/find</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-3">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>source</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>source_host</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>uid</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>username</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>email</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>github</code> | <code>query</code> | <code>string</code> | No | Deprecated, please use source=github and username=&lt;username&gt; instead |</p>
+<h4 id="responses-3">Responses</h4>
+<h5 id="200-success-2" class="status" data-status="2xx">200: success</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;attributes&quot;: {
+      &quot;activities_count&quot;: 0,
+      &quot;activities_score&quot;: 0,
+      &quot;avatar_url&quot;: &quot;http://github.com/avatar.png&quot;,
+      &quot;bio&quot;: null,
+      &quot;birthday&quot;: null,
+      &quot;company&quot;: null,
+      &quot;created&quot;: false,
+      &quot;created_at&quot;: &quot;2023-02-28T19:21:07.970Z&quot;,
+      &quot;deleted_at&quot;: null,
+      &quot;devto&quot;: null,
+      &quot;discord&quot;: null,
+      &quot;discourse&quot;: null,
+      &quot;email&quot;: null,
+      &quot;first_activity_occurred_at&quot;: null,
+      &quot;github&quot;: &quot;dzello&quot;,
+      &quot;github_followers&quot;: null,
+      &quot;id&quot;: &quot;rRxS6X&quot;,
+      &quot;languages&quot;: null,
+      &quot;last_activity_occurred_at&quot;: null,
+      &quot;linkedin&quot;: null,
+      &quot;location&quot;: null,
+      &quot;love&quot;: null,
+      &quot;merged_at&quot;: null,
+      &quot;name&quot;: &quot;MrsChiCummerata&quot;,
+      &quot;orbit_level&quot;: null,
+      &quot;orbit_url&quot;: &quot;http://localhost:3000/glendaschmidt/members/mrschicummerata&quot;,
+      &quot;pronouns&quot;: null,
+      &quot;reach&quot;: 0,
+      &quot;shipping_address&quot;: null,
+      &quot;slug&quot;: &quot;mrschicummerata&quot;,
+      &quot;source&quot;: &quot;installation&quot;,
+      &quot;tag_list&quot;: [],
+      &quot;tags&quot;: [],
+      &quot;teammate&quot;: false,
+      &quot;title&quot;: null,
+      &quot;topics&quot;: null,
+      &quot;tshirt&quot;: null,
+      &quot;twitter&quot;: null,
+      &quot;twitter_followers&quot;: null,
+      &quot;updated_at&quot;: &quot;2023-02-28T19:21:07.970Z&quot;,
+      &quot;url&quot;: null
+    },
+    &quot;id&quot;: &quot;rRxS6X&quot;,
+    &quot;relationships&quot;: {
+      &quot;identities&quot;: {
+        &quot;data&quot;: [
+          {
+            &quot;id&quot;: &quot;1JrTad&quot;,
+            &quot;type&quot;: &quot;github_identity&quot;
+          }
+        ]
+      },
+      &quot;organizations&quot;: {
+        &quot;data&quot;: []
+      }
+    },
+    &quot;type&quot;: &quot;member&quot;
+  },
+  &quot;included&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;email&quot;: null,
+        &quot;name&quot;: null,
+        &quot;source&quot;: &quot;github&quot;,
+        &quot;source_host&quot;: &quot;github.com&quot;,
+        &quot;uid&quot;: &quot;uid-82&quot;,
+        &quot;username&quot;: &quot;dzello&quot;
+      },
+      &quot;id&quot;: &quot;1JrTad&quot;,
+      &quot;type&quot;: &quot;github_identity&quot;
+    }
+  ]
+}
+</code></pre>
+<h5 id="404-not-found" class="status" data-status="4xx">404: Not found</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;errors&quot;: &quot;No member matching this identity was found&quot;
+}
+</code></pre>
+<h3 id="get-workspace_slugorganizationsorganization_idmembers" class="operation" data-method="get"><code>GET</code> /{workspace_slug}/organizations/{organization_id}/members</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-4">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>organization_id</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>page</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>items</code> | <code>query</code> | <code>enum: 10, 50, 100</code> | No |  |</p>
+<h4 id="responses-4">Responses</h4>
+<h5 id="200-success-3" class="status" data-status="2xx">200: success</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;activities_score&quot;: 0,
+        &quot;id&quot;: &quot;jPESdn&quot;,
+        &quot;last_activity_occurred_at&quot;: null,
+        &quot;name&quot;: &quot;Jane Smith&quot;,
+        &quot;slug&quot;: &quot;jane-smith&quot;
+      },
+      &quot;id&quot;: &quot;jPESdn&quot;,
+      &quot;relationships&quot;: {},
+      &quot;type&quot;: &quot;member&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;activities_score&quot;: 0,
+        &quot;id&quot;: &quot;jYbS8E&quot;,
+        &quot;last_activity_occurred_at&quot;: null,
+        &quot;name&quot;: &quot;John Doe&quot;,
+        &quot;slug&quot;: &quot;john-doe&quot;
+      },
+      &quot;id&quot;: &quot;jYbS8E&quot;,
+      &quot;relationships&quot;: {},
+      &quot;type&quot;: &quot;member&quot;
+    }
+  ],
+  &quot;links&quot;: {
+    &quot;first&quot;: &quot;/staceybayer/organizations/ao4F7b/members?page=1&amp;items=10&quot;,
+    &quot;last&quot;: &quot;/staceybayer/organizations/ao4F7b/members?page=1&amp;items=10&quot;,
+    &quot;next&quot;: null,
+    &quot;prev&quot;: null
+  }
+}
+</code></pre>
+<h3 id="get-workspace_slugmembersmember_slug" class="operation" data-method="get"><code>GET</code> /{workspace_slug}/members/{member_slug}</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-5">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>member_slug</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
+<h4 id="responses-5">Responses</h4>
+<h5 id="200-success-4" class="status" data-status="2xx">200: success</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;attributes&quot;: {
+      &quot;activities_count&quot;: 0,
+      &quot;activities_score&quot;: 0,
+      &quot;avatar_url&quot;: &quot;http://github.com/avatar.png&quot;,
+      &quot;bio&quot;: null,
+      &quot;birthday&quot;: null,
+      &quot;company&quot;: null,
+      &quot;created&quot;: false,
+      &quot;created_at&quot;: &quot;2023-02-28T19:20:56.012Z&quot;,
+      &quot;deleted_at&quot;: null,
+      &quot;devto&quot;: null,
+      &quot;discord&quot;: null,
+      &quot;discourse&quot;: null,
+      &quot;email&quot;: null,
+      &quot;first_activity_occurred_at&quot;: null,
+      &quot;github&quot;: null,
+      &quot;github_followers&quot;: null,
+      &quot;id&quot;: &quot;jWXSAW&quot;,
+      &quot;languages&quot;: null,
+      &quot;last_activity_occurred_at&quot;: null,
+      &quot;linkedin&quot;: null,
+      &quot;location&quot;: null,
+      &quot;love&quot;: null,
+      &quot;merged_at&quot;: null,
+      &quot;name&quot;: &quot;Josh&quot;,
+      &quot;orbit_level&quot;: null,
+      &quot;orbit_url&quot;: &quot;http://localhost:3000/mrsroytoy/members/josh&quot;,
+      &quot;pronouns&quot;: null,
+      &quot;reach&quot;: 0,
+      &quot;shipping_address&quot;: null,
+      &quot;slug&quot;: &quot;josh&quot;,
+      &quot;source&quot;: &quot;installation&quot;,
+      &quot;tag_list&quot;: [],
+      &quot;tags&quot;: [],
+      &quot;teammate&quot;: false,
+      &quot;title&quot;: null,
+      &quot;topics&quot;: null,
+      &quot;tshirt&quot;: null,
+      &quot;twitter&quot;: null,
+      &quot;twitter_followers&quot;: null,
+      &quot;updated_at&quot;: &quot;2023-02-28T19:20:56.012Z&quot;,
+      &quot;url&quot;: null
+    },
+    &quot;id&quot;: &quot;jWXSAW&quot;,
+    &quot;relationships&quot;: {
+      &quot;identities&quot;: {
+        &quot;data&quot;: [
+          {
+            &quot;id&quot;: &quot;nZRTEE&quot;,
+            &quot;type&quot;: &quot;spec_identity&quot;
+          }
+        ]
+      },
+      &quot;organizations&quot;: {
+        &quot;data&quot;: [
+          {
+            &quot;id&quot;: &quot;BqkFva&quot;,
+            &quot;type&quot;: &quot;organization&quot;
+          }
+        ]
+      }
+    },
+    &quot;type&quot;: &quot;member&quot;
+  },
+  &quot;included&quot;: [
+    {
+      &quot;id&quot;: &quot;90&quot;,
+      &quot;type&quot;: &quot;spec_identity&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;active_since&quot;: null,
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:56.022Z&quot;,
+        &quot;crm_uid&quot;: null,
+        &quot;crm_url&quot;: null,
+        &quot;crunchbase&quot;: null,
+        &quot;deal_closed_date&quot;: null,
+        &quot;email_addresses&quot;: null,
+        &quot;employees_count&quot;: null,
+        &quot;estimated_annual_revenue&quot;: null,
+        &quot;facebook&quot;: null,
+        &quot;facebook_followers&quot;: null,
+        &quot;founded_in&quot;: null,
+        &quot;id&quot;: &quot;BqkFva&quot;,
+        &quot;industry&quot;: null,
+        &quot;last_active&quot;: null,
+        &quot;lifecycle_stage&quot;: null,
+        &quot;linkedin&quot;: null,
+        &quot;location&quot;: null,
+        &quot;members_count&quot;: 1,
+        &quot;name&quot;: &quot;ReubenMcGlynn&quot;,
+        &quot;organization_type&quot;: null,
+        &quot;owner_email&quot;: null,
+        &quot;owner_name&quot;: null,
+        &quot;price_plan&quot;: null,
+        &quot;source&quot;: null,
+        &quot;twitter&quot;: null,
+        &quot;twitter_followers&quot;: null,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:56.022Z&quot;,
+        &quot;website&quot;: &quot;example-25.com&quot;
+      },
+      &quot;id&quot;: &quot;BqkFva&quot;,
+      &quot;type&quot;: &quot;organization&quot;
+    }
+  ]
+}
+</code></pre>
+<h2 id="remove">remove</h2>
+<h3 id="delete-workspace_slugmembersmember_slug" class="operation" data-method="delete"><code>DELETE</code> /{workspace_slug}/members/{member_slug}</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-6">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>member_slug</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
+<h4 id="responses-6">Responses</h4>
+<h5 id="204-member-deleted" class="status" data-status="2xx">204: member deleted</h5>
+<h5 id="403-forbidden-2" class="status" data-status="4xx">403: forbidden</h5>
+<h3 id="delete-workspace_slugmembersmember_slugidentities" class="operation" data-method="delete"><code>DELETE</code> /{workspace_slug}/members/{member_slug}/identities</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-7">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>member_slug</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
+<h4 id="request-body-2">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The email of the person in the source system</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the person in the source system</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The type of source: known values include github, twitter, discourse, email, linkedin, devto. Custom values can also be used</td>
+</tr>
+<tr>
+<td><code>source_host</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Specifies the location of the source, such as the host of a Discourse instance</td>
+</tr>
+<tr>
+<td><code>uid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The uid of the person in the source system</td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>For custom identities, an optional link to the profile on the source system</td>
+</tr>
+<tr>
+<td><code>username</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The username of the person in the source system</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-7">Responses</h4>
+<h5 id="204-identity-deleted" class="status" data-status="2xx">204: identity deleted</h5>
+<h5 id="403-forbidden-3" class="status" data-status="4xx">403: forbidden</h5>
+<h5 id="422-identity-is-invalid-or-not-attached-to-member" class="status" data-status="4xx">422: identity is invalid or not attached to member</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;errors&quot;: {
+    &quot;identity&quot;: [
+      &quot;is not attached to this member&quot;
+    ]
+  }
+}
+</code></pre>
+<h2 id="update">update</h2>
+<h3 id="put-workspace_slugmembersmember_slug" class="operation" data-method="put"><code>PUT</code> /{workspace_slug}/members/{member_slug}</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-8">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>member_slug</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
+<h4 id="request-body-3">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
 <td><code>bio</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>birthday</code></td>
 <td><code>string</code></td>
 <td>No</td>
 <td></td>
@@ -570,6 +1439,30 @@
 <td><code>string</code></td>
 <td>No</td>
 <td></td>
+</tr>
+<tr>
+<td><code>devto</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The member's DEV username</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The member's email</td>
+</tr>
+<tr>
+<td><code>github</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The member's GitHub username</td>
+</tr>
+<tr>
+<td><code>linkedin</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The member's LinkedIn username, without the in/ or pub/</td>
 </tr>
 <tr>
 <td><code>location</code></td>
@@ -584,14 +1477,44 @@
 <td></td>
 </tr>
 <tr>
+<td><code>pronouns</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>shipping_address</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
 <td><code>slug</code></td>
 <td><code>string</code></td>
 <td>No</td>
 <td></td>
 </tr>
 <tr>
+<td><code>tag_list</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Deprecated: Please use the tags attribute instead</td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Replaces all tags for the member; comma-separated string or array</td>
+</tr>
+<tr>
 <td><code>tags_to_add</code></td>
 <td><code>string</code></td>
+<td>No</td>
+<td>Adds tags to member; comma-separated string or array</td>
+</tr>
+<tr>
+<td><code>teammate</code></td>
+<td><code>boolean</code></td>
 <td>No</td>
 <td></td>
 </tr>
@@ -601,100 +1524,28 @@
 <td>No</td>
 <td></td>
 </tr>
-</tbody>
-</table>
-<h4 id="responses-4">Responses</h4>
-<h5 id="200-the-updated-member" class="status" data-status="2xx">200: The updated member</h5>
-<p><code>application/json</code></p>
-<table>
-<thead>
 <tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>data</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.bio</code></td>
+<td><code>tshirt</code></td>
 <td><code>string</code></td>
 <td>No</td>
 <td></td>
 </tr>
 <tr>
-<td><code>data.company</code></td>
+<td><code>twitter</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>The member's Twitter username</td>
 </tr>
 <tr>
-<td><code>data.created_at</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.id</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.location</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.love</code></td>
-<td><code>number</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.orbit_level</code></td>
-<td><code>integer</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.reach</code></td>
-<td><code>integer</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.slug</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.tags</code></td>
-<td><code>array of string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>data.title</code></td>
+<td><code>url</code></td>
 <td><code>string</code></td>
 <td>No</td>
 <td></td>
 </tr>
 </tbody>
 </table>
+<h4 id="responses-8">Responses</h4>
+<h5 id="204-member-updated" class="status" data-status="2xx">204: member updated</h5>
+<h5 id="403-forbidden-4" class="status" data-status="4xx">403: forbidden</h5>
 </main></div>
 <script src="../assets/search.js" defer></script></body></html>

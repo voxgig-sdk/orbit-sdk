@@ -15,52 +15,11 @@ describe("MemberEntity", function()
     assert.is_not_nil(ent)
   end)
 
-  -- Feature #4: the entity stream(action, ...) method runs the op pipeline and
-  -- returns an iterator over result items. With the streaming feature active it
-  -- yields the feature's incremental output; otherwise it falls back to the
-  -- materialised list so stream always yields.
-  it("should stream", function()
-    local seed = {
-      entity = {
-        ["member"] = {
-          s1 = { id = "s1" },
-          s2 = { id = "s2" },
-          s3 = { id = "s3" },
-        },
-      },
-    }
-
-    -- Fallback: streaming inactive -> yields the materialised list items.
-    local base = sdk.test(seed, nil)
-    local seen = {}
-    for item in base:Member(nil):stream("list", nil, nil) do
-      table.insert(seen, item)
-    end
-    assert.are.equal(3, #seen)
-
-    -- Inbound: streaming active -> yields each item from the feature.
-    local config = require("config_shared")()
-    if type(config.feature) == "table" and config.feature.streaming ~= nil then
-      local streamsdk = sdk.test(seed, { feature = { streaming = { active = true } } })
-      local got = {}
-      for item in streamsdk:Member(nil):stream("list", nil, nil) do
-        if vs.islist(item) then
-          for _, sub in ipairs(item) do
-            table.insert(got, sub)
-          end
-        else
-          table.insert(got, item)
-        end
-      end
-      assert.are.equal(3, #got)
-    end
-  end)
-
   it("should run basic flow", function()
     local setup = member_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({"create", "list", "update", "load", "remove"}) do
+    for _, _op in ipairs({"create", "update", "load", "remove"}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "member." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
@@ -79,7 +38,7 @@ describe("MemberEntity", function()
     local member_ref01_ent = client:Member(nil)
     local member_ref01_data = helpers.to_map(vs.getprop(
       vs.getpath(setup.data, "new.member"), "member_ref01"))
-    member_ref01_data["workspace"] = setup.idmap["workspace01"]
+    member_ref01_data["workspace_slug"] = setup.idmap["workspace_slug01"]
 
     local member_ref01_data_result, err = member_ref01_ent:create(member_ref01_data, nil)
     assert.is_nil(err)
@@ -87,24 +46,10 @@ describe("MemberEntity", function()
     assert.is_not_nil(member_ref01_data)
     assert.is_not_nil(member_ref01_data["id"])
 
-    -- LIST
-    local member_ref01_match = {
-      ["workspace"] = setup.idmap["workspace01"],
-    }
-
-    local member_ref01_list_result, err = member_ref01_ent:list(member_ref01_match, nil)
-    assert.is_nil(err)
-    assert.is_table(member_ref01_list_result)
-
-    local found_item = vs.select(
-      runner.entity_list_to_data(member_ref01_list_result),
-      { id = member_ref01_data["id"] })
-    assert.is_false(vs.isempty(found_item))
-
     -- UPDATE
     local member_ref01_data_up0_up = {
       id = member_ref01_data["id"],
-      ["workspace"] = setup.idmap["workspace"],
+      ["workspace_slug"] = setup.idmap["workspace_slug"],
     }
 
     local member_ref01_markdef_up0_name = "bio"
@@ -135,20 +80,6 @@ describe("MemberEntity", function()
     local _, err = member_ref01_ent:remove(member_ref01_match_rm0, nil)
     assert.is_nil(err)
 
-    -- LIST
-    local member_ref01_match_rt0 = {
-      ["workspace"] = setup.idmap["workspace01"],
-    }
-
-    local member_ref01_list_rt0_result, err = member_ref01_ent:list(member_ref01_match_rt0, nil)
-    assert.is_nil(err)
-    assert.is_table(member_ref01_list_rt0_result)
-
-    local not_found_item = vs.select(
-      runner.entity_list_to_data(member_ref01_list_rt0_result),
-      { id = member_ref01_data["id"] })
-    assert.is_true(vs.isempty(not_found_item))
-
   end)
 end)
 
@@ -172,7 +103,7 @@ function member_basic_setup(extra)
 
   -- Generate idmap via transform.
   local idmap = vs.transform(
-    { "member01", "member02", "member03", "workspace01" },
+    { "member01", "member02", "member03", "organization01", "organization02", "organization03", "workspace_slug01" },
     {
       ["`$PACK`"] = { "", {
         ["`$KEY`"] = "`$COPY`",
@@ -199,8 +130,8 @@ function member_basic_setup(extra)
   if idmap_resolved == nil then
     idmap_resolved = helpers.to_map(idmap)
   end
-  if idmap_resolved["workspace"] == nil then
-    idmap_resolved["workspace"] = idmap_resolved["workspace01"]
+  if idmap_resolved["workspace_slug"] == nil then
+    idmap_resolved["workspace_slug"] = idmap_resolved["workspace_slug01"]
   end
 
   if env["ORBIT_TEST_LIVE"] == "TRUE" then

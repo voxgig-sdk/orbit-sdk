@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Workspace | Orbit API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">Orbit API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/orbit-sdk">voxgig-sdk/orbit-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Orbit API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/activity.html">Activity</a>
+<a href="../api/activity_type.html">ActivityType</a>
+<a href="../api/member.html">Member</a>
+<a href="../api/note.html">Note</a>
+<a href="../api/organization.html">Organization</a>
+<a href="../api/report.html">Report</a>
+<a href="../api/user.html">User</a>
+<a href="../api/webhook.html">Webhook</a>
+<a aria-current="page" href="../api/workspace.html">Workspace</a><div class="nav-sections"><a class="nav-section" href="#get-workspacesworkspace_slug">GET /workspaces/{workspace_slug}</a>
+<a class="nav-section" href="#get-workspaces">GET /workspaces</a></div></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/js.html">JavaScript</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="workspace">Workspace</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-workspacesworkspace_slug"><code>/workspaces/{workspace_slug}</code></a></td>
+<td><code>load</code></td>
+<td>success</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-workspaces"><code>/workspaces</code></a></td>
+<td><code>load</code></td>
+<td>success</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>included</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="load">load</h2>
+<h3 id="get-workspacesworkspace_slug" class="operation" data-method="get"><code>GET</code> /workspaces/{workspace_slug}</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>include_orbit_level_counts</code> | <code>query</code> | <code>boolean</code> | No | Include the number of members by Orbit Level in the attributes |</p>
+<h4 id="responses">Responses</h4>
+<h5 id="200-success" class="status" data-status="2xx">200: success</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;attributes&quot;: {
+      &quot;activities_count&quot;: 1,
+      &quot;created_at&quot;: &quot;2023-02-28T19:21:15.825Z&quot;,
+      &quot;members_count&quot;: 1,
+      &quot;name&quot;: &quot;Fake Workspace&quot;,
+      &quot;orbit_level_counts&quot;: {
+        &quot;1&quot;: 0,
+        &quot;2&quot;: 0,
+        &quot;3&quot;: 1,
+        &quot;4&quot;: 2
+      },
+      &quot;slug&quot;: &quot;fake-workspace&quot;,
+      &quot;tags&quot;: {},
+      &quot;updated_at&quot;: &quot;2023-02-28T19:21:15.916Z&quot;
+    },
+    &quot;id&quot;: &quot;PvetbL&quot;,
+    &quot;relationships&quot;: {
+      &quot;last_activity&quot;: {
+        &quot;data&quot;: {
+          &quot;id&quot;: &quot;ZPosrL&quot;,
+          &quot;type&quot;: &quot;pull_request_activity&quot;
+        }
+      },
+      &quot;last_member&quot;: {
+        &quot;data&quot;: {
+          &quot;id&quot;: &quot;rmMS98&quot;,
+          &quot;type&quot;: &quot;member&quot;
+        }
+      },
+      &quot;repositories&quot;: {
+        &quot;data&quot;: []
+      }
+    },
+    &quot;type&quot;: &quot;workspace&quot;
+  },
+  &quot;included&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;activities_count&quot;: 0,
+        &quot;activities_score&quot;: 0,
+        &quot;avatar_url&quot;: &quot;http://github.com/avatar.png&quot;,
+        &quot;bio&quot;: null,
+        &quot;birthday&quot;: null,
+        &quot;company&quot;: null,
+        &quot;created&quot;: false,
+        &quot;created_at&quot;: &quot;2023-02-28T19:21:15.894Z&quot;,
+        &quot;deleted_at&quot;: null,
+        &quot;devto&quot;: null,
+        &quot;discord&quot;: null,
+        &quot;discourse&quot;: null,
+        &quot;email&quot;: null,
+        &quot;first_activity_occurred_at&quot;: null,
+        &quot;github&quot;: null,
+        &quot;github_followers&quot;: null,
+        &quot;id&quot;: &quot;rmMS98&quot;,
+        &quot;languages&quot;: null,
+        &quot;last_activity_occurred_at&quot;: null,
+        &quot;linkedin&quot;: null,
+        &quot;location&quot;: null,
+        &quot;love&quot;: null,
+        &quot;merged_at&quot;: null,
+        &quot;name&quot;: &quot;RobertoRunolfsdottir&quot;,
+        &quot;orbit_level&quot;: null,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/fake-workspace/members/robertorunolfsdottir&quot;,
+        &quot;pronouns&quot;: null,
+        &quot;reach&quot;: 0,
+        &quot;shipping_address&quot;: null,
+        &quot;slug&quot;: &quot;robertorunolfsdottir&quot;,
+        &quot;source&quot;: &quot;installation&quot;,
+        &quot;tag_list&quot;: [],
+        &quot;tags&quot;: [],
+        &quot;teammate&quot;: false,
+        &quot;title&quot;: null,
+        &quot;topics&quot;: null,
+        &quot;tshirt&quot;: null,
+        &quot;twitter&quot;: null,
+        &quot;twitter_followers&quot;: null,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:21:15.894Z&quot;,
+        &quot;url&quot;: null
+      },
+      &quot;id&quot;: &quot;rmMS98&quot;,
+      &quot;relationships&quot;: {
+        &quot;identities&quot;: {
+          &quot;data&quot;: []
+        },
+        &quot;organizations&quot;: {
+          &quot;data&quot;: []
+        }
+      },
+      &quot;type&quot;: &quot;member&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;action&quot;: &quot;opened&quot;,
+        &quot;activity_link&quot;: &quot;https://github.com/&quot;,
+        &quot;created_at&quot;: &quot;2023-02-28T19:21:15.896Z&quot;,
+        &quot;g_created_at&quot;: &quot;2023-02-28T20:21:15.886+01:00&quot;,
+        &quot;g_html_url&quot;: &quot;https://github.com/&quot;,
+        &quot;g_merged&quot;: false,
+        &quot;g_merged_at&quot;: null,
+        &quot;g_merged_by&quot;: null,
+        &quot;g_number&quot;: 53,
+        &quot;g_title&quot;: &quot;Here is some new code&quot;,
+        &quot;is_pull_request&quot;: null,
+        &quot;key&quot;: &quot;carol/donnette#53&quot;,
+        &quot;occurred_at&quot;: &quot;2023-02-28T19:21:15.886Z&quot;,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/fake-workspace/activities/ZPosrL&quot;,
+        &quot;properties&quot;: {
+          &quot;github_organization&quot;: &quot;carol&quot;,
+          &quot;github_pull_request&quot;: &quot;carol/donnette/#53&quot;,
+          &quot;github_repository&quot;: &quot;carol/donnette&quot;
+        },
+        &quot;tags&quot;: [
+          &quot;channel:github&quot;,
+          &quot;github_organization:carol&quot;,
+          &quot;github_repository:carol/donnette&quot;,
+          &quot;github_pull_request:carol/donnette/#53&quot;
+        ],
+        &quot;type&quot;: &quot;PullRequestActivity&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:21:15.896Z&quot;,
+        &quot;weight&quot;: &quot;1.0&quot;
+      },
+      &quot;id&quot;: &quot;ZPosrL&quot;,
+      &quot;relationships&quot;: {
+        &quot;activity_type&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;oWVsm9&quot;,
+            &quot;type&quot;: &quot;activity_type&quot;
+          }
+        },
+        &quot;member&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;rmMS98&quot;,
+            &quot;type&quot;: &quot;member&quot;
+          }
+        },
+        &quot;repository&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;6eeTk6&quot;,
+            &quot;type&quot;: &quot;repository&quot;
+          }
+        }
+      },
+      &quot;type&quot;: &quot;pull_request_activity&quot;
+    }
+  ]
+}
+</code></pre>
+<h3 id="get-workspaces" class="operation" data-method="get"><code>GET</code> /workspaces</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-success-1" class="status" data-status="2xx">200: success</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;created_at&quot;: &quot;2023-02-28T19:21:15.556Z&quot;,
+        &quot;name&quot;: &quot;Fake Workspace&quot;,
+        &quot;slug&quot;: &quot;fake-workspace&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:21:15.565Z&quot;
+      },
+      &quot;id&quot;: &quot;15Vt67&quot;,
+      &quot;relationships&quot;: {
+        &quot;repositories&quot;: {
+          &quot;data&quot;: []
+        }
+      },
+      &quot;type&quot;: &quot;workspace&quot;
+    }
+  ],
+  &quot;included&quot;: []
+}
+</code></pre>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

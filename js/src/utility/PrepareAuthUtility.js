@@ -1,5 +1,5 @@
 
-const HEADER_auth = 'authorization'
+const CRED_name = 'api_key'
 
 const OPTION_apikey = 'apikey'
 
@@ -20,25 +20,23 @@ function prepareAuth(ctx) {
     return ctx.error('auth_no_spec', 'Expected context spec property to be defined.')
   }
 
-  const headers = spec.headers
+  const query = spec.query
 
   const options = client.options()
 
   // Public APIs that need no auth omit the options.auth block entirely.
   if (null == options.auth) {
-    delprop(headers, HEADER_auth)
+    delprop(query, CRED_name)
     return spec
   }
 
   const apikey = getprop(options, OPTION_apikey, NOTFOUND)
 
   if (NOTFOUND === apikey || null == apikey || '' === apikey) {
-    delprop(headers, HEADER_auth)
+    delprop(query, CRED_name)
   }
   else {
-    // Empty prefix (raw apiKey credential) must not add a leading space.
-    setprop(headers, HEADER_auth,
-      options.auth.prefix ? options.auth.prefix + ' ' + apikey : apikey)
+    setprop(query, CRED_name, apikey)
   }
 
   return spec

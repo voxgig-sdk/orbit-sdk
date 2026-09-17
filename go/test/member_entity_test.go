@@ -25,54 +25,6 @@ func TestMemberEntity(t *testing.T) {
 		}
 	})
 
-	// Feature #4: the entity Stream(action, ...) method runs the op pipeline and
-	// returns a channel over result items. With the streaming feature active it
-	// yields the feature's incremental output; otherwise it falls back to the
-	// materialised list so Stream always yields.
-	t.Run("stream", func(t *testing.T) {
-		seed := map[string]any{
-			"entity": map[string]any{
-				"member": map[string]any{
-					"s1": map[string]any{"id": "s1"},
-					"s2": map[string]any{"id": "s2"},
-					"s3": map[string]any{"id": "s3"},
-				},
-			},
-		}
-
-		// Fallback: streaming inactive -> yields the materialised list items.
-		base := sdk.TestSDK(seed, nil)
-		var seen []any
-		for item := range base.Member(nil).Stream("list", nil, nil) {
-			seen = append(seen, item)
-		}
-		if len(seen) != 3 {
-			t.Fatalf("expected 3 streamed items, got %d", len(seen))
-		}
-
-		// Inbound: streaming active -> yields each item from the feature iterator.
-		hasStreaming := false
-		if fm, ok := core.SharedConfig()["feature"].(map[string]any); ok {
-			_, hasStreaming = fm["streaming"]
-		}
-		if hasStreaming {
-			streamSdk := sdk.TestSDK(seed, map[string]any{
-				"feature": map[string]any{"streaming": map[string]any{"active": true}},
-			})
-			var got []any
-			for item := range streamSdk.Member(nil).Stream("list", nil, nil) {
-				if sub, ok := item.([]any); ok {
-					got = append(got, sub...)
-				} else {
-					got = append(got, item)
-				}
-			}
-			if len(got) != 3 {
-				t.Fatalf("expected 3 items via streaming feature, got %d", len(got))
-			}
-		}
-	})
-
 	t.Run("basic", func(t *testing.T) {
 		setup := memberBasicSetup(nil)
 		// Per-op sdk-test-control.json skip — basic test exercises a flow
@@ -81,7 +33,7 @@ func TestMemberEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{"create", "list", "update", "load", "remove"} {
+		for _, _op := range []string{"create", "update", "load", "remove"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "member." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -102,7 +54,7 @@ func TestMemberEntity(t *testing.T) {
 		memberRef01Ent := client.Member(nil)
 		memberRef01Data := core.ToMapAny(vs.GetProp(
 			vs.GetPath(setup.data, []any{"new", "member"}), "member_ref01"))
-		memberRef01Data["workspace"] = setup.idmap["workspace01"]
+		memberRef01Data["workspace_slug"] = setup.idmap["workspace_slug01"]
 
 		memberRef01DataResult, err := memberRef01Ent.Create(memberRef01Data, nil)
 		if err != nil {
@@ -116,29 +68,10 @@ func TestMemberEntity(t *testing.T) {
 			t.Fatal("expected created entity to have an id")
 		}
 
-		// LIST
-		memberRef01Match := map[string]any{
-			"workspace": setup.idmap["workspace01"],
-		}
-
-		memberRef01ListResult, err := memberRef01Ent.List(memberRef01Match, nil)
-		if err != nil {
-			t.Fatalf("list failed: %v", err)
-		}
-		memberRef01List, memberRef01ListOk := memberRef01ListResult.([]any)
-		if !memberRef01ListOk {
-			t.Fatalf("expected list result to be an array, got %T", memberRef01ListResult)
-		}
-
-		foundItem := vs.Select(entityListToData(memberRef01List), map[string]any{"id": memberRef01Data["id"]})
-		if vs.IsEmpty(foundItem) {
-			t.Fatal("expected to find created entity in list")
-		}
-
 		// UPDATE
 		memberRef01DataUp0Up := map[string]any{
 			"id": memberRef01Data["id"],
-			"workspace": setup.idmap["workspace"],
+			"workspace_slug": setup.idmap["workspace_slug"],
 		}
 
 		memberRef01MarkdefUp0Name := "bio"
@@ -185,25 +118,6 @@ func TestMemberEntity(t *testing.T) {
 			t.Fatalf("remove failed: %v", err)
 		}
 
-		// LIST
-		memberRef01MatchRt0 := map[string]any{
-			"workspace": setup.idmap["workspace01"],
-		}
-
-		memberRef01ListRt0Result, err := memberRef01Ent.List(memberRef01MatchRt0, nil)
-		if err != nil {
-			t.Fatalf("list failed: %v", err)
-		}
-		memberRef01ListRt0, memberRef01ListRt0Ok := memberRef01ListRt0Result.([]any)
-		if !memberRef01ListRt0Ok {
-			t.Fatalf("expected list result to be an array, got %T", memberRef01ListRt0Result)
-		}
-
-		notFoundItem := vs.Select(entityListToData(memberRef01ListRt0), map[string]any{"id": memberRef01Data["id"]})
-		if !vs.IsEmpty(notFoundItem) {
-			t.Fatal("expected removed entity to not be in list")
-		}
-
 	})
 }
 
@@ -232,7 +146,7 @@ func memberBasicSetup(extra map[string]any) *entityTestSetup {
 
 	// Generate idmap via transform, matching TS pattern.
 	idmap, _ := vs.Transform(
-		[]any{"member01", "member02", "member03", "workspace01"},
+		[]any{"member01", "member02", "member03", "organization01", "organization02", "organization03", "workspace_slug01"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
 				"`$KEY`": "`$COPY`",
@@ -258,9 +172,9 @@ func memberBasicSetup(extra map[string]any) *entityTestSetup {
 	if idmapResolved == nil {
 		idmapResolved = core.ToMapAny(idmap)
 	}
-	// Add workspace alias for update test.
-	if idmapResolved["workspace"] == nil {
-		idmapResolved["workspace"] = idmapResolved["workspace01"]
+	// Add workspace_slug alias for update test.
+	if idmapResolved["workspace_slug"] == nil {
+		idmapResolved["workspace_slug"] = idmapResolved["workspace_slug01"]
 	}
 
 	if env["ORBIT_TEST_LIVE"] == "TRUE" {

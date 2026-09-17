@@ -6,64 +6,354 @@
 -- @voxgig/apidef VALID_CANON). Annotations only — no runtime effect. Do not
 -- edit by hand.
 
+---@class Activity
+---@field activity? any
+---@field activity_type? string
+---@field activity_type_key? string
+---@field data? table
+---@field description? string
+---@field id? string
+---@field identity table
+---@field included? table
+---@field key? string
+---@field link? string
+---@field link_text? string
+---@field links? table
+---@field occurred_at? string
+---@field properties? table
+---@field title string
+---@field weight? string
+
+---@class ActivityLoadMatch
+---@field workspace_slug string
+---@field activity_type? string
+---@field affiliation? string
+---@field city? string
+---@field company? string
+---@field country? string
+---@field direction? string
+---@field end_date? string
+---@field identity? string
+---@field item? string
+---@field member_tag? string
+---@field orbit? string
+---@field page? string
+---@field region? string
+---@field relative? string
+---@field sort? string
+---@field start_date? string
+---@field title? string
+---@field type? string
+---@field member_slug? string
+---@field organization_id? string
+---@field id? string
+
+---@class ActivityCreateData
+---@field member_slug? string
+---@field workspace_slug string
+---@field activity? any
+---@field activity_type? string
+---@field activity_type_key? string
+---@field data? table
+---@field description? string
+---@field id? string
+---@field identity table
+---@field included? table
+---@field key? string
+---@field link? string
+---@field link_text? string
+---@field links? table
+---@field occurred_at? string
+---@field properties? table
+---@field title string
+---@field weight? string
+
+---@class ActivityUpdateData
+---@field id string
+---@field member_id string
+---@field workspace_slug string
+---@field activity? any
+---@field activity_type? string
+---@field activity_type_key? string
+---@field data? table
+---@field description? string
+---@field identity? table
+---@field included? table
+---@field key? string
+---@field link? string
+---@field link_text? string
+---@field links? table
+---@field occurred_at? string
+---@field properties? table
+---@field title? string
+---@field weight? string
+
+---@class ActivityRemoveMatch
+---@field id string
+---@field member_id string
+---@field workspace_slug string
+
+---@class ActivityType
+---@field data? table
+---@field links? table
+
+---@class ActivityTypeLoadMatch
+---@field workspace_slug string
+
 ---@class Member
 ---@field bio? string
+---@field birthday? string
 ---@field company? string
----@field created_at? string
+---@field data? table
+---@field devto? string
+---@field email? string
+---@field github? string
 ---@field id? string
+---@field identity table
+---@field included? table
+---@field linkedin? string
+---@field links? table
 ---@field location? string
----@field love? number
+---@field member? table
 ---@field name? string
----@field orbit_level? number
----@field reach? number
+---@field pronouns? string
+---@field shipping_address? string
 ---@field slug? string
----@field tags? table
+---@field tag_list? string
+---@field tags? string
 ---@field tags_to_add? string
+---@field teammate? boolean
 ---@field title? string
+---@field tshirt? string
+---@field twitter? string
+---@field url? string
 
 ---@class MemberLoadMatch
----@field id string
----@field workspace string
-
----@class MemberListMatch
----@field workspace string
----@field tag? string
+---@field workspace_slug string
+---@field activities_count_max? string
+---@field activities_count_min? string
+---@field activity_type? string
+---@field affiliation? string
+---@field city? string
+---@field company? string
+---@field country? string
+---@field direction? string
+---@field end_date? string
+---@field identity? string
+---@field item? string
+---@field member_tag? string
+---@field orbit? string
+---@field page? string
+---@field query? string
+---@field region? string
+---@field relative? string
+---@field sort? string
+---@field start_date? string
+---@field title? string
+---@field type? string
+---@field organization_id? string
+---@field id? string
 
 ---@class MemberCreateData
----@field workspace string
+---@field workspace_slug string
 ---@field bio? string
+---@field birthday? string
 ---@field company? string
----@field created_at? string
+---@field data? table
+---@field devto? string
+---@field email? string
+---@field github? string
 ---@field id? string
+---@field identity table
+---@field included? table
+---@field linkedin? string
+---@field links? table
 ---@field location? string
----@field love? number
+---@field member? table
 ---@field name? string
----@field orbit_level? number
----@field reach? number
+---@field pronouns? string
+---@field shipping_address? string
 ---@field slug? string
----@field tags? table
+---@field tag_list? string
+---@field tags? string
 ---@field tags_to_add? string
+---@field teammate? boolean
 ---@field title? string
+---@field tshirt? string
+---@field twitter? string
+---@field url? string
 
 ---@class MemberUpdateData
 ---@field id string
----@field workspace string
+---@field workspace_slug string
 ---@field bio? string
+---@field birthday? string
 ---@field company? string
----@field created_at? string
+---@field data? table
+---@field devto? string
+---@field email? string
+---@field github? string
+---@field identity? table
+---@field included? table
+---@field linkedin? string
+---@field links? table
 ---@field location? string
----@field love? number
+---@field member? table
 ---@field name? string
----@field orbit_level? number
----@field reach? number
+---@field pronouns? string
+---@field shipping_address? string
 ---@field slug? string
----@field tags? table
+---@field tag_list? string
+---@field tags? string
 ---@field tags_to_add? string
+---@field teammate? boolean
 ---@field title? string
+---@field tshirt? string
+---@field twitter? string
+---@field url? string
 
 ---@class MemberRemoveMatch
 ---@field id string
----@field workspace string
+---@field workspace_slug string
+
+---@class Note
+---@field body string
+---@field data? table
+---@field id? string
+---@field included? table
+---@field links? table
+
+---@class NoteLoadMatch
+---@field member_slug string
+---@field workspace_slug string
+---@field page? string
+
+---@class NoteCreateData
+---@field member_slug string
+---@field workspace_slug string
+---@field body string
+---@field data? table
+---@field id? string
+---@field included? table
+---@field links? table
+
+---@class NoteUpdateData
+---@field id string
+---@field member_id string
+---@field workspace_slug string
+---@field body? string
+---@field data? table
+---@field included? table
+---@field links? table
+
+---@class Organization
+---@field crm_uid? string
+---@field crm_url string
+---@field data? table
+---@field deal_closed_date? string
+---@field id? string
+---@field lifecycle_stage string
+---@field links? table
+---@field owner_email? string
+---@field owner_name? string
+---@field price_plan? string
+---@field source string
+
+---@class OrganizationLoadMatch
+---@field workspace_slug string
+---@field direction? string
+---@field item? string
+---@field page? string
+---@field query? string
+---@field sort? string
+---@field id? string
+
+---@class OrganizationUpdateData
+---@field id string
+---@field workspace_slug string
+---@field crm_uid? string
+---@field crm_url? string
+---@field data? table
+---@field deal_closed_date? string
+---@field lifecycle_stage? string
+---@field links? table
+---@field owner_email? string
+---@field owner_name? string
+---@field price_plan? string
+---@field source? string
+
+---@class Report
+---@field data? table
+
+---@class ReportLoadMatch
+---@field workspace_slug string
+---@field activity_type? string
+---@field end_date? string
+---@field property? string
+---@field relative? string
+---@field start_date? string
+---@field type? string
+
+---@class User
+---@field data? table
+
+---@class UserLoadMatch
+---@field data? table
+
+---@class Webhook
+---@field activity_tags? table
+---@field activity_types? table
+---@field data? table
+---@field event_type string
+---@field id? string
+---@field links? table
+---@field member_tags? table
+---@field name string
+---@field secret? string
+---@field url string
+
+---@class WebhookLoadMatch
+---@field id? string
+---@field workspace_slug string
+
+---@class WebhookCreateData
+---@field workspace_slug string
+---@field activity_tags? table
+---@field activity_types? table
+---@field data? table
+---@field event_type string
+---@field id? string
+---@field links? table
+---@field member_tags? table
+---@field name string
+---@field secret? string
+---@field url string
+
+---@class WebhookUpdateData
+---@field id string
+---@field workspace_slug string
+---@field activity_tags? table
+---@field activity_types? table
+---@field data? table
+---@field event_type? string
+---@field links? table
+---@field member_tags? table
+---@field name? string
+---@field secret? string
+---@field url? string
+
+---@class WebhookRemoveMatch
+---@field id string
+---@field workspace_slug string
+
+---@class Workspace
+---@field data? table
+---@field id? string
+---@field included? table
+
+---@class WorkspaceLoadMatch
+---@field id string
+---@field include_orbit_level_count? boolean
 
 local M = {}
 

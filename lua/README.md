@@ -4,7 +4,7 @@
 
 The Lua SDK for the Orbit API — an entity-oriented client using Lua conventions.
 
-It exposes the API as capitalised, semantic **Entities** — e.g. `client:Member()` — each with the same small set of operations (`list`, `load`, `create`, `update`, `remove`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
+It exposes the API as capitalised, semantic **Entities** — e.g. `client:Activity()` — each with the same small set of operations (`load`, `create`, `update`, `remove`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -35,40 +35,28 @@ local client = sdk.new({
 })
 ```
 
-### 2. List member records
+### 3. Load an activity
 
-Entity operations return `(value, err)`. For `list`, `value` is the
-array of records itself — iterate it directly (there is no wrapper).
-
-```lua
-local members, err = client:Member():list()
-if err then error(err) end
-
-for _, item in ipairs(members) do
-  print(item["id"], item["bio"])
-end
-```
-
-### 3. Load a member
+Activity is nested under workspace_slug, so provide the `workspace_slug`.
 
 ```lua
-local member, err = client:Member():load({ id = "example_id", workspace = "example_workspace" })
+local activity, err = client:Activity():load({ workspace_slug = "example_workspace_slug" })
 if err then error(err) end
-print(member)
+print(activity)
 ```
 
 ### 4. Create, update, and remove
 
 ```lua
 -- Create
-local created, err = client:Member():create({ workspace = "example_workspace" })
+local created, err = client:Activity():create({ workspace_slug = "example_workspace_slug", identity = {}, title = "example_title" })
 if err then error(err) end
 
 -- Update
-client:Member():update({ id = created:data_get()["id"], workspace = "example_workspace", bio = "example_bio" })
+client:Activity():update({ id = created:data_get()["id"], member_id = "example_member_id", workspace_slug = "example_workspace_slug" })
 
 -- Remove
-client:Member():remove({ id = created:data_get()["id"], workspace = "example_workspace" })
+client:Activity():remove({ id = created:data_get()["id"], member_id = "example_member_id", workspace_slug = "example_workspace_slug" })
 ```
 
 
@@ -78,7 +66,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local members, err = client:Member():list()
+local note, err = client:Note():load({ member_slug = "example", workspace_slug = "example" })
 if err then error(err) end
 ```
 
@@ -136,7 +124,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Member():list()
+local result, err = client:Note():load({ member_slug = "example", workspace_slug = "example" })
 -- result is the returned data; err is set on failure
 ```
 
@@ -217,7 +205,15 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `get_utility` | `() -> Utility` | Copy of the SDK utility object. |
 | `prepare` | `(fetchargs) -> table, err` | Build an HTTP request definition without sending. |
 | `direct` | `(fetchargs) -> table, err` | Build and send an HTTP request. |
+| `Activity` | `(data) -> ActivityEntity` | Create an Activity entity instance. |
+| `ActivityType` | `(data) -> ActivityTypeEntity` | Create an ActivityType entity instance. |
 | `Member` | `(data) -> MemberEntity` | Create a Member entity instance. |
+| `Note` | `(data) -> NoteEntity` | Create a Note entity instance. |
+| `Organization` | `(data) -> OrganizationEntity` | Create an Organization entity instance. |
+| `Report` | `(data) -> ReportEntity` | Create a Report entity instance. |
+| `User` | `(data) -> UserEntity` | Create an User entity instance. |
+| `Webhook` | `(data) -> WebhookEntity` | Create a Webhook entity instance. |
+| `Workspace` | `(data) -> WorkspaceEntity` | Create a Workspace entity instance. |
 
 ### Entity interface
 
@@ -226,7 +222,6 @@ All entities share the same interface.
 | Method | Signature | Description |
 | --- | --- | --- |
 | `load` | `(reqmatch, ctrl) -> any, err` | Load a single entity by match criteria. |
-| `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria. |
 | `create` | `(reqdata, ctrl) -> any, err` | Create a new entity. |
 | `update` | `(reqdata, ctrl) -> any, err` | Update an existing entity. |
 | `remove` | `(reqmatch, ctrl) -> any, err` | Remove an entity. |
@@ -245,44 +240,252 @@ data **directly** — there is no wrapper:
 | Operation | `value` |
 | --- | --- |
 | `load` / `create` / `update` / `remove` | the entity record (a `table`) |
-| `list` | an array (`table`) of entity records |
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
-    local member, err = client:Member():load({ id = "example_id" })
+    local activity, err = client:Activity():load({ id = "example_id" })
     if err then error(err) end
-    -- member is the loaded record
+    -- activity is the loaded record
 
 Only `direct()` returns a response envelope — a `table` with `ok`,
 `status`, `headers`, and `data` keys.
 
 ### Entities
 
+#### Activity
+
+| Field | Description |
+| --- | --- |
+| `activity` |  |
+| `activity_type` | The type of activity - what action was done by the member. |
+| `activity_type_key` | The key for a custom activity type for the workspace. |
+| `data` |  |
+| `description` | A description of the activity; displayed in the timeline |
+| `id` |  |
+| `identity` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` |  |
+| `key` | Supply a key that must be unique or leave blank to have one generated. |
+| `link` | A URL for the activity; displayed in the timeline |
+| `link_text` | The text for the timeline link |
+| `links` |  |
+| `occurred_at` | The date and time the activity occurred; defaults to now |
+| `properties` | Key-value pairs to provide contextual metadata about an activity. |
+| `title` | A title for the activity; displayed in the timeline |
+| `weight` | A custom weight to be used in filters and reports; defaults to 1. |
+
+Operations: Create, Load, Remove, Update.
+
+API path: `/{workspace_slug}/members/{member_slug}/activities`
+
+#### ActivityType
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+| `links` |  |
+
+Operations: Load.
+
+API path: `/{workspace_slug}/activity_types`
+
 #### Member
 
 | Field | Description |
 | --- | --- |
 | `bio` |  |
+| `birthday` |  |
 | `company` |  |
-| `created_at` |  |
+| `data` |  |
+| `devto` | The member's DEV username |
+| `email` | The member's email |
+| `github` | The member's GitHub username |
 | `id` |  |
+| `identity` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` |  |
+| `linkedin` | The member's LinkedIn username, without the in/ or pub/ |
+| `links` |  |
 | `location` |  |
-| `love` |  |
+| `member` |  |
 | `name` |  |
-| `orbit_level` |  |
-| `reach` |  |
+| `pronouns` |  |
+| `shipping_address` |  |
 | `slug` |  |
-| `tags` |  |
-| `tags_to_add` |  |
+| `tag_list` | Deprecated: Please use the tags attribute instead |
+| `tags` | Replaces all tags for the member; comma-separated string or array |
+| `tags_to_add` | Adds tags to member; comma-separated string or array |
+| `teammate` |  |
 | `title` |  |
+| `tshirt` |  |
+| `twitter` | The member's Twitter username |
+| `url` |  |
 
-Operations: Create, List, Load, Remove, Update.
+Operations: Create, Load, Remove, Update.
 
-API path: `/{workspace}/members`
+API path: `/{workspace_slug}/members/{member_slug}/identities`
+
+#### Note
+
+| Field | Description |
+| --- | --- |
+| `body` |  |
+| `data` |  |
+| `id` |  |
+| `included` |  |
+| `links` |  |
+
+Operations: Create, Load, Update.
+
+API path: `/{workspace_slug}/members/{member_slug}/notes`
+
+#### Organization
+
+| Field | Description |
+| --- | --- |
+| `crm_uid` | The unique identifier of the organization in your CRM. |
+| `crm_url` | A link to the organization profile in your CRM. |
+| `data` |  |
+| `deal_closed_date` | The date the organization became a customer. |
+| `id` |  |
+| `lifecycle_stage` | The current stage of the organization in the marketing or sales process. |
+| `links` |  |
+| `owner_email` | The email of the team member who is in charge of the organization. |
+| `owner_name` | The name of the team member who is in charge of the organization. |
+| `price_plan` | The pricing plan the organization is on. |
+| `source` | The name of the CRM you use for tracking the organization. |
+
+Operations: Load, Update.
+
+API path: `/{workspace_slug}/organizations`
+
+#### Report
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+
+Operations: Load.
+
+API path: `/{workspace_slug}/reports`
+
+#### User
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+
+Operations: Load.
+
+API path: `/user`
+
+#### Webhook
+
+| Field | Description |
+| --- | --- |
+| `activity_tags` |  |
+| `activity_types` |  |
+| `data` |  |
+| `event_type` |  |
+| `id` |  |
+| `links` |  |
+| `member_tags` |  |
+| `name` |  |
+| `secret` |  |
+| `url` |  |
+
+Operations: Create, Load, Remove, Update.
+
+API path: `/{workspace_slug}/webhooks`
+
+#### Workspace
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+| `id` |  |
+| `included` |  |
+
+Operations: Load.
+
+API path: `/workspaces/{workspace_slug}`
 
 
 
 ## Entities
+
+
+### Activity
+
+Create an instance: `local activity = client:Activity(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `activity` | `any` |  |
+| `activity_type` | `string` | The type of activity - what action was done by the member. |
+| `activity_type_key` | `string` | The key for a custom activity type for the workspace. |
+| `data` | `table` |  |
+| `description` | `string` | A description of the activity; displayed in the timeline |
+| `id` | `string` |  |
+| `identity` | `table` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` | `table` |  |
+| `key` | `string` | Supply a key that must be unique or leave blank to have one generated. |
+| `link` | `string` | A URL for the activity; displayed in the timeline |
+| `link_text` | `string` | The text for the timeline link |
+| `links` | `table` |  |
+| `occurred_at` | `string` | The date and time the activity occurred; defaults to now |
+| `properties` | `table` | Key-value pairs to provide contextual metadata about an activity. |
+| `title` | `string` | A title for the activity; displayed in the timeline |
+| `weight` | `string` | A custom weight to be used in filters and reports; defaults to 1. |
+
+#### Example: Load
+
+```lua
+local activity, err = client:Activity():load({ id = "activity_id", workspace_slug = "workspace_slug" })
+```
+
+#### Example: Create
+
+```lua
+local activity, err = client:Activity():create({
+  workspace_slug = "example_workspace_slug", -- string
+  identity = {}, -- table
+  title = "example_title", -- string
+})
+```
+
+
+### ActivityType
+
+Create an instance: `local activity_type = client:ActivityType(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `table` |  |
+| `links` | `table` |  |
+
+#### Example: Load
+
+```lua
+local activity_type, err = client:ActivityType():load({ workspace_slug = "workspace_slug" })
+```
 
 
 ### Member
@@ -294,7 +497,6 @@ Create an instance: `local member = client:Member(nil)`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
-| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
@@ -304,37 +506,235 @@ Create an instance: `local member = client:Member(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bio` | `string` |  |
+| `birthday` | `string` |  |
 | `company` | `string` |  |
-| `created_at` | `string` |  |
+| `data` | `table` |  |
+| `devto` | `string` | The member's DEV username |
+| `email` | `string` | The member's email |
+| `github` | `string` | The member's GitHub username |
 | `id` | `string` |  |
+| `identity` | `table` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` | `table` |  |
+| `linkedin` | `string` | The member's LinkedIn username, without the in/ or pub/ |
+| `links` | `table` |  |
 | `location` | `string` |  |
-| `love` | `number` |  |
+| `member` | `table` |  |
 | `name` | `string` |  |
-| `orbit_level` | `number` |  |
-| `reach` | `number` |  |
+| `pronouns` | `string` |  |
+| `shipping_address` | `string` |  |
 | `slug` | `string` |  |
-| `tags` | `table` |  |
-| `tags_to_add` | `string` |  |
+| `tag_list` | `string` | Deprecated: Please use the tags attribute instead |
+| `tags` | `string` | Replaces all tags for the member; comma-separated string or array |
+| `tags_to_add` | `string` | Adds tags to member; comma-separated string or array |
+| `teammate` | `boolean` |  |
 | `title` | `string` |  |
+| `tshirt` | `string` |  |
+| `twitter` | `string` | The member's Twitter username |
+| `url` | `string` |  |
 
 #### Example: Load
 
 ```lua
-local member, err = client:Member():load({ id = "member_id", workspace = "workspace" })
-```
-
-#### Example: List
-
-```lua
-local members, err = client:Member():list()
+local member, err = client:Member():load({ id = "member_id", workspace_slug = "workspace_slug" })
 ```
 
 #### Example: Create
 
 ```lua
 local member, err = client:Member():create({
-  workspace = "example_workspace", -- string
+  workspace_slug = "example_workspace_slug", -- string
+  identity = {}, -- table
 })
+```
+
+
+### Note
+
+Create an instance: `local note = client:Note(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `body` | `string` |  |
+| `data` | `table` |  |
+| `id` | `string` |  |
+| `included` | `table` |  |
+| `links` | `table` |  |
+
+#### Example: Load
+
+```lua
+local note, err = client:Note():load({ member_slug = "member_slug", workspace_slug = "workspace_slug" })
+```
+
+#### Example: Create
+
+```lua
+local note, err = client:Note():create({
+  member_slug = "example_member_slug", -- string
+  workspace_slug = "example_workspace_slug", -- string
+  body = "example_body", -- string
+})
+```
+
+
+### Organization
+
+Create an instance: `local organization = client:Organization(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `crm_uid` | `string` | The unique identifier of the organization in your CRM. |
+| `crm_url` | `string` | A link to the organization profile in your CRM. |
+| `data` | `table` |  |
+| `deal_closed_date` | `string` | The date the organization became a customer. |
+| `id` | `string` |  |
+| `lifecycle_stage` | `string` | The current stage of the organization in the marketing or sales process. |
+| `links` | `table` |  |
+| `owner_email` | `string` | The email of the team member who is in charge of the organization. |
+| `owner_name` | `string` | The name of the team member who is in charge of the organization. |
+| `price_plan` | `string` | The pricing plan the organization is on. |
+| `source` | `string` | The name of the CRM you use for tracking the organization. |
+
+#### Example: Load
+
+```lua
+local organization, err = client:Organization():load({ id = "organization_id", workspace_slug = "workspace_slug" })
+```
+
+
+### Report
+
+Create an instance: `local report = client:Report(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `table` |  |
+
+#### Example: Load
+
+```lua
+local report, err = client:Report():load({ workspace_slug = "workspace_slug" })
+```
+
+
+### User
+
+Create an instance: `local user = client:User(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `table` |  |
+
+#### Example: Load
+
+```lua
+local user, err = client:User():load()
+```
+
+
+### Webhook
+
+Create an instance: `local webhook = client:Webhook(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `activity_tags` | `table` |  |
+| `activity_types` | `table` |  |
+| `data` | `table` |  |
+| `event_type` | `string` |  |
+| `id` | `string` |  |
+| `links` | `table` |  |
+| `member_tags` | `table` |  |
+| `name` | `string` |  |
+| `secret` | `string` |  |
+| `url` | `string` |  |
+
+#### Example: Load
+
+```lua
+local webhook, err = client:Webhook():load({ id = "webhook_id", workspace_slug = "workspace_slug" })
+```
+
+#### Example: Create
+
+```lua
+local webhook, err = client:Webhook():create({
+  workspace_slug = "example_workspace_slug", -- string
+  event_type = "example_event_type", -- string
+  name = "example_name", -- string
+  url = "example_url", -- string
+})
+```
+
+
+### Workspace
+
+Create an instance: `local workspace = client:Workspace(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `table` |  |
+| `id` | `string` |  |
+| `included` | `table` |  |
+
+#### Example: Load
+
+```lua
+local workspace, err = client:Workspace():load({ id = "workspace_id" })
 ```
 
 ## Features
@@ -539,6 +939,7 @@ Use `helpers.to_map()` to safely validate that a value is a table.
 lua/
 ├── orbit_sdk.lua    -- Main SDK module
 ├── config.lua               -- Configuration
+├── schema.lua               -- Generated option + entity specs
 ├── features.lua             -- Feature factory
 ├── core/                    -- Core types and context
 ├── entity/                  -- Entity implementations
@@ -553,15 +954,15 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `list`, the entity
+Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local member = client:Member()
-member:list()
+local note = client:Note()
+note:load({ member_slug = "example", workspace_slug = "example" })
 
--- member:data_get() now returns the member data from the last list
--- member:match_get() returns the last match criteria
+-- note:data_get() now returns the note data from the last load
+-- note:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

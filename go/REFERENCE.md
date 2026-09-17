@@ -48,9 +48,41 @@ client := sdk.TestSDK(testopts, sdkopts)
 
 ### Instance Methods
 
+#### `Activity(data map[string]any) OrbitEntity`
+
+Create a new `Activity` entity instance. Pass `nil` for no initial data.
+
+#### `ActivityType(data map[string]any) OrbitEntity`
+
+Create a new `ActivityType` entity instance. Pass `nil` for no initial data.
+
 #### `Member(data map[string]any) OrbitEntity`
 
 Create a new `Member` entity instance. Pass `nil` for no initial data.
+
+#### `Note(data map[string]any) OrbitEntity`
+
+Create a new `Note` entity instance. Pass `nil` for no initial data.
+
+#### `Organization(data map[string]any) OrbitEntity`
+
+Create a new `Organization` entity instance. Pass `nil` for no initial data.
+
+#### `Report(data map[string]any) OrbitEntity`
+
+Create a new `Report` entity instance. Pass `nil` for no initial data.
+
+#### `User(data map[string]any) OrbitEntity`
+
+Create a new `User` entity instance. Pass `nil` for no initial data.
+
+#### `Webhook(data map[string]any) OrbitEntity`
+
+Create a new `Webhook` entity instance. Pass `nil` for no initial data.
+
+#### `Workspace(data map[string]any) OrbitEntity`
+
+Create a new `Workspace` entity instance. Pass `nil` for no initial data.
 
 #### `OptionsMap() map[string]any`
 
@@ -88,6 +120,169 @@ same parameters as `Direct()`.
 
 ---
 
+## ActivityEntity
+
+```go
+activity := client.Activity(nil)
+fmt.Println(activity.GetName()) // "activity"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `activity` | `any` | No |  |
+| `activity_type` | `string` | No | The type of activity - what action was done by the member. |
+| `activity_type_key` | `string` | No | The key for a custom activity type for the workspace. |
+| `data` | `[]any` | No |  |
+| `description` | `string` | No | A description of the activity; displayed in the timeline |
+| `id` | `string` | No |  |
+| `identity` | `map[string]any` | Yes | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` | `[]any` | No |  |
+| `key` | `string` | No | Supply a key that must be unique or leave blank to have one generated. |
+| `link` | `string` | No | A URL for the activity; displayed in the timeline |
+| `link_text` | `string` | No | The text for the timeline link |
+| `links` | `map[string]any` | No |  |
+| `occurred_at` | `string` | No | The date and time the activity occurred; defaults to now |
+| `properties` | `map[string]any` | No | Key-value pairs to provide contextual metadata about an activity. |
+| `title` | `string` | Yes | A title for the activity; displayed in the timeline |
+| `weight` | `string` | No | A custom weight to be used in filters and reports; defaults to 1. |
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.Activity(nil).Load(map[string]any{"id": "activity_id", "workspace_slug": "workspace_slug"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
+
+Create a new entity with the given data.
+
+```go
+result, err := client.Activity(nil).Create(map[string]any{
+    "workspace_slug": "example_workspace_slug",
+    "identity": map[string]any{},
+    "title": "example_title",
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+#### `Update(reqdata, ctrl map[string]any) (any, error)`
+
+Update an existing entity. The data must include the entity `id`.
+
+```go
+result, err := client.Activity(nil).Update(map[string]any{
+    "id": "activity_id",
+    "member_id": "member_id",
+    "workspace_slug": "workspace_slug",
+    // Fields to update
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+#### `Remove(reqmatch, ctrl map[string]any) (any, error)`
+
+Remove the entity matching the given criteria.
+
+```go
+result, err := client.Activity(nil).Remove(map[string]any{"id": "activity_id", "member_id": "member_id", "workspace_slug": "workspace_slug"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `ActivityEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## ActivityTypeEntity
+
+```go
+activityType := client.ActivityType(nil)
+fmt.Println(activityType.GetName()) // "activity_type"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `[]any` | No |  |
+| `links` | `map[string]any` | No |  |
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.ActivityType(nil).Load(map[string]any{"workspace_slug": "workspace_slug"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `ActivityTypeEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
 ## MemberEntity
 
 ```go
@@ -100,39 +295,40 @@ fmt.Println(member.GetName()) // "member"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bio` | `string` | No |  |
+| `birthday` | `string` | No |  |
 | `company` | `string` | No |  |
-| `created_at` | `string` | No |  |
+| `data` | `[]any` | No |  |
+| `devto` | `string` | No | The member's DEV username |
+| `email` | `string` | No | The member's email |
+| `github` | `string` | No | The member's GitHub username |
 | `id` | `string` | No |  |
+| `identity` | `map[string]any` | Yes | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` | `[]any` | No |  |
+| `linkedin` | `string` | No | The member's LinkedIn username, without the in/ or pub/ |
+| `links` | `map[string]any` | No |  |
 | `location` | `string` | No |  |
-| `love` | `float64` | No |  |
+| `member` | `map[string]any` | No |  |
 | `name` | `string` | No |  |
-| `orbit_level` | `int` | No |  |
-| `reach` | `int` | No |  |
+| `pronouns` | `string` | No |  |
+| `shipping_address` | `string` | No |  |
 | `slug` | `string` | No |  |
-| `tags` | `[]any` | No |  |
-| `tags_to_add` | `string` | No |  |
+| `tag_list` | `string` | No | Deprecated: Please use the tags attribute instead |
+| `tags` | `string` | No | Replaces all tags for the member; comma-separated string or array |
+| `tags_to_add` | `string` | No | Adds tags to member; comma-separated string or array |
+| `teammate` | `bool` | No |  |
 | `title` | `string` | No |  |
+| `tshirt` | `string` | No |  |
+| `twitter` | `string` | No | The member's Twitter username |
+| `url` | `string` | No |  |
 
 ### Operations
-
-#### `List(reqmatch, ctrl map[string]any) (any, error)`
-
-List entities matching the given criteria. Returns an array.
-
-```go
-results, err := client.Member(nil).List(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(results)
-```
 
 #### `Load(reqmatch, ctrl map[string]any) (any, error)`
 
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Member(nil).Load(map[string]any{"id": "member_id", "workspace": "workspace"}, nil)
+result, err := client.Member(nil).Load(map[string]any{"id": "member_id", "workspace_slug": "workspace_slug"}, nil)
 if err != nil {
     panic(err)
 }
@@ -145,7 +341,8 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Member(nil).Create(map[string]any{
-    "workspace": "example_workspace",
+    "workspace_slug": "example_workspace_slug",
+    "identity": map[string]any{},
 }, nil)
 if err != nil {
     panic(err)
@@ -160,7 +357,7 @@ Update an existing entity. The data must include the entity `id`.
 ```go
 result, err := client.Member(nil).Update(map[string]any{
     "id": "member_id",
-    "workspace": "workspace",
+    "workspace_slug": "workspace_slug",
     // Fields to update
 }, nil)
 if err != nil {
@@ -174,7 +371,7 @@ fmt.Println(result)
 Remove the entity matching the given criteria.
 
 ```go
-result, err := client.Member(nil).Remove(map[string]any{"id": "member_id", "workspace": "workspace"}, nil)
+result, err := client.Member(nil).Remove(map[string]any{"id": "member_id", "workspace_slug": "workspace_slug"}, nil)
 if err != nil {
     panic(err)
 }
@@ -196,6 +393,431 @@ Get or set the entity match criteria. Works the same as `Data()`.
 #### `Make() Entity`
 
 Create a new `MemberEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## NoteEntity
+
+```go
+note := client.Note(nil)
+fmt.Println(note.GetName()) // "note"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `body` | `string` | Yes |  |
+| `data` | `[]any` | No |  |
+| `id` | `string` | No |  |
+| `included` | `[]any` | No |  |
+| `links` | `map[string]any` | No |  |
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.Note(nil).Load(map[string]any{"member_slug": "member_slug", "workspace_slug": "workspace_slug"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
+
+Create a new entity with the given data.
+
+```go
+result, err := client.Note(nil).Create(map[string]any{
+    "member_slug": "example_member_slug",
+    "workspace_slug": "example_workspace_slug",
+    "body": "example_body",
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+#### `Update(reqdata, ctrl map[string]any) (any, error)`
+
+Update an existing entity. The data must include the entity `id`.
+
+```go
+result, err := client.Note(nil).Update(map[string]any{
+    "id": "id",
+    "member_id": "member_id",
+    "workspace_slug": "workspace_slug",
+    // Fields to update
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `NoteEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## OrganizationEntity
+
+```go
+organization := client.Organization(nil)
+fmt.Println(organization.GetName()) // "organization"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `crm_uid` | `string` | No | The unique identifier of the organization in your CRM. |
+| `crm_url` | `string` | Yes | A link to the organization profile in your CRM. |
+| `data` | `[]any` | No |  |
+| `deal_closed_date` | `string` | No | The date the organization became a customer. |
+| `id` | `string` | No |  |
+| `lifecycle_stage` | `string` | Yes | The current stage of the organization in the marketing or sales process. |
+| `links` | `map[string]any` | No |  |
+| `owner_email` | `string` | No | The email of the team member who is in charge of the organization. |
+| `owner_name` | `string` | No | The name of the team member who is in charge of the organization. |
+| `price_plan` | `string` | No | The pricing plan the organization is on. |
+| `source` | `string` | Yes | The name of the CRM you use for tracking the organization. |
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.Organization(nil).Load(map[string]any{"id": "organization_id", "workspace_slug": "workspace_slug"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+#### `Update(reqdata, ctrl map[string]any) (any, error)`
+
+Update an existing entity. The data must include the entity `id`.
+
+```go
+result, err := client.Organization(nil).Update(map[string]any{
+    "id": "organization_id",
+    "workspace_slug": "workspace_slug",
+    // Fields to update
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `OrganizationEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## ReportEntity
+
+```go
+report := client.Report(nil)
+fmt.Println(report.GetName()) // "report"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `map[string]any` | No |  |
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.Report(nil).Load(map[string]any{"workspace_slug": "workspace_slug"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `ReportEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## UserEntity
+
+```go
+user := client.User(nil)
+fmt.Println(user.GetName()) // "user"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `map[string]any` | No |  |
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.User(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `UserEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## WebhookEntity
+
+```go
+webhook := client.Webhook(nil)
+fmt.Println(webhook.GetName()) // "webhook"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `activity_tags` | `[]any` | No |  |
+| `activity_types` | `[]any` | No |  |
+| `data` | `map[string]any` | No |  |
+| `event_type` | `string` | Yes |  |
+| `id` | `string` | No |  |
+| `links` | `map[string]any` | No |  |
+| `member_tags` | `[]any` | No |  |
+| `name` | `string` | Yes |  |
+| `secret` | `string` | No |  |
+| `url` | `string` | Yes |  |
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.Webhook(nil).Load(map[string]any{"id": "webhook_id", "workspace_slug": "workspace_slug"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
+
+Create a new entity with the given data.
+
+```go
+result, err := client.Webhook(nil).Create(map[string]any{
+    "workspace_slug": "example_workspace_slug",
+    "event_type": "example_event_type",
+    "name": "example_name",
+    "url": "example_url",
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+#### `Update(reqdata, ctrl map[string]any) (any, error)`
+
+Update an existing entity. The data must include the entity `id`.
+
+```go
+result, err := client.Webhook(nil).Update(map[string]any{
+    "id": "webhook_id",
+    "workspace_slug": "workspace_slug",
+    // Fields to update
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+#### `Remove(reqmatch, ctrl map[string]any) (any, error)`
+
+Remove the entity matching the given criteria.
+
+```go
+result, err := client.Webhook(nil).Remove(map[string]any{"id": "webhook_id", "workspace_slug": "workspace_slug"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `WebhookEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## WorkspaceEntity
+
+```go
+workspace := client.Workspace(nil)
+fmt.Println(workspace.GetName()) // "workspace"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `map[string]any` | No |  |
+| `id` | `string` | No |  |
+| `included` | `[]any` | No |  |
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.Workspace(nil).Load(map[string]any{"id": "workspace_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `WorkspaceEntity` instance with the same client and
 options.
 
 #### `GetName() string`

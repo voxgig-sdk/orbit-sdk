@@ -1,0 +1,81 @@
+# BasicWebhookFlow
+
+main: kit: flow: BasicWebhookFlow:
+{
+  entity: "webhook",
+  kind: "basic",
+  name: "BasicWebhookFlow",
+  step: [
+    {
+      input: {
+        ref: "webhook_ref01"
+      }
+
+      match: {
+        workspace_slug: "workspace_slug01"
+      }
+
+      op: "create"
+    }
+
+    {
+      data: {
+        workspace_slug: "workspace_slug01"
+      }
+
+      input: {
+        ref: "webhook_ref01",
+        srcdatavar: "webhook_ref01_data",
+        suffix: "_up0",
+        textfield: "event_type"
+      }
+
+      op: "update",
+      spec: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-webhook_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "webhook_ref01",
+        srcdatavar: "webhook_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "webhook01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-webhook_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "webhook_ref01",
+        suffix: "_rm0"
+      }
+
+      match: {
+        id: "webhook01",
+        workspace_slug: "workspace_slug01"
+      }
+
+      op: "remove"
+    }
+  ],
+  "key$": "BasicWebhookFlow"
+}

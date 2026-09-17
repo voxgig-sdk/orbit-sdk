@@ -1,7 +1,7 @@
 {
   "name": "@voxgig-sdk/orbit-js",
   "version": "0.0.1",
-  "description": "Unofficial generated JavaScript SDK for the Orbit Members public API. Not affiliated with or endorsed by the upstream API provider.",
+  "description": "Unofficial generated JavaScript SDK for the Orbit public API. Not affiliated with or endorsed by the upstream API provider.",
   "keywords": [
     "voxgig",
     "sdk",

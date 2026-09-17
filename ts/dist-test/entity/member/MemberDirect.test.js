@@ -36,37 +36,18 @@ const utility_1 = require("../../utility");
         const setup = directSetup({ id: 'direct01' });
         if ((0, utility_1.maybeSkipControl)(t, 'direct', 'direct-load-member', setup.live))
             return;
-        if ((0, utility_1.skipIfMissingIds)(t, setup, ["workspace01"]))
+        if ((0, utility_1.skipIfMissingIds)(t, setup, ["workspace_slug01"]))
             return;
         const { client, calls } = setup;
         const params = {};
         const query = {};
         if (setup.live) {
-            const listResult = await client.direct({
-                path: '{workspace}/members',
-                method: 'GET',
-                params: {
-                    workspace: setup.idmap['workspace01'],
-                },
-            });
-            (0, node_assert_1.default)(listResult.ok && listResult.status >= 200 && listResult.status < 300, 'Live list discovery failed');
-            const listArr = unwrapListData(listResult.data);
-            if (null == listArr || listArr.length === 0) {
-                throw new Error('Live load blocked: discovery returned no entities');
-            }
-            const candidateId = listArr[0]?.id ?? listArr[0]?.id;
-            if (null == candidateId) {
-                throw new Error('Live load blocked: discovery returned no usable identity');
-            }
-            params.id = candidateId;
-            params.workspace = setup.idmap['workspace01'];
         }
         else {
-            params.id = 'direct01';
-            params.workspace = 'direct02';
+            params.workspace_slug = 'direct01';
         }
         const result = await client.direct({
-            path: '{workspace}/members/{id}',
+            path: '{workspace_slug}/members',
             method: 'GET',
             params,
             query,
@@ -89,57 +70,6 @@ const utility_1 = require("../../utility");
             (0, node_assert_1.default)(result.status === 200);
             (0, node_assert_1.default)(null != result.data);
             (0, node_assert_1.default)(result.data.id === 'direct01');
-            (0, node_assert_1.default)(calls.length === 1);
-            (0, node_assert_1.default)(calls[0].init.method === 'GET');
-            (0, node_assert_1.default)(calls[0].url.includes('direct01'));
-            (0, node_assert_1.default)(calls[0].url.includes('direct02'));
-        }
-    });
-    (0, node_test_1.test)('direct-list-member', async (t) => {
-        if (liveScenariosActive()) {
-            t.skip('Covered by live operation scenarios');
-            return;
-        }
-        const setup = directSetup([{ id: 'direct01' }, { id: 'direct02' }]);
-        if ((0, utility_1.maybeSkipControl)(t, 'direct', 'direct-list-member', setup.live))
-            return;
-        if ((0, utility_1.skipIfMissingIds)(t, setup, ["workspace01"]))
-            return;
-        const { client, calls } = setup;
-        const params = {};
-        const query = {};
-        if (setup.live) {
-            params.workspace = setup.idmap['workspace01'];
-        }
-        else {
-            params.workspace = 'direct01';
-        }
-        const result = await client.direct({
-            path: '{workspace}/members',
-            method: 'GET',
-            params,
-            query,
-        });
-        if (setup.live) {
-            // STRICT live mode: a non-2xx is a real failure - this project owns
-            // the server it points at, so there is nothing to be lenient about.
-            //
-            // What is NOT asserted here is the MOCK's own fixtures. `direct01`
-            // is a scripted id and `calls` records the mock transport; neither
-            // exists on a live run, so asserting them made strict mode mean
-            // "compare the live server against the mock's script" - a suite that
-            // could not pass against any real API, including this project's own.
-            (0, node_assert_1.default)(result.ok === true, 'Live request failed: HTTP ' + result.status);
-            (0, node_assert_1.default)(result.status >= 200 && result.status < 300);
-            (0, node_assert_1.default)(Array.isArray(unwrapListData(result.data)), 'Expected live list response');
-        }
-        else {
-            (0, node_assert_1.default)(result.ok === true);
-            (0, node_assert_1.default)(result.status === 200);
-            (0, node_assert_1.default)(null != result.data);
-            const listArr = unwrapListData(result.data);
-            (0, node_assert_1.default)(Array.isArray(listArr));
-            (0, node_assert_1.default)(listArr.length === 2);
             (0, node_assert_1.default)(calls.length === 1);
             (0, node_assert_1.default)(calls[0].init.method === 'GET');
             (0, node_assert_1.default)(calls[0].url.includes('direct01'));

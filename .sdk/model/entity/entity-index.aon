@@ -1,3 +1,11 @@
 # Entity Models
 
-@"member.aon"
+@"./activity.aon"
+@"./activity_type.aon"
+@"./member.aon"
+@"./note.aon"
+@"./organization.aon"
+@"./report.aon"
+@"./user.aon"
+@"./webhook.aon"
+@"./workspace.aon"

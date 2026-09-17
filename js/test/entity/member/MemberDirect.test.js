@@ -40,28 +40,12 @@ describe('MemberDirect', async () => {
     const { client, calls } = setup
 
     const params = {}
-    if (setup.live) {
-      const listResult = await client.direct({
-        path: '{workspace}/members',
-        method: 'GET',
-        params: {
-        workspace: setup.idmap['workspace01'],
-        },
-      })
-      assert(listResult.ok === true)
-      const listData = listResult.data
-      if (!Array.isArray(listData) || listData.length === 0) {
-        throw new Error('Live load blocked: discovery returned no usable entities')
-      }
-      params.id = listData[0].id
-      params.workspace = setup.idmap['workspace01']
-    } else {
-      params.id = 'direct01'
-      params.workspace = 'direct02'
+    if (!setup.live) {
+      params.workspace_slug = 'direct01'
     }
 
     const result = await client.direct({
-      path: '{workspace}/members/{id}',
+      path: '{workspace_slug}/members',
       method: 'GET',
       params,
     })
@@ -72,37 +56,6 @@ describe('MemberDirect', async () => {
 
     if (!setup.live) {
       assert(result.data.id === 'direct01')
-      assert(calls.length === 1)
-      assert(calls[0].init.method === 'GET')
-      assert(calls[0].url.includes('direct01'))
-      assert(calls[0].url.includes('direct02'))
-    }
-  })
-
-  test('direct-list-member', async (t) => {
-    if (liveScenariosActive()) { t.skip('Covered by live operation scenarios'); return }
-    const setup = directSetup([{ id: 'direct01' }, { id: 'direct02' }])
-    const { client, calls } = setup
-
-    const params = {}
-    if (setup.live) {
-      params.workspace = setup.idmap['workspace01']
-    } else {
-      params.workspace = 'direct01'
-    }
-
-    const result = await client.direct({
-      path: '{workspace}/members',
-      method: 'GET',
-      params,
-    })
-
-    assert(result.ok === true)
-    assert(setup.live ? result.status >= 200 && result.status < 300 : result.status === 200)
-    assert(Array.isArray(result.data))
-
-    if (!setup.live) {
-      assert(result.data.length === 2)
       assert(calls.length === 1)
       assert(calls[0].init.method === 'GET')
       assert(calls[0].url.includes('direct01'))

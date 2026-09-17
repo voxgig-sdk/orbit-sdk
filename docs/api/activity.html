@@ -1,0 +1,1617 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Activity | Orbit API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">Orbit API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/orbit-sdk">voxgig-sdk/orbit-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Orbit API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a aria-current="page" href="../api/activity.html">Activity</a><div class="nav-sections"><a class="nav-section" href="#post-workspace_slugmembersmember_slugactivities">POST /{workspace_slug}/members/{member_slug}/activities</a>
+<a class="nav-section" href="#post-workspace_slugactivities">POST /{workspace_slug}/activities</a>
+<a class="nav-section" href="#get-workspace_slugactivities">GET /{workspace_slug}/activities</a>
+<a class="nav-section" href="#get-workspace_slugmembersmember_slugactivities">GET /{workspace_slug}/members/{member_slug}/activities</a>
+<a class="nav-section" href="#get-workspace_slugorganizationsorganization_idactivities">GET /{workspace_slug}/organizations/{organization_id}/activities</a>
+<a class="nav-section" href="#get-workspace_slugactivitiesid">GET /{workspace_slug}/activities/{id}</a>
+<a class="nav-section" href="#delete-workspace_slugmembersmember_slugactivitiesid">DELETE /{workspace_slug}/members/{member_slug}/activities/{id}</a>
+<a class="nav-section" href="#put-workspace_slugmembersmember_slugactivitiesid">PUT /{workspace_slug}/members/{member_slug}/activities/{id}</a></div>
+<a href="../api/activity_type.html">ActivityType</a>
+<a href="../api/member.html">Member</a>
+<a href="../api/note.html">Note</a>
+<a href="../api/organization.html">Organization</a>
+<a href="../api/report.html">Report</a>
+<a href="../api/user.html">User</a>
+<a href="../api/webhook.html">Webhook</a>
+<a href="../api/workspace.html">Workspace</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/js.html">JavaScript</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="activity">Activity</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-workspace_slugmembersmember_slugactivities"><code>/{workspace_slug}/members/{member_slug}/activities</code></a></td>
+<td><code>create</code></td>
+<td>success</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-workspace_slugactivities"><code>/{workspace_slug}/activities</code></a></td>
+<td><code>create</code></td>
+<td>success</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-workspace_slugactivities"><code>/{workspace_slug}/activities</code></a></td>
+<td><code>load</code></td>
+<td>success</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-workspace_slugmembersmember_slugactivities"><code>/{workspace_slug}/members/{member_slug}/activities</code></a></td>
+<td><code>load</code></td>
+<td>success</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-workspace_slugorganizationsorganization_idactivities"><code>/{workspace_slug}/organizations/{organization_id}/activities</code></a></td>
+<td><code>load</code></td>
+<td>success</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-workspace_slugactivitiesid"><code>/{workspace_slug}/activities/{id}</code></a></td>
+<td><code>load</code></td>
+<td>success</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><a href="#delete-workspace_slugmembersmember_slugactivitiesid"><code>/{workspace_slug}/members/{member_slug}/activities/{id}</code></a></td>
+<td><code>remove</code></td>
+<td>activity deleted</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><a href="#put-workspace_slugmembersmember_slugactivitiesid"><code>/{workspace_slug}/members/{member_slug}/activities/{id}</code></a></td>
+<td><code>update</code></td>
+<td>activity updated</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>activity</code></td>
+<td><code>any</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>activity_type</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The type of activity - what action was done by the member.</td>
+</tr>
+<tr>
+<td><code>activity_type_key</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The key for a custom activity type for the workspace.</td>
+</tr>
+<tr>
+<td><code>data</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A description of the activity; displayed in the timeline</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>identity</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>Represents an email address, a profile on networks like github and twitter, or a record in another system.</td>
+</tr>
+<tr>
+<td><code>included</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>key</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Supply a key that must be unique or leave blank to have one generated.</td>
+</tr>
+<tr>
+<td><code>link</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A URL for the activity; displayed in the timeline</td>
+</tr>
+<tr>
+<td><code>link_text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The text for the timeline link</td>
+</tr>
+<tr>
+<td><code>links</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>occurred_at</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The date and time the activity occurred; defaults to now</td>
+</tr>
+<tr>
+<td><code>properties</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Key-value pairs to provide contextual metadata about an activity.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A title for the activity; displayed in the timeline</td>
+</tr>
+<tr>
+<td><code>weight</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A custom weight to be used in filters and reports; defaults to 1.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-workspace_slugmembersmember_slugactivities" class="operation" data-method="post"><code>POST</code> /{workspace_slug}/members/{member_slug}/activities</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>member_slug</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<p>The request body is <code>object or object</code>.</p>
+<h4 id="responses">Responses</h4>
+<h5 id="201-success" class="status" data-status="2xx">201: success</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;attributes&quot;: {
+      &quot;action&quot;: &quot;happened&quot;,
+      &quot;created_at&quot;: &quot;2023-02-28T19:20:46.295Z&quot;,
+      &quot;custom_context&quot;: null,
+      &quot;custom_description&quot;: &quot;More info about the thing&quot;,
+      &quot;custom_link&quot;: &quot;http://link.com/&quot;,
+      &quot;custom_link_text&quot;: &quot;See the thing&quot;,
+      &quot;custom_title&quot;: &quot;Did a thing&quot;,
+      &quot;custom_type&quot;: &quot;custom-type&quot;,
+      &quot;key&quot;: &quot;thing-123&quot;,
+      &quot;occurred_at&quot;: &quot;2023-02-28T19:20:46.292Z&quot;,
+      &quot;orbit_url&quot;: &quot;http://localhost:3000/candycassin/activities/ZngsdG&quot;,
+      &quot;properties&quot;: {},
+      &quot;tags&quot;: [
+        &quot;product&quot;,
+        &quot;enterprise&quot;,
+        &quot;channel:custom&quot;,
+        &quot;custom_type:custom-type&quot;,
+        &quot;custom_title:did-a-thing&quot;
+      ],
+      &quot;type&quot;: &quot;CustomActivity&quot;,
+      &quot;updated_at&quot;: &quot;2023-02-28T19:20:46.295Z&quot;,
+      &quot;weight&quot;: &quot;8.0&quot;
+    },
+    &quot;id&quot;: &quot;ZngsdG&quot;,
+    &quot;relationships&quot;: {
+      &quot;activity_type&quot;: {
+        &quot;data&quot;: {
+          &quot;id&quot;: &quot;574seD&quot;,
+          &quot;type&quot;: &quot;activity_type&quot;
+        }
+      },
+      &quot;member&quot;: {
+        &quot;data&quot;: {
+          &quot;id&quot;: &quot;45PSyv&quot;,
+          &quot;type&quot;: &quot;member&quot;
+        }
+      },
+      &quot;user&quot;: {
+        &quot;data&quot;: {
+          &quot;id&quot;: &quot;l6pF69&quot;,
+          &quot;type&quot;: &quot;user&quot;
+        }
+      }
+    },
+    &quot;type&quot;: &quot;custom_activity&quot;
+  },
+  &quot;included&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;channel&quot;: &quot;custom&quot;,
+        &quot;key&quot;: &quot;custom:happened&quot;,
+        &quot;name&quot;: &quot;Something happened&quot;,
+        &quot;short_name&quot;: &quot;Custom&quot;,
+        &quot;source&quot;: &quot;custom&quot;,
+        &quot;weight&quot;: &quot;1.0&quot;
+      },
+      &quot;id&quot;: &quot;574seD&quot;,
+      &quot;type&quot;: &quot;activity_type&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;activities_count&quot;: 0,
+        &quot;activities_score&quot;: 0,
+        &quot;avatar_url&quot;: &quot;http://github.com/avatar.png&quot;,
+        &quot;bio&quot;: null,
+        &quot;birthday&quot;: null,
+        &quot;company&quot;: null,
+        &quot;created&quot;: false,
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:46.260Z&quot;,
+        &quot;deleted_at&quot;: null,
+        &quot;devto&quot;: null,
+        &quot;discord&quot;: null,
+        &quot;discourse&quot;: null,
+        &quot;email&quot;: null,
+        &quot;first_activity_occurred_at&quot;: null,
+        &quot;github&quot;: null,
+        &quot;github_followers&quot;: null,
+        &quot;id&quot;: &quot;45PSyv&quot;,
+        &quot;languages&quot;: null,
+        &quot;last_activity_occurred_at&quot;: null,
+        &quot;linkedin&quot;: null,
+        &quot;location&quot;: null,
+        &quot;love&quot;: null,
+        &quot;merged_at&quot;: null,
+        &quot;name&quot;: &quot;BurmaDibbert&quot;,
+        &quot;orbit_level&quot;: null,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/candycassin/members/burmadibbert&quot;,
+        &quot;pronouns&quot;: null,
+        &quot;reach&quot;: 0,
+        &quot;shipping_address&quot;: null,
+        &quot;slug&quot;: &quot;burmadibbert&quot;,
+        &quot;source&quot;: &quot;installation&quot;,
+        &quot;tag_list&quot;: [],
+        &quot;tags&quot;: [],
+        &quot;teammate&quot;: false,
+        &quot;title&quot;: null,
+        &quot;topics&quot;: null,
+        &quot;tshirt&quot;: null,
+        &quot;twitter&quot;: null,
+        &quot;twitter_followers&quot;: null,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:46.260Z&quot;,
+        &quot;url&quot;: null
+      },
+      &quot;id&quot;: &quot;45PSyv&quot;,
+      &quot;relationships&quot;: {
+        &quot;identities&quot;: {
+          &quot;data&quot;: []
+        },
+        &quot;organizations&quot;: {
+          &quot;data&quot;: []
+        }
+      },
+      &quot;type&quot;: &quot;member&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:46.270Z&quot;,
+        &quot;name&quot;: &quot;KennyMacGyver&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:46.275Z&quot;
+      },
+      &quot;id&quot;: &quot;l6pF69&quot;,
+      &quot;type&quot;: &quot;user&quot;
+    }
+  ]
+}
+</code></pre>
+<h5 id="403-forbidden" class="status" data-status="4xx">403: forbidden</h5>
+<h5 id="422-unprocessable-entity" class="status" data-status="4xx">422: unprocessable entity</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;errors&quot;: {
+    &quot;custom_title&quot;: [
+      &quot;can't be blank&quot;
+    ]
+  }
+}
+</code></pre>
+<h3 id="post-workspace_slugactivities" class="operation" data-method="post"><code>POST</code> /{workspace_slug}/activities</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
+<h4 id="request-body-1">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>activity</code></td>
+<td><code>object and object or object and object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>identity</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Represents an email address, a profile on networks like github and twitter, or a record in another system.</td>
+</tr>
+<tr>
+<td><code>identity.email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The email of the person in the source system</td>
+</tr>
+<tr>
+<td><code>identity.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the person in the source system</td>
+</tr>
+<tr>
+<td><code>identity.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The type of source: known values include github, twitter, discourse, email, linkedin, devto. Custom values can also be used</td>
+</tr>
+<tr>
+<td><code>identity.source_host</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Specifies the location of the source, such as the host of a Discourse instance</td>
+</tr>
+<tr>
+<td><code>identity.uid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The uid of the person in the source system</td>
+</tr>
+<tr>
+<td><code>identity.url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>For custom identities, an optional link to the profile on the source system</td>
+</tr>
+<tr>
+<td><code>identity.username</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The username of the person in the source system</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-1">Responses</h4>
+<h5 id="201-success-1" class="status" data-status="2xx">201: success</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;attributes&quot;: {
+      &quot;action&quot;: &quot;happened&quot;,
+      &quot;created_at&quot;: &quot;2023-02-28T19:20:41.694Z&quot;,
+      &quot;custom_context&quot;: null,
+      &quot;custom_description&quot;: &quot;More info about the thing&quot;,
+      &quot;custom_link&quot;: &quot;http://link.com/&quot;,
+      &quot;custom_link_text&quot;: &quot;See the thing&quot;,
+      &quot;custom_title&quot;: &quot;Did a thing&quot;,
+      &quot;custom_type&quot;: &quot;custom-type&quot;,
+      &quot;key&quot;: &quot;thing-123&quot;,
+      &quot;occurred_at&quot;: &quot;2023-02-28T19:20:41.689Z&quot;,
+      &quot;orbit_url&quot;: &quot;http://localhost:3000/chassidymertz/activities/6zoslV&quot;,
+      &quot;properties&quot;: {},
+      &quot;tags&quot;: [
+        &quot;product&quot;,
+        &quot;enterprise&quot;,
+        &quot;channel:custom&quot;,
+        &quot;custom_type:custom-type&quot;,
+        &quot;custom_title:did-a-thing&quot;
+      ],
+      &quot;type&quot;: &quot;CustomActivity&quot;,
+      &quot;updated_at&quot;: &quot;2023-02-28T19:20:41.694Z&quot;,
+      &quot;weight&quot;: &quot;0.2&quot;
+    },
+    &quot;id&quot;: &quot;6zoslV&quot;,
+    &quot;relationships&quot;: {
+      &quot;activity_type&quot;: {
+        &quot;data&quot;: {
+          &quot;id&quot;: &quot;574seD&quot;,
+          &quot;type&quot;: &quot;activity_type&quot;
+        }
+      },
+      &quot;member&quot;: {
+        &quot;data&quot;: {
+          &quot;id&quot;: &quot;r9nS0B&quot;,
+          &quot;type&quot;: &quot;member&quot;
+        }
+      },
+      &quot;user&quot;: {
+        &quot;data&quot;: {
+          &quot;id&quot;: &quot;DXKFEz&quot;,
+          &quot;type&quot;: &quot;user&quot;
+        }
+      }
+    },
+    &quot;type&quot;: &quot;custom_activity&quot;
+  },
+  &quot;included&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;channel&quot;: &quot;custom&quot;,
+        &quot;key&quot;: &quot;custom:happened&quot;,
+        &quot;name&quot;: &quot;Something happened&quot;,
+        &quot;short_name&quot;: &quot;Custom&quot;,
+        &quot;source&quot;: &quot;custom&quot;,
+        &quot;weight&quot;: &quot;1.0&quot;
+      },
+      &quot;id&quot;: &quot;574seD&quot;,
+      &quot;type&quot;: &quot;activity_type&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;email&quot;: null,
+        &quot;name&quot;: &quot;Josh Dzielak&quot;,
+        &quot;source&quot;: &quot;twitter&quot;,
+        &quot;source_host&quot;: &quot;twitter.com&quot;,
+        &quot;uid&quot;: &quot;45297280&quot;,
+        &quot;username&quot;: &quot;dzello&quot;
+      },
+      &quot;id&quot;: &quot;3YETv3&quot;,
+      &quot;type&quot;: &quot;twitter_identity&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;activities_count&quot;: 0,
+        &quot;activities_score&quot;: 0,
+        &quot;avatar_url&quot;: &quot;https://pbs.twimg.com/profile_images/1110162582143406080/vu7_kN8f.png&quot;,
+        &quot;bio&quot;: &quot;&lt;a href='https://dzello.com/blog/2020/05/30/black-lives-matter/' target='_blank'&gt;dzello.com/blog/2020/05/3…&lt;/a&gt; Co-founder &amp; CTO @OrbitModel · advocate for dev advocates 🥑 · formerly @algolia and @keen_io · Ruby · Rails · JAMstack · he/him&quot;,
+        &quot;birthday&quot;: null,
+        &quot;company&quot;: null,
+        &quot;created&quot;: true,
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:41.604Z&quot;,
+        &quot;deleted_at&quot;: null,
+        &quot;devto&quot;: null,
+        &quot;discord&quot;: null,
+        &quot;discourse&quot;: null,
+        &quot;email&quot;: null,
+        &quot;first_activity_occurred_at&quot;: null,
+        &quot;github&quot;: null,
+        &quot;github_followers&quot;: null,
+        &quot;id&quot;: &quot;r9nS0B&quot;,
+        &quot;languages&quot;: null,
+        &quot;last_activity_occurred_at&quot;: null,
+        &quot;linkedin&quot;: null,
+        &quot;location&quot;: &quot;Paris, France&quot;,
+        &quot;love&quot;: null,
+        &quot;merged_at&quot;: null,
+        &quot;name&quot;: &quot;Josh Dzielak&quot;,
+        &quot;orbit_level&quot;: null,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/chassidymertz/members/dzello&quot;,
+        &quot;pronouns&quot;: null,
+        &quot;reach&quot;: 8,
+        &quot;shipping_address&quot;: null,
+        &quot;slug&quot;: &quot;dzello&quot;,
+        &quot;source&quot;: &quot;api&quot;,
+        &quot;tag_list&quot;: [
+          &quot;one&quot;,
+          &quot;two&quot;
+        ],
+        &quot;tags&quot;: [
+          &quot;one&quot;,
+          &quot;two&quot;
+        ],
+        &quot;teammate&quot;: false,
+        &quot;title&quot;: null,
+        &quot;topics&quot;: null,
+        &quot;tshirt&quot;: null,
+        &quot;twitter&quot;: &quot;dzello&quot;,
+        &quot;twitter_followers&quot;: 4598,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:41.627Z&quot;,
+        &quot;url&quot;: &quot;https://dzello.com/blog/2020/05/30/black-lives-matter/&quot;
+      },
+      &quot;id&quot;: &quot;r9nS0B&quot;,
+      &quot;relationships&quot;: {
+        &quot;identities&quot;: {
+          &quot;data&quot;: [
+            {
+              &quot;id&quot;: &quot;3YETv3&quot;,
+              &quot;type&quot;: &quot;twitter_identity&quot;
+            }
+          ]
+        },
+        &quot;organizations&quot;: {
+          &quot;data&quot;: []
+        }
+      },
+      &quot;type&quot;: &quot;member&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:41.523Z&quot;,
+        &quot;name&quot;: &quot;LoreleiSchmelerIV&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:41.528Z&quot;
+      },
+      &quot;id&quot;: &quot;DXKFEz&quot;,
+      &quot;type&quot;: &quot;user&quot;
+    }
+  ]
+}
+</code></pre>
+<h5 id="403-forbidden-1" class="status" data-status="4xx">403: forbidden</h5>
+<h5 id="422-unprocessable" class="status" data-status="4xx">422: unprocessable</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;errors&quot;: {
+    &quot;base&quot;: [
+      &quot;Either identity or member name, email, GitHub, Twitter or Discourse is required&quot;
+    ]
+  }
+}
+</code></pre>
+<h2 id="load">load</h2>
+<h3 id="get-workspace_slugactivities" class="operation" data-method="get"><code>GET</code> /{workspace_slug}/activities</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-2">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>affiliation</code> | <code>query</code> | <code>enum: member, teammate</code> | No |  |
+| <code>member_tags</code> | <code>query</code> | <code>string</code> | No | The list of tags to filter against. Separate tags with <code>,</code> to do an intersection (AND), or with <code>\|</code> to do a union (OR) |
+| <code>orbit</code> | <code>query</code> | <code>string</code> | No | The list of orbit levels to filter against. Accepted values are 1, 2, 3, 4, n. In the request, a format like <code>23</code> would include levels 2 and 3. <code>n</code> is for members with no orbit level. |
+| <code>activity_type</code> | <code>query</code> | <code>enum: discourse:topic:created, discourse:post:liked, discourse:user:created, discourse:post:created, slack:message:sent, slack:thread:replied, ...</code> | No | Comma separated list of activity types |
+| <code>identity</code> | <code>query</code> | <code>enum: github, twitter, email, discourse, linkedin, devto, ...</code> | No |  |
+| <code>company[]</code> | <code>query</code> | <code>string</code> | No | Comma separated list of companies. The union (OR) of companies is applied. |
+| <code>title[]</code> | <code>query</code> | <code>string</code> | No | Comma separated list of job titles. The union (OR) of job titles is applied. |
+| <code>regions[]</code> | <code>query</code> | <code>string</code> | No | Comma separated list of regions. The union (OR) of regions is applied. |
+| <code>countries[]</code> | <code>query</code> | <code>string</code> | No | Comma separated list of countries. The union (OR) of countries is applied. |
+| <code>cities[]</code> | <code>query</code> | <code>string</code> | No | Comma separated list of cities. The union (OR) of cities is applied. |
+| <code>start_date</code> | <code>query</code> | <code>string</code> | No | Filter activities after this date. Format: YYYY-MM-DD. |
+| <code>end_date</code> | <code>query</code> | <code>string</code> | No | Filter activities before this date. Format: YYYY-MM-DD. |
+| <code>relative</code> | <code>query</code> | <code>string</code> | No | Relative timeframes. Format: this_&lt;integer&gt;_&lt;period&gt;, with period in [days, weeks, months, years]. For example, this_30_days. |
+| <code>page</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>direction</code> | <code>query</code> | <code>enum: ASC, DESC</code> | No |  |
+| <code>items</code> | <code>query</code> | <code>enum: 10, 50, 100</code> | No |  |
+| <code>sort</code> | <code>query</code> | <code>enum: occurred_at, member</code> | No |  |
+| <code>type</code> | <code>query</code> | <code>string</code> | No | Deprecated in favor of the activity_type parameter. |</p>
+<h4 id="responses-2">Responses</h4>
+<h5 id="200-success" class="status" data-status="2xx">200: success</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;action&quot;: &quot;opened&quot;,
+        &quot;activity_link&quot;: &quot;https://github.com/&quot;,
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:38.155Z&quot;,
+        &quot;g_created_at&quot;: &quot;2023-02-28T20:20:38.152+01:00&quot;,
+        &quot;g_html_url&quot;: &quot;https://github.com/&quot;,
+        &quot;g_number&quot;: 9,
+        &quot;g_title&quot;: &quot;Cool issue title!&quot;,
+        &quot;is_pull_request&quot;: null,
+        &quot;key&quot;: &quot;makeda/eugenio#9&quot;,
+        &quot;occurred_at&quot;: &quot;2023-02-28T19:20:38.152Z&quot;,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/stacierau/activities/63rsLp&quot;,
+        &quot;properties&quot;: {
+          &quot;github_issue&quot;: &quot;makeda/eugenio/#9&quot;,
+          &quot;github_organization&quot;: &quot;makeda&quot;,
+          &quot;github_repository&quot;: &quot;makeda/eugenio&quot;
+        },
+        &quot;tags&quot;: [
+          &quot;channel:github&quot;,
+          &quot;github_organization:makeda&quot;,
+          &quot;github_repository:makeda/eugenio&quot;,
+          &quot;github_issue:makeda/eugenio/#9&quot;
+        ],
+        &quot;type&quot;: &quot;IssueActivity&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:38.155Z&quot;,
+        &quot;weight&quot;: &quot;1.0&quot;
+      },
+      &quot;id&quot;: &quot;63rsLp&quot;,
+      &quot;relationships&quot;: {
+        &quot;activity_type&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;la4sVD&quot;,
+            &quot;type&quot;: &quot;activity_type&quot;
+          }
+        },
+        &quot;member&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;By3S5j&quot;,
+            &quot;type&quot;: &quot;member&quot;
+          }
+        },
+        &quot;repository&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;jP8TMj&quot;,
+            &quot;type&quot;: &quot;repository&quot;
+          }
+        }
+      },
+      &quot;type&quot;: &quot;issue_activity&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;action&quot;: &quot;opened&quot;,
+        &quot;activity_link&quot;: &quot;https://github.com/&quot;,
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:38.097Z&quot;,
+        &quot;g_created_at&quot;: &quot;2023-02-28T20:20:38.088+01:00&quot;,
+        &quot;g_html_url&quot;: &quot;https://github.com/&quot;,
+        &quot;g_merged&quot;: true,
+        &quot;g_merged_at&quot;: null,
+        &quot;g_merged_by&quot;: null,
+        &quot;g_number&quot;: 92,
+        &quot;g_title&quot;: &quot;Cool PR title!&quot;,
+        &quot;is_pull_request&quot;: null,
+        &quot;key&quot;: &quot;carlos/julianfisher#92&quot;,
+        &quot;occurred_at&quot;: &quot;2023-02-28T19:20:38.088Z&quot;,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/stacierau/activities/V5YsvV&quot;,
+        &quot;properties&quot;: {
+          &quot;github_organization&quot;: &quot;carlos&quot;,
+          &quot;github_pull_request&quot;: &quot;carlos/julianfisher/#92&quot;,
+          &quot;github_repository&quot;: &quot;carlos/julianfisher&quot;
+        },
+        &quot;tags&quot;: [
+          &quot;channel:github&quot;,
+          &quot;github_organization:carlos&quot;,
+          &quot;github_repository:carlos/julianfisher&quot;,
+          &quot;github_pull_request:carlos/julianfisher/#92&quot;
+        ],
+        &quot;type&quot;: &quot;PullRequestActivity&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:38.097Z&quot;,
+        &quot;weight&quot;: &quot;1.0&quot;
+      },
+      &quot;id&quot;: &quot;V5YsvV&quot;,
+      &quot;relationships&quot;: {
+        &quot;activity_type&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;lnrs0l&quot;,
+            &quot;type&quot;: &quot;activity_type&quot;
+          }
+        },
+        &quot;member&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;By3S5j&quot;,
+            &quot;type&quot;: &quot;member&quot;
+          }
+        },
+        &quot;repository&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;6l3Tz9&quot;,
+            &quot;type&quot;: &quot;repository&quot;
+          }
+        }
+      },
+      &quot;type&quot;: &quot;pull_request_activity&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;action&quot;: &quot;spec_action&quot;,
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:38.013Z&quot;,
+        &quot;key&quot;: &quot;clé&quot;,
+        &quot;occurred_at&quot;: &quot;2023-02-28T19:20:38.011Z&quot;,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/stacierau/activities/6a4sBp&quot;,
+        &quot;properties&quot;: {
+          &quot;prop_1&quot;: &quot;value_1&quot;,
+          &quot;prop_2&quot;: &quot;value_2&quot;
+        },
+        &quot;tags&quot;: [
+          &quot;spec-tag-1&quot;,
+          &quot;spec-tag-2&quot;
+        ],
+        &quot;type&quot;: &quot;SpecActivity&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:38.013Z&quot;,
+        &quot;weight&quot;: &quot;1.0&quot;
+      },
+      &quot;id&quot;: &quot;6a4sBp&quot;,
+      &quot;relationships&quot;: {
+        &quot;activity_type&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;D2Esq5&quot;,
+            &quot;type&quot;: &quot;activity_type&quot;
+          }
+        },
+        &quot;member&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;By3S5j&quot;,
+            &quot;type&quot;: &quot;member&quot;
+          }
+        },
+        &quot;repository&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;jBlTg9&quot;,
+            &quot;type&quot;: &quot;repository&quot;
+          }
+        }
+      },
+      &quot;type&quot;: &quot;spec_activity&quot;
+    }
+  ],
+  &quot;included&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;channel&quot;: &quot;github&quot;,
+        &quot;key&quot;: &quot;issues:opened&quot;,
+        &quot;name&quot;: &quot;Opened an issue&quot;,
+        &quot;short_name&quot;: &quot;Issue opened&quot;,
+        &quot;source&quot;: &quot;github&quot;,
+        &quot;weight&quot;: &quot;6.0&quot;
+      },
+      &quot;id&quot;: &quot;la4sVD&quot;,
+      &quot;type&quot;: &quot;activity_type&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;activities_count&quot;: 0,
+        &quot;activities_score&quot;: 0,
+        &quot;avatar_url&quot;: &quot;http://github.com/avatar.png&quot;,
+        &quot;bio&quot;: null,
+        &quot;birthday&quot;: null,
+        &quot;company&quot;: null,
+        &quot;created&quot;: false,
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:37.968Z&quot;,
+        &quot;deleted_at&quot;: null,
+        &quot;devto&quot;: null,
+        &quot;discord&quot;: null,
+        &quot;discourse&quot;: null,
+        &quot;email&quot;: null,
+        &quot;first_activity_occurred_at&quot;: null,
+        &quot;github&quot;: null,
+        &quot;github_followers&quot;: null,
+        &quot;id&quot;: &quot;By3S5j&quot;,
+        &quot;languages&quot;: null,
+        &quot;last_activity_occurred_at&quot;: null,
+        &quot;linkedin&quot;: null,
+        &quot;location&quot;: null,
+        &quot;love&quot;: null,
+        &quot;merged_at&quot;: null,
+        &quot;name&quot;: &quot;WaylonOsinski&quot;,
+        &quot;orbit_level&quot;: null,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/stacierau/members/waylonosinski&quot;,
+        &quot;pronouns&quot;: null,
+        &quot;reach&quot;: 0,
+        &quot;shipping_address&quot;: null,
+        &quot;slug&quot;: &quot;waylonosinski&quot;,
+        &quot;source&quot;: &quot;installation&quot;,
+        &quot;tag_list&quot;: [
+          &quot;ruby&quot;
+        ],
+        &quot;tags&quot;: [
+          &quot;ruby&quot;
+        ],
+        &quot;teammate&quot;: false,
+        &quot;title&quot;: null,
+        &quot;topics&quot;: null,
+        &quot;tshirt&quot;: null,
+        &quot;twitter&quot;: null,
+        &quot;twitter_followers&quot;: null,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:37.968Z&quot;,
+        &quot;url&quot;: null
+      },
+      &quot;id&quot;: &quot;By3S5j&quot;,
+      &quot;relationships&quot;: {
+        &quot;identities&quot;: {
+          &quot;data&quot;: []
+        },
+        &quot;organizations&quot;: {
+          &quot;data&quot;: []
+        }
+      },
+      &quot;type&quot;: &quot;member&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:38.151Z&quot;,
+        &quot;full_name&quot;: &quot;karitremblay/alia&quot;,
+        &quot;name&quot;: &quot;alia&quot;,
+        &quot;owner&quot;: &quot;karitremblay&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:38.151Z&quot;
+      },
+      &quot;id&quot;: &quot;jP8TMj&quot;,
+      &quot;type&quot;: &quot;repository&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;channel&quot;: &quot;mysource&quot;,
+        &quot;key&quot;: &quot;spec:happened:1&quot;,
+        &quot;name&quot;: &quot;praise Mysource 3&quot;,
+        &quot;short_name&quot;: &quot;Spec Channel&quot;,
+        &quot;source&quot;: &quot;mysource&quot;,
+        &quot;weight&quot;: &quot;1.0&quot;
+      },
+      &quot;id&quot;: &quot;lnrs0l&quot;,
+      &quot;type&quot;: &quot;activity_type&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:38.078Z&quot;,
+        &quot;full_name&quot;: &quot;cedric/heike&quot;,
+        &quot;name&quot;: &quot;heike&quot;,
+        &quot;owner&quot;: &quot;cedric&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:38.078Z&quot;
+      },
+      &quot;id&quot;: &quot;6l3Tz9&quot;,
+      &quot;type&quot;: &quot;repository&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;channel&quot;: &quot;mysource&quot;,
+        &quot;key&quot;: &quot;spec_activity_type_key&quot;,
+        &quot;name&quot;: &quot;win Mysource 2&quot;,
+        &quot;short_name&quot;: &quot;Spec Channel&quot;,
+        &quot;source&quot;: &quot;mysource&quot;,
+        &quot;weight&quot;: &quot;1.0&quot;
+      },
+      &quot;id&quot;: &quot;D2Esq5&quot;,
+      &quot;type&quot;: &quot;activity_type&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:37.992Z&quot;,
+        &quot;full_name&quot;: &quot;orbit-love/orbit-model&quot;,
+        &quot;name&quot;: &quot;natalya&quot;,
+        &quot;owner&quot;: &quot;jacintoraynor&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:37.992Z&quot;
+      },
+      &quot;id&quot;: &quot;jBlTg9&quot;,
+      &quot;type&quot;: &quot;repository&quot;
+    }
+  ],
+  &quot;links&quot;: {
+    &quot;first&quot;: &quot;http://localhost:3000/api/v1/stacierau/activities?activity_type=&amp;affiliation=&amp;cities%5B%5D=&amp;company%5B%5D=&amp;countries%5B%5D=&amp;direction=DESC&amp;end_date=&amp;filters=true&amp;identity=&amp;items=10&amp;member_tags=&amp;orbit=&amp;page=1&amp;regions%5B%5D=&amp;relative=&amp;sort=occurred_at&amp;start_date=&amp;title%5B%5D=&amp;workspace=stacierau&quot;,
+    &quot;next&quot;: null,
+    &quot;prev&quot;: null
+  }
+}
+</code></pre>
+<h3 id="get-workspace_slugmembersmember_slugactivities" class="operation" data-method="get"><code>GET</code> /{workspace_slug}/members/{member_slug}/activities</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-3">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>member_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>page</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>direction</code> | <code>query</code> | <code>enum: ASC, DESC</code> | No |  |
+| <code>items</code> | <code>query</code> | <code>enum: 10, 50, 100</code> | No |  |
+| <code>sort</code> | <code>query</code> | <code>enum: occurred_at, member</code> | No |  |
+| <code>activity_type</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>type</code> | <code>query</code> | <code>string</code> | No | Deprecated in favor of the activity_type parameter. |</p>
+<h4 id="responses-3">Responses</h4>
+<h5 id="200-success-1" class="status" data-status="2xx">200: success</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;action&quot;: &quot;spec_action&quot;,
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:45.066Z&quot;,
+        &quot;key&quot;: &quot;clé&quot;,
+        &quot;occurred_at&quot;: &quot;2023-02-28T19:20:45.064Z&quot;,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/deangelokovacek/activities/VlEsOe&quot;,
+        &quot;properties&quot;: {
+          &quot;prop_1&quot;: &quot;value_1&quot;,
+          &quot;prop_2&quot;: &quot;value_2&quot;
+        },
+        &quot;tags&quot;: [
+          &quot;spec-tag-1&quot;,
+          &quot;spec-tag-2&quot;
+        ],
+        &quot;type&quot;: &quot;SpecActivity&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:45.066Z&quot;,
+        &quot;weight&quot;: &quot;1.0&quot;
+      },
+      &quot;id&quot;: &quot;VlEsOe&quot;,
+      &quot;relationships&quot;: {
+        &quot;activity_type&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;oQQsBb&quot;,
+            &quot;type&quot;: &quot;activity_type&quot;
+          }
+        },
+        &quot;member&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;BloSvr&quot;,
+            &quot;type&quot;: &quot;member&quot;
+          }
+        }
+      },
+      &quot;type&quot;: &quot;spec_activity&quot;
+    }
+  ],
+  &quot;included&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;channel&quot;: &quot;mysource&quot;,
+        &quot;key&quot;: &quot;spec:activity&quot;,
+        &quot;name&quot;: &quot;calculate Mysource 34&quot;,
+        &quot;short_name&quot;: &quot;Spec Channel&quot;,
+        &quot;source&quot;: &quot;mysource&quot;,
+        &quot;weight&quot;: &quot;1.0&quot;
+      },
+      &quot;id&quot;: &quot;oQQsBb&quot;,
+      &quot;type&quot;: &quot;activity_type&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;activities_count&quot;: 0,
+        &quot;activities_score&quot;: 0,
+        &quot;avatar_url&quot;: &quot;http://github.com/avatar.png&quot;,
+        &quot;bio&quot;: null,
+        &quot;birthday&quot;: null,
+        &quot;company&quot;: null,
+        &quot;created&quot;: false,
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:45.004Z&quot;,
+        &quot;deleted_at&quot;: null,
+        &quot;devto&quot;: null,
+        &quot;discord&quot;: null,
+        &quot;discourse&quot;: null,
+        &quot;email&quot;: null,
+        &quot;first_activity_occurred_at&quot;: null,
+        &quot;github&quot;: null,
+        &quot;github_followers&quot;: null,
+        &quot;id&quot;: &quot;BloSvr&quot;,
+        &quot;languages&quot;: null,
+        &quot;last_activity_occurred_at&quot;: null,
+        &quot;linkedin&quot;: null,
+        &quot;location&quot;: null,
+        &quot;love&quot;: null,
+        &quot;merged_at&quot;: null,
+        &quot;name&quot;: &quot;LoiseRoberts&quot;,
+        &quot;orbit_level&quot;: null,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/deangelokovacek/members/loiseroberts&quot;,
+        &quot;pronouns&quot;: null,
+        &quot;reach&quot;: 0,
+        &quot;shipping_address&quot;: null,
+        &quot;slug&quot;: &quot;loiseroberts&quot;,
+        &quot;source&quot;: &quot;installation&quot;,
+        &quot;tag_list&quot;: [],
+        &quot;tags&quot;: [],
+        &quot;teammate&quot;: false,
+        &quot;title&quot;: null,
+        &quot;topics&quot;: null,
+        &quot;tshirt&quot;: null,
+        &quot;twitter&quot;: null,
+        &quot;twitter_followers&quot;: null,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:45.004Z&quot;,
+        &quot;url&quot;: null
+      },
+      &quot;id&quot;: &quot;BloSvr&quot;,
+      &quot;relationships&quot;: {
+        &quot;identities&quot;: {
+          &quot;data&quot;: []
+        },
+        &quot;organizations&quot;: {
+          &quot;data&quot;: []
+        }
+      },
+      &quot;type&quot;: &quot;member&quot;
+    }
+  ],
+  &quot;links&quot;: {
+    &quot;first&quot;: &quot;/deangelokovacek/members/loiseroberts/activities?page=1&amp;direction=DESC&amp;items=10&amp;sort=occurred_at&amp;activity_type=spec%3Aactivity&amp;type=&quot;,
+    &quot;last&quot;: &quot;/deangelokovacek/members/loiseroberts/activities?page=1&amp;direction=DESC&amp;items=10&amp;sort=occurred_at&amp;activity_type=spec%3Aactivity&amp;type=&quot;,
+    &quot;next&quot;: null,
+    &quot;prev&quot;: null
+  }
+}
+</code></pre>
+<h3 id="get-workspace_slugorganizationsorganization_idactivities" class="operation" data-method="get"><code>GET</code> /{workspace_slug}/organizations/{organization_id}/activities</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-4">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>organization_id</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>page</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>direction</code> | <code>query</code> | <code>enum: ASC, DESC</code> | No |  |
+| <code>items</code> | <code>query</code> | <code>enum: 10, 50, 100</code> | No |  |
+| <code>sort</code> | <code>query</code> | <code>enum: occurred_at, member</code> | No |  |
+| <code>activity_type</code> | <code>query</code> | <code>enum: content, custom, discord, discourse, github, slack, ...</code> | No |  |</p>
+<h4 id="responses-4">Responses</h4>
+<h5 id="200-success-2" class="status" data-status="2xx">200: success</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;action&quot;: &quot;sent&quot;,
+        &quot;activity_link&quot;: &quot;https://discord.com/channels/823735870825037844/823735870825037847/9224118976&quot;,
+        &quot;created_at&quot;: &quot;2023-02-28T19:21:08.732Z&quot;,
+        &quot;key&quot;: &quot;9224118976&quot;,
+        &quot;occurred_at&quot;: &quot;2023-02-27T19:21:08.701Z&quot;,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/trinaspencerii/activities/pjLsLQ&quot;,
+        &quot;properties&quot;: {
+          &quot;discord_channel&quot;: &quot;general&quot;,
+          &quot;discord_server&quot;: &quot;Orbit-Sandbox&quot;
+        },
+        &quot;tags&quot;: [
+          &quot;channel:discord&quot;,
+          &quot;discord_server:Orbit Sandbox&quot;,
+          &quot;discord_channel:general&quot;
+        ],
+        &quot;type&quot;: &quot;DiscordMessageSentActivity&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:21:08.732Z&quot;,
+        &quot;weight&quot;: &quot;0.5&quot;
+      },
+      &quot;id&quot;: &quot;pjLsLQ&quot;,
+      &quot;relationships&quot;: {
+        &quot;activity_type&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;DzaseX&quot;,
+            &quot;type&quot;: &quot;activity_type&quot;
+          }
+        },
+        &quot;member&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;BwNSO9&quot;,
+            &quot;type&quot;: &quot;member&quot;
+          }
+        }
+      },
+      &quot;type&quot;: &quot;discord_message_sent_activity&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;action&quot;: &quot;sent&quot;,
+        &quot;activity_link&quot;: &quot;https://discord.com/channels/823735870825037844/823735870825037847/9839402447&quot;,
+        &quot;created_at&quot;: &quot;2023-02-28T19:21:08.838Z&quot;,
+        &quot;key&quot;: &quot;9839402447&quot;,
+        &quot;occurred_at&quot;: &quot;2023-02-26T19:21:08.817Z&quot;,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/trinaspencerii/activities/6ARs9g&quot;,
+        &quot;properties&quot;: {
+          &quot;discord_channel&quot;: &quot;general&quot;,
+          &quot;discord_server&quot;: &quot;Orbit-Sandbox&quot;
+        },
+        &quot;tags&quot;: [
+          &quot;channel:discord&quot;,
+          &quot;discord_server:Orbit Sandbox&quot;,
+          &quot;discord_channel:general&quot;
+        ],
+        &quot;type&quot;: &quot;DiscordMessageSentActivity&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:21:08.838Z&quot;,
+        &quot;weight&quot;: &quot;0.5&quot;
+      },
+      &quot;id&quot;: &quot;6ARs9g&quot;,
+      &quot;relationships&quot;: {
+        &quot;activity_type&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;DzaseX&quot;,
+            &quot;type&quot;: &quot;activity_type&quot;
+          }
+        },
+        &quot;member&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;r9nSZ9&quot;,
+            &quot;type&quot;: &quot;member&quot;
+          }
+        }
+      },
+      &quot;type&quot;: &quot;discord_message_sent_activity&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;action&quot;: &quot;created&quot;,
+        &quot;activity_link&quot;: &quot;https://github.com/buckhudson/nadinequigley&quot;,
+        &quot;created_at&quot;: &quot;2023-02-28T19:21:08.797Z&quot;,
+        &quot;key&quot;: &quot;github_activity_key:9&quot;,
+        &quot;occurred_at&quot;: &quot;2023-02-25T19:21:08.747Z&quot;,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/trinaspencerii/activities/VWesGO&quot;,
+        &quot;properties&quot;: {
+          &quot;github_organization&quot;: &quot;buckhudson&quot;,
+          &quot;github_repository&quot;: &quot;buckhudson/nadinequigley&quot;
+        },
+        &quot;tags&quot;: [
+          &quot;channel:github&quot;,
+          &quot;github_organization:buckhudson&quot;,
+          &quot;github_repository:buckhudson/nadinequigley&quot;
+        ],
+        &quot;type&quot;: &quot;GithubActivity&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:21:08.797Z&quot;,
+        &quot;weight&quot;: &quot;1.0&quot;
+      },
+      &quot;id&quot;: &quot;VWesGO&quot;,
+      &quot;relationships&quot;: {
+        &quot;activity_type&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;owxs43&quot;,
+            &quot;type&quot;: &quot;activity_type&quot;
+          }
+        },
+        &quot;member&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;BwNSO9&quot;,
+            &quot;type&quot;: &quot;member&quot;
+          }
+        },
+        &quot;repository&quot;: {
+          &quot;data&quot;: {
+            &quot;id&quot;: &quot;9mPTrn&quot;,
+            &quot;type&quot;: &quot;repository&quot;
+          }
+        }
+      },
+      &quot;type&quot;: &quot;github_activity&quot;
+    }
+  ],
+  &quot;included&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;channel&quot;: &quot;discord&quot;,
+        &quot;key&quot;: &quot;discord:message:sent&quot;,
+        &quot;name&quot;: &quot;Sent a message in Discord&quot;,
+        &quot;short_name&quot;: &quot;Discord message&quot;,
+        &quot;source&quot;: &quot;discord&quot;,
+        &quot;weight&quot;: &quot;1.0&quot;
+      },
+      &quot;id&quot;: &quot;DzaseX&quot;,
+      &quot;type&quot;: &quot;activity_type&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;activities_count&quot;: 0,
+        &quot;activities_score&quot;: 0,
+        &quot;avatar_url&quot;: &quot;http://github.com/avatar.png&quot;,
+        &quot;bio&quot;: null,
+        &quot;birthday&quot;: null,
+        &quot;company&quot;: null,
+        &quot;created&quot;: false,
+        &quot;created_at&quot;: &quot;2023-02-28T19:21:08.692Z&quot;,
+        &quot;deleted_at&quot;: null,
+        &quot;devto&quot;: null,
+        &quot;discord&quot;: null,
+        &quot;discourse&quot;: null,
+        &quot;email&quot;: null,
+        &quot;first_activity_occurred_at&quot;: null,
+        &quot;github&quot;: null,
+        &quot;github_followers&quot;: null,
+        &quot;id&quot;: &quot;BwNSO9&quot;,
+        &quot;languages&quot;: null,
+        &quot;last_activity_occurred_at&quot;: null,
+        &quot;linkedin&quot;: null,
+        &quot;location&quot;: null,
+        &quot;love&quot;: null,
+        &quot;merged_at&quot;: null,
+        &quot;name&quot;: &quot;John Doe&quot;,
+        &quot;orbit_level&quot;: null,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/trinaspencerii/members/john-doe&quot;,
+        &quot;pronouns&quot;: null,
+        &quot;reach&quot;: 0,
+        &quot;shipping_address&quot;: null,
+        &quot;slug&quot;: &quot;john-doe&quot;,
+        &quot;source&quot;: &quot;installation&quot;,
+        &quot;tag_list&quot;: [],
+        &quot;tags&quot;: [],
+        &quot;teammate&quot;: false,
+        &quot;title&quot;: null,
+        &quot;topics&quot;: null,
+        &quot;tshirt&quot;: null,
+        &quot;twitter&quot;: null,
+        &quot;twitter_followers&quot;: null,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:21:08.692Z&quot;,
+        &quot;url&quot;: null
+      },
+      &quot;id&quot;: &quot;BwNSO9&quot;,
+      &quot;relationships&quot;: {
+        &quot;identities&quot;: {
+          &quot;data&quot;: []
+        },
+        &quot;organizations&quot;: {
+          &quot;data&quot;: [
+            {
+              &quot;id&quot;: &quot;nb0FmD&quot;,
+              &quot;type&quot;: &quot;organization&quot;
+            }
+          ]
+        }
+      },
+      &quot;type&quot;: &quot;member&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;activities_count&quot;: 0,
+        &quot;activities_score&quot;: 0,
+        &quot;avatar_url&quot;: &quot;http://github.com/avatar.png&quot;,
+        &quot;bio&quot;: null,
+        &quot;birthday&quot;: null,
+        &quot;company&quot;: null,
+        &quot;created&quot;: false,
+        &quot;created_at&quot;: &quot;2023-02-28T19:21:08.809Z&quot;,
+        &quot;deleted_at&quot;: null,
+        &quot;devto&quot;: null,
+        &quot;discord&quot;: null,
+        &quot;discourse&quot;: null,
+        &quot;email&quot;: null,
+        &quot;first_activity_occurred_at&quot;: null,
+        &quot;github&quot;: null,
+        &quot;github_followers&quot;: null,
+        &quot;id&quot;: &quot;r9nSZ9&quot;,
+        &quot;languages&quot;: null,
+        &quot;last_activity_occurred_at&quot;: null,
+        &quot;linkedin&quot;: null,
+        &quot;location&quot;: null,
+        &quot;love&quot;: null,
+        &quot;merged_at&quot;: null,
+        &quot;name&quot;: &quot;Jane Smith&quot;,
+        &quot;orbit_level&quot;: null,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/trinaspencerii/members/jane-smith&quot;,
+        &quot;pronouns&quot;: null,
+        &quot;reach&quot;: 0,
+        &quot;shipping_address&quot;: null,
+        &quot;slug&quot;: &quot;jane-smith&quot;,
+        &quot;source&quot;: &quot;installation&quot;,
+        &quot;tag_list&quot;: [],
+        &quot;tags&quot;: [],
+        &quot;teammate&quot;: false,
+        &quot;title&quot;: null,
+        &quot;topics&quot;: null,
+        &quot;tshirt&quot;: null,
+        &quot;twitter&quot;: null,
+        &quot;twitter_followers&quot;: null,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:21:08.809Z&quot;,
+        &quot;url&quot;: null
+      },
+      &quot;id&quot;: &quot;r9nSZ9&quot;,
+      &quot;relationships&quot;: {
+        &quot;identities&quot;: {
+          &quot;data&quot;: []
+        },
+        &quot;organizations&quot;: {
+          &quot;data&quot;: [
+            {
+              &quot;id&quot;: &quot;nb0FmD&quot;,
+              &quot;type&quot;: &quot;organization&quot;
+            }
+          ]
+        }
+      },
+      &quot;type&quot;: &quot;member&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;channel&quot;: &quot;mysource&quot;,
+        &quot;key&quot;: &quot;spec:happened:13&quot;,
+        &quot;name&quot;: &quot;send Mysource 101&quot;,
+        &quot;short_name&quot;: &quot;Spec Channel&quot;,
+        &quot;source&quot;: &quot;mysource&quot;,
+        &quot;weight&quot;: &quot;1.0&quot;
+      },
+      &quot;id&quot;: &quot;owxs43&quot;,
+      &quot;type&quot;: &quot;activity_type&quot;
+    }
+  ],
+  &quot;links&quot;: {
+    &quot;first&quot;: &quot;/trinaspencerii/organizations/nb0FmD/activities?page=1&amp;direction=DESC&amp;items=10&amp;sort=occurred_at&amp;activity_type=&quot;,
+    &quot;last&quot;: &quot;/trinaspencerii/organizations/nb0FmD/activities?page=1&amp;direction=DESC&amp;items=10&amp;sort=occurred_at&amp;activity_type=&quot;,
+    &quot;next&quot;: null,
+    &quot;prev&quot;: null
+  }
+}
+</code></pre>
+<h3 id="get-workspace_slugactivitiesid" class="operation" data-method="get"><code>GET</code> /{workspace_slug}/activities/{id}</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-5">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>id</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
+<h4 id="responses-5">Responses</h4>
+<h5 id="200-success-3" class="status" data-status="2xx">200: success</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;attributes&quot;: {
+      &quot;action&quot;: &quot;spec_action&quot;,
+      &quot;created_at&quot;: &quot;2023-02-28T19:20:40.750Z&quot;,
+      &quot;key&quot;: &quot;clé&quot;,
+      &quot;occurred_at&quot;: &quot;2023-02-28T19:20:40.744Z&quot;,
+      &quot;orbit_url&quot;: &quot;http://localhost:3000/jamatremblaymd/activities/ZPosjV&quot;,
+      &quot;properties&quot;: {
+        &quot;prop_1&quot;: &quot;value_1&quot;,
+        &quot;prop_2&quot;: &quot;value_2&quot;
+      },
+      &quot;tags&quot;: [
+        &quot;spec-tag-1&quot;,
+        &quot;spec-tag-2&quot;
+      ],
+      &quot;type&quot;: &quot;SpecActivity&quot;,
+      &quot;updated_at&quot;: &quot;2023-02-28T19:20:40.750Z&quot;,
+      &quot;weight&quot;: &quot;1.0&quot;
+    },
+    &quot;id&quot;: &quot;ZPosjV&quot;,
+    &quot;relationships&quot;: {
+      &quot;activity_type&quot;: {
+        &quot;data&quot;: {
+          &quot;id&quot;: &quot;D3jsky&quot;,
+          &quot;type&quot;: &quot;activity_type&quot;
+        }
+      },
+      &quot;member&quot;: {
+        &quot;data&quot;: {
+          &quot;id&quot;: &quot;rmMSRr&quot;,
+          &quot;type&quot;: &quot;member&quot;
+        }
+      },
+      &quot;repository&quot;: {
+        &quot;data&quot;: {
+          &quot;id&quot;: &quot;9ABTo6&quot;,
+          &quot;type&quot;: &quot;repository&quot;
+        }
+      },
+      &quot;user&quot;: {
+        &quot;data&quot;: {
+          &quot;id&quot;: &quot;OA3F51&quot;,
+          &quot;type&quot;: &quot;user&quot;
+        }
+      }
+    },
+    &quot;type&quot;: &quot;spec_activity&quot;
+  },
+  &quot;included&quot;: [
+    {
+      &quot;attributes&quot;: {
+        &quot;channel&quot;: &quot;mysource&quot;,
+        &quot;key&quot;: &quot;spec:happened:9&quot;,
+        &quot;name&quot;: &quot;savvy Mysource 29&quot;,
+        &quot;short_name&quot;: &quot;Spec Channel&quot;,
+        &quot;source&quot;: &quot;mysource&quot;,
+        &quot;weight&quot;: &quot;1.0&quot;
+      },
+      &quot;id&quot;: &quot;D3jsky&quot;,
+      &quot;type&quot;: &quot;activity_type&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;activities_count&quot;: 0,
+        &quot;activities_score&quot;: 0,
+        &quot;avatar_url&quot;: &quot;http://github.com/avatar.png&quot;,
+        &quot;bio&quot;: null,
+        &quot;birthday&quot;: null,
+        &quot;company&quot;: null,
+        &quot;created&quot;: false,
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:40.748Z&quot;,
+        &quot;deleted_at&quot;: null,
+        &quot;devto&quot;: null,
+        &quot;discord&quot;: null,
+        &quot;discourse&quot;: null,
+        &quot;email&quot;: null,
+        &quot;first_activity_occurred_at&quot;: null,
+        &quot;github&quot;: null,
+        &quot;github_followers&quot;: null,
+        &quot;id&quot;: &quot;rmMSRr&quot;,
+        &quot;languages&quot;: null,
+        &quot;last_activity_occurred_at&quot;: null,
+        &quot;linkedin&quot;: null,
+        &quot;location&quot;: null,
+        &quot;love&quot;: null,
+        &quot;merged_at&quot;: null,
+        &quot;name&quot;: &quot;KelleeMcLaughlin&quot;,
+        &quot;orbit_level&quot;: null,
+        &quot;orbit_url&quot;: &quot;http://localhost:3000/jamatremblaymd/members/kelleemclaughlin&quot;,
+        &quot;pronouns&quot;: null,
+        &quot;reach&quot;: 0,
+        &quot;shipping_address&quot;: null,
+        &quot;slug&quot;: &quot;kelleemclaughlin&quot;,
+        &quot;source&quot;: &quot;installation&quot;,
+        &quot;tag_list&quot;: [],
+        &quot;tags&quot;: [],
+        &quot;teammate&quot;: false,
+        &quot;title&quot;: null,
+        &quot;topics&quot;: null,
+        &quot;tshirt&quot;: null,
+        &quot;twitter&quot;: null,
+        &quot;twitter_followers&quot;: null,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:40.748Z&quot;,
+        &quot;url&quot;: null
+      },
+      &quot;id&quot;: &quot;rmMSRr&quot;,
+      &quot;relationships&quot;: {
+        &quot;identities&quot;: {
+          &quot;data&quot;: []
+        },
+        &quot;organizations&quot;: {
+          &quot;data&quot;: []
+        }
+      },
+      &quot;type&quot;: &quot;member&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:40.713Z&quot;,
+        &quot;full_name&quot;: &quot;corneliusokon/morristremblay&quot;,
+        &quot;name&quot;: &quot;morristremblay&quot;,
+        &quot;owner&quot;: &quot;corneliusokon&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:40.713Z&quot;
+      },
+      &quot;id&quot;: &quot;9ABTo6&quot;,
+      &quot;type&quot;: &quot;repository&quot;
+    },
+    {
+      &quot;attributes&quot;: {
+        &quot;created_at&quot;: &quot;2023-02-28T19:20:40.691Z&quot;,
+        &quot;name&quot;: &quot;ErvinReilly&quot;,
+        &quot;updated_at&quot;: &quot;2023-02-28T19:20:40.695Z&quot;
+      },
+      &quot;id&quot;: &quot;OA3F51&quot;,
+      &quot;type&quot;: &quot;user&quot;
+    }
+  ]
+}
+</code></pre>
+<h2 id="remove">remove</h2>
+<h3 id="delete-workspace_slugmembersmember_slugactivitiesid" class="operation" data-method="delete"><code>DELETE</code> /{workspace_slug}/members/{member_slug}/activities/{id}</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-6">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>member_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>id</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
+<h4 id="responses-6">Responses</h4>
+<h5 id="204-activity-deleted" class="status" data-status="2xx">204: activity deleted</h5>
+<h5 id="403-forbidden-2" class="status" data-status="4xx">403: forbidden</h5>
+<h2 id="update">update</h2>
+<h3 id="put-workspace_slugmembersmember_slugactivitiesid" class="operation" data-method="put"><code>PUT</code> /{workspace_slug}/members/{member_slug}/activities/{id}</h3>
+<p>Authentication: bearer token (<code>bearer</code>).</p>
+<h4 id="parameters-7">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workspace_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>member_slug</code> | <code>path</code> | <code>string</code> | Yes |  |
+| <code>id</code> | <code>path</code> | <code>string</code> | Yes |  |</p>
+<h4 id="request-body-2">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>activity_type</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The type of activity - what action was done by the member. This is a legacy field, use activity_type_key instead.</td>
+</tr>
+<tr>
+<td><code>activity_type_key</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The key for a custom activity type for the workspace. Will create a new activity type if it does not exist.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A description of the activity; displayed in the timeline</td>
+</tr>
+<tr>
+<td><code>key</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Supply a key that must be unique or leave blank to have one generated.</td>
+</tr>
+<tr>
+<td><code>link</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A URL for the activity; displayed in the timeline</td>
+</tr>
+<tr>
+<td><code>link_text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The text for the timeline link</td>
+</tr>
+<tr>
+<td><code>occurred_at</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The date and time the activity occurred; defaults to now</td>
+</tr>
+<tr>
+<td><code>properties</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Key-value pairs to provide contextual metadata about an activity.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A title for the activity; displayed in the timeline</td>
+</tr>
+<tr>
+<td><code>weight</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A custom weight to be used in filters and reports; defaults to 1.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-7">Responses</h4>
+<h5 id="204-activity-updated" class="status" data-status="2xx">204: activity updated</h5>
+<h5 id="403-forbidden-3" class="status" data-status="4xx">403: forbidden</h5>
+<h5 id="422-unprocessable-entity-1" class="status" data-status="4xx">422: unprocessable entity</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;errors&quot;: {
+    &quot;custom_title&quot;: [
+      &quot;can't be blank&quot;
+    ]
+  }
+}
+</code></pre>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

@@ -1,3 +1,11 @@
 # Flows
 
-@"BasicMemberFlow.aon"
+@"./BasicActivityFlow.aon"
+@"./BasicActivityTypeFlow.aon"
+@"./BasicMemberFlow.aon"
+@"./BasicNoteFlow.aon"
+@"./BasicOrganizationFlow.aon"
+@"./BasicReportFlow.aon"
+@"./BasicUserFlow.aon"
+@"./BasicWebhookFlow.aon"
+@"./BasicWorkspaceFlow.aon"

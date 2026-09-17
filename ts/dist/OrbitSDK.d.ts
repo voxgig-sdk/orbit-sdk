@@ -1,4 +1,12 @@
+import { ActivityEntity } from './entity/ActivityEntity';
+import { ActivityTypeEntity } from './entity/ActivityTypeEntity';
 import { MemberEntity } from './entity/MemberEntity';
+import { NoteEntity } from './entity/NoteEntity';
+import { OrganizationEntity } from './entity/OrganizationEntity';
+import { ReportEntity } from './entity/ReportEntity';
+import { UserEntity } from './entity/UserEntity';
+import { WebhookEntity } from './entity/WebhookEntity';
+import { WorkspaceEntity } from './entity/WorkspaceEntity';
 export type * from './OrbitTypes';
 import { inspect } from 'node:util';
 import type { Context, Feature } from './types';
@@ -44,7 +52,15 @@ declare class OrbitSDK {
         data?: undefined;
     }>;
     graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
+    Activity(entopts?: Record<string, any>): ActivityEntity;
+    ActivityType(entopts?: Record<string, any>): ActivityTypeEntity;
     Member(entopts?: Record<string, any>): MemberEntity;
+    Note(entopts?: Record<string, any>): NoteEntity;
+    Organization(entopts?: Record<string, any>): OrganizationEntity;
+    Report(entopts?: Record<string, any>): ReportEntity;
+    User(entopts?: Record<string, any>): UserEntity;
+    Webhook(entopts?: Record<string, any>): WebhookEntity;
+    Workspace(entopts?: Record<string, any>): WorkspaceEntity;
     static test(testoptsarg?: any, sdkoptsarg?: any): OrbitSDK;
     tester(testopts?: any, sdkopts?: any): OrbitSDK;
     toJSON(): {

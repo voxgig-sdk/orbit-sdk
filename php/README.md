@@ -4,7 +4,7 @@
 
 The PHP SDK for the Orbit API — an entity-oriented client using PHP conventions.
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->Member()` — with named operations (`list`/`load`/`create`/`update`/`remove`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->Activity()` — with named operations (`load`/`create`/`update`/`remove`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -33,28 +33,15 @@ $client = new OrbitSDK([
 ]);
 ```
 
-### 2. List member records
+### 3. Load an activity
+
+Activity is nested under workspace_slug, so provide the `workspace_slug`.
 
 ```php
 try {
-    // list() returns entity instances; data_get() reads each record.
-    $members = $client->Member()->list();
-    foreach ($members as $record) {
-        $item = $record->data_get();
-        echo $item["id"] . " " . $item["bio"] . "\n";
-    }
-} catch (\Throwable $err) {
-    echo "Error: " . $err->getMessage();
-}
-```
-
-### 3. Load a member
-
-```php
-try {
-    // load() returns the ENTITY — call data_get() for the Member record (throws on error).
-    $member = $client->Member()->load(["id" => "example_id", "workspace" => "example_workspace"]);
-    print_r($member->data_get());
+    // load() returns the ENTITY — call data_get() for the Activity record (throws on error).
+    $activity = $client->Activity()->load(["workspace_slug" => "example_workspace_slug"]);
+    print_r($activity->data_get());
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -63,14 +50,14 @@ try {
 ### 4. Create, update, and remove
 
 ```php
-// create() returns the ENTITY — call data_get() for the created Member record.
-$created = $client->Member()->create(["workspace" => "example_workspace"]);
+// create() returns the ENTITY — call data_get() for the created Activity record.
+$created = $client->Activity()->create(["workspace_slug" => "example_workspace_slug", "identity" => [], "title" => "example_title"]);
 
 // Update — index the record via data_get() ($created->data_get()["id"]).
-$client->Member()->update(["id" => $created->data_get()["id"], "workspace" => "example_workspace", "bio" => "example_bio"]);
+$client->Activity()->update(["id" => $created->data_get()["id"], "member_id" => "example_member_id", "workspace_slug" => "example_workspace_slug"]);
 
 // Remove
-$client->Member()->remove(["id" => $created->data_get()["id"], "workspace" => "example_workspace"]);
+$client->Activity()->remove(["id" => $created->data_get()["id"], "member_id" => "example_member_id", "workspace_slug" => "example_workspace_slug"]);
 ```
 
 
@@ -81,7 +68,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $members = $client->Member()->list();
+    $note = $client->Note()->load(["member_slug" => "example", "workspace_slug" => "example"]);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -153,13 +140,13 @@ data via the `entity` option so offline calls resolve without a live server:
 
 ```php
 $client = OrbitSDK::test([
-    "entity" => ["member" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["webhook" => ["test01" => ["id" => "test01"]]],
 ]);
 
-// list() returns entity instances (throws on error);
+// Entity ops return the ENTITY (throws on error);
 // call data_get() for the mock record.
-$member = $client->Member()->list();
-print_r(array_map(fn($item) => $item->data_get(), $member));
+$webhook = $client->Webhook()->load(["id" => "test01", "workspace_slug" => "example"]);
+print_r($webhook->data_get());
 ```
 
 ### Use a custom fetch function
@@ -240,7 +227,15 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `get_utility` | `(): Utility` | Copy of the SDK utility object. |
 | `prepare` | `(array $fetchargs): array` | Build an HTTP request definition without sending. |
 | `direct` | `(array $fetchargs): array` | Build and send an HTTP request. |
+| `Activity` | `($data): ActivityEntity` | Create an Activity entity instance. |
+| `ActivityType` | `($data): ActivityTypeEntity` | Create an ActivityType entity instance. |
 | `Member` | `($data): MemberEntity` | Create a Member entity instance. |
+| `Note` | `($data): NoteEntity` | Create a Note entity instance. |
+| `Organization` | `($data): OrganizationEntity` | Create an Organization entity instance. |
+| `Report` | `($data): ReportEntity` | Create a Report entity instance. |
+| `User` | `($data): UserEntity` | Create an User entity instance. |
+| `Webhook` | `($data): WebhookEntity` | Create a Webhook entity instance. |
+| `Workspace` | `($data): WorkspaceEntity` | Create a Workspace entity instance. |
 
 ### Entity interface
 
@@ -249,7 +244,6 @@ All entities share the same interface.
 | Method | Signature | Description |
 | --- | --- | --- |
 | `load` | `($reqmatch, $ctrl): array` | Load a single entity by match criteria. |
-| `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
 | `create` | `($reqdata, $ctrl): array` | Create a new entity. |
 | `update` | `($reqdata, $ctrl): array` | Update an existing entity. |
 | `remove` | `($reqmatch, $ctrl): array` | Remove an entity. |
@@ -280,31 +274,242 @@ On error, `ok` is `false` and `$err` contains the error value.
 
 ### Entities
 
+#### Activity
+
+| Field | Description |
+| --- | --- |
+| `activity` |  |
+| `activity_type` | The type of activity - what action was done by the member. |
+| `activity_type_key` | The key for a custom activity type for the workspace. |
+| `data` |  |
+| `description` | A description of the activity; displayed in the timeline |
+| `id` |  |
+| `identity` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` |  |
+| `key` | Supply a key that must be unique or leave blank to have one generated. |
+| `link` | A URL for the activity; displayed in the timeline |
+| `link_text` | The text for the timeline link |
+| `links` |  |
+| `occurred_at` | The date and time the activity occurred; defaults to now |
+| `properties` | Key-value pairs to provide contextual metadata about an activity. |
+| `title` | A title for the activity; displayed in the timeline |
+| `weight` | A custom weight to be used in filters and reports; defaults to 1. |
+
+Operations: Create, Load, Remove, Update.
+
+API path: `/{workspace_slug}/members/{member_slug}/activities`
+
+#### ActivityType
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+| `links` |  |
+
+Operations: Load.
+
+API path: `/{workspace_slug}/activity_types`
+
 #### Member
 
 | Field | Description |
 | --- | --- |
 | `bio` |  |
+| `birthday` |  |
 | `company` |  |
-| `created_at` |  |
+| `data` |  |
+| `devto` | The member's DEV username |
+| `email` | The member's email |
+| `github` | The member's GitHub username |
 | `id` |  |
+| `identity` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` |  |
+| `linkedin` | The member's LinkedIn username, without the in/ or pub/ |
+| `links` |  |
 | `location` |  |
-| `love` |  |
+| `member` |  |
 | `name` |  |
-| `orbit_level` |  |
-| `reach` |  |
+| `pronouns` |  |
+| `shipping_address` |  |
 | `slug` |  |
-| `tags` |  |
-| `tags_to_add` |  |
+| `tag_list` | Deprecated: Please use the tags attribute instead |
+| `tags` | Replaces all tags for the member; comma-separated string or array |
+| `tags_to_add` | Adds tags to member; comma-separated string or array |
+| `teammate` |  |
 | `title` |  |
+| `tshirt` |  |
+| `twitter` | The member's Twitter username |
+| `url` |  |
 
-Operations: Create, List, Load, Remove, Update.
+Operations: Create, Load, Remove, Update.
 
-API path: `/{workspace}/members`
+API path: `/{workspace_slug}/members/{member_slug}/identities`
+
+#### Note
+
+| Field | Description |
+| --- | --- |
+| `body` |  |
+| `data` |  |
+| `id` |  |
+| `included` |  |
+| `links` |  |
+
+Operations: Create, Load, Update.
+
+API path: `/{workspace_slug}/members/{member_slug}/notes`
+
+#### Organization
+
+| Field | Description |
+| --- | --- |
+| `crm_uid` | The unique identifier of the organization in your CRM. |
+| `crm_url` | A link to the organization profile in your CRM. |
+| `data` |  |
+| `deal_closed_date` | The date the organization became a customer. |
+| `id` |  |
+| `lifecycle_stage` | The current stage of the organization in the marketing or sales process. |
+| `links` |  |
+| `owner_email` | The email of the team member who is in charge of the organization. |
+| `owner_name` | The name of the team member who is in charge of the organization. |
+| `price_plan` | The pricing plan the organization is on. |
+| `source` | The name of the CRM you use for tracking the organization. |
+
+Operations: Load, Update.
+
+API path: `/{workspace_slug}/organizations`
+
+#### Report
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+
+Operations: Load.
+
+API path: `/{workspace_slug}/reports`
+
+#### User
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+
+Operations: Load.
+
+API path: `/user`
+
+#### Webhook
+
+| Field | Description |
+| --- | --- |
+| `activity_tags` |  |
+| `activity_types` |  |
+| `data` |  |
+| `event_type` |  |
+| `id` |  |
+| `links` |  |
+| `member_tags` |  |
+| `name` |  |
+| `secret` |  |
+| `url` |  |
+
+Operations: Create, Load, Remove, Update.
+
+API path: `/{workspace_slug}/webhooks`
+
+#### Workspace
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+| `id` |  |
+| `included` |  |
+
+Operations: Load.
+
+API path: `/workspaces/{workspace_slug}`
 
 
 
 ## Entities
+
+
+### Activity
+
+Create an instance: `$activity = $client->Activity();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `activity` | `mixed` |  |
+| `activity_type` | `string` | The type of activity - what action was done by the member. |
+| `activity_type_key` | `string` | The key for a custom activity type for the workspace. |
+| `data` | `array` |  |
+| `description` | `string` | A description of the activity; displayed in the timeline |
+| `id` | `string` |  |
+| `identity` | `array` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` | `array` |  |
+| `key` | `string` | Supply a key that must be unique or leave blank to have one generated. |
+| `link` | `string` | A URL for the activity; displayed in the timeline |
+| `link_text` | `string` | The text for the timeline link |
+| `links` | `array` |  |
+| `occurred_at` | `string` | The date and time the activity occurred; defaults to now |
+| `properties` | `array` | Key-value pairs to provide contextual metadata about an activity. |
+| `title` | `string` | A title for the activity; displayed in the timeline |
+| `weight` | `string` | A custom weight to be used in filters and reports; defaults to 1. |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the Activity record (throws on error).
+$activity = $client->Activity()->load(["id" => "activity_id", "workspace_slug" => "workspace_slug"]);
+```
+
+#### Example: Create
+
+```php
+$activity = $client->Activity()->create([
+    "workspace_slug" => null, // string
+    "identity" => null, // array
+    "title" => null, // string
+]);
+```
+
+
+### ActivityType
+
+Create an instance: `$activity_type = $client->ActivityType();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `array` |  |
+| `links` | `array` |  |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the ActivityType record (throws on error).
+$activity_type = $client->ActivityType()->load(["workspace_slug" => "workspace_slug"]);
+```
 
 
 ### Member
@@ -316,7 +521,6 @@ Create an instance: `$member = $client->Member();`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
-| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
@@ -326,39 +530,242 @@ Create an instance: `$member = $client->Member();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bio` | `string` |  |
+| `birthday` | `string` |  |
 | `company` | `string` |  |
-| `created_at` | `string` |  |
+| `data` | `array` |  |
+| `devto` | `string` | The member's DEV username |
+| `email` | `string` | The member's email |
+| `github` | `string` | The member's GitHub username |
 | `id` | `string` |  |
+| `identity` | `array` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` | `array` |  |
+| `linkedin` | `string` | The member's LinkedIn username, without the in/ or pub/ |
+| `links` | `array` |  |
 | `location` | `string` |  |
-| `love` | `float` |  |
+| `member` | `array` |  |
 | `name` | `string` |  |
-| `orbit_level` | `int` |  |
-| `reach` | `int` |  |
+| `pronouns` | `string` |  |
+| `shipping_address` | `string` |  |
 | `slug` | `string` |  |
-| `tags` | `array` |  |
-| `tags_to_add` | `string` |  |
+| `tag_list` | `string` | Deprecated: Please use the tags attribute instead |
+| `tags` | `string` | Replaces all tags for the member; comma-separated string or array |
+| `tags_to_add` | `string` | Adds tags to member; comma-separated string or array |
+| `teammate` | `bool` |  |
 | `title` | `string` |  |
+| `tshirt` | `string` |  |
+| `twitter` | `string` | The member's Twitter username |
+| `url` | `string` |  |
 
 #### Example: Load
 
 ```php
 // load() returns the ENTITY — call data_get() for the Member record (throws on error).
-$member = $client->Member()->load(["id" => "member_id", "workspace" => "workspace"]);
-```
-
-#### Example: List
-
-```php
-// list() returns an array of Member records (throws on error).
-$members = $client->Member()->list();
+$member = $client->Member()->load(["id" => "member_id", "workspace_slug" => "workspace_slug"]);
 ```
 
 #### Example: Create
 
 ```php
 $member = $client->Member()->create([
-    "workspace" => null, // string
+    "workspace_slug" => null, // string
+    "identity" => null, // array
 ]);
+```
+
+
+### Note
+
+Create an instance: `$note = $client->Note();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `body` | `string` |  |
+| `data` | `array` |  |
+| `id` | `string` |  |
+| `included` | `array` |  |
+| `links` | `array` |  |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the Note record (throws on error).
+$note = $client->Note()->load(["member_slug" => "member_slug", "workspace_slug" => "workspace_slug"]);
+```
+
+#### Example: Create
+
+```php
+$note = $client->Note()->create([
+    "member_slug" => null, // string
+    "workspace_slug" => null, // string
+    "body" => null, // string
+]);
+```
+
+
+### Organization
+
+Create an instance: `$organization = $client->Organization();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `crm_uid` | `string` | The unique identifier of the organization in your CRM. |
+| `crm_url` | `string` | A link to the organization profile in your CRM. |
+| `data` | `array` |  |
+| `deal_closed_date` | `string` | The date the organization became a customer. |
+| `id` | `string` |  |
+| `lifecycle_stage` | `string` | The current stage of the organization in the marketing or sales process. |
+| `links` | `array` |  |
+| `owner_email` | `string` | The email of the team member who is in charge of the organization. |
+| `owner_name` | `string` | The name of the team member who is in charge of the organization. |
+| `price_plan` | `string` | The pricing plan the organization is on. |
+| `source` | `string` | The name of the CRM you use for tracking the organization. |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the Organization record (throws on error).
+$organization = $client->Organization()->load(["id" => "organization_id", "workspace_slug" => "workspace_slug"]);
+```
+
+
+### Report
+
+Create an instance: `$report = $client->Report();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `array` |  |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the Report record (throws on error).
+$report = $client->Report()->load(["workspace_slug" => "workspace_slug"]);
+```
+
+
+### User
+
+Create an instance: `$user = $client->User();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `array` |  |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the User record (throws on error).
+$user = $client->User()->load();
+```
+
+
+### Webhook
+
+Create an instance: `$webhook = $client->Webhook();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `activity_tags` | `array` |  |
+| `activity_types` | `array` |  |
+| `data` | `array` |  |
+| `event_type` | `string` |  |
+| `id` | `string` |  |
+| `links` | `array` |  |
+| `member_tags` | `array` |  |
+| `name` | `string` |  |
+| `secret` | `string` |  |
+| `url` | `string` |  |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the Webhook record (throws on error).
+$webhook = $client->Webhook()->load(["id" => "webhook_id", "workspace_slug" => "workspace_slug"]);
+```
+
+#### Example: Create
+
+```php
+$webhook = $client->Webhook()->create([
+    "workspace_slug" => null, // string
+    "event_type" => null, // string
+    "name" => null, // string
+    "url" => null, // string
+]);
+```
+
+
+### Workspace
+
+Create an instance: `$workspace = $client->Workspace();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `array` |  |
+| `id` | `string` |  |
+| `included` | `array` |  |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the Workspace record (throws on error).
+$workspace = $client->Workspace()->load(["id" => "workspace_id"]);
 ```
 
 ## Features
@@ -563,6 +970,7 @@ Use `Helpers::to_map()` to safely validate that a value is an array.
 php/
 ├── orbit_sdk.php          -- Main SDK class
 ├── config.php                     -- Configuration
+├── schema.php                     -- Generated option + entity specs
 ├── features.php                   -- Feature factory
 ├── core/                          -- Core types and context
 ├── entity/                        -- Entity implementations
@@ -577,15 +985,15 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `list`, the entity
+Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$member = $client->Member();
-$member->list();
+$note = $client->Note();
+$note->load(["member_slug" => "example", "workspace_slug" => "example"]);
 
-// $member->data_get() now returns the member data from the last list
-// $member->match_get() returns the last match criteria
+// $note->data_get() now returns the note data from the last load
+// $note->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

@@ -31,7 +31,7 @@ Each feature is generated into every SDK target — as a directory
 `<lang>/src/feature/<name>/` (ts/js) or a flat file in the `<lang>/feature/`
 package (other languages). Each target's guide documents its features.
 
-**Entities** (1): `Member`.
+**Entities** (9): `Activity`, `ActivityType`, `Member`, `Note`, `Organization`, `Report`, `User`, `Webhook`, `Workspace`.
 
 ## Generating and updating the SDK
 
@@ -149,7 +149,7 @@ syntax) with unification semantics:
 | `*default \| type` | A default value unified against a type (e.g. `*true \| boolean`). |
 | `name: key()` | Bind a field to its map key (so `feature: log: {}` gets `name: 'log'`). |
 | `$$path$$` | Interpolate a model value into a string — e.g. the SDK `name`. |
-| `@"file.aon"` | Include another fragment (how the index files work). |
+| `@"./file.aon"` | Include another fragment (how the index files work). The `./` is required on a local path. |
 | `x: .y` | Reference another path's value (e.g. `deps: ts: .js`). |
 
 For example, the schema for every feature entry:

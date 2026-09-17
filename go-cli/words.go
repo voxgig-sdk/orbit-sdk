@@ -89,8 +89,24 @@ func runOp(client *sdk.OrbitSDK, op string, query *eng.Value, entityAtom eng.Val
 // emits one `case "<name>":` per entity defined in the SDK model.
 func entityFor(client *sdk.OrbitSDK, name string) (sdk.OrbitEntity, error) {
 	switch strings.ToLower(name) {
+	case "activity":
+		return client.Activity(nil), nil
+	case "activity_type":
+		return client.ActivityType(nil), nil
 	case "member":
 		return client.Member(nil), nil
+	case "note":
+		return client.Note(nil), nil
+	case "organization":
+		return client.Organization(nil), nil
+	case "report":
+		return client.Report(nil), nil
+	case "user":
+		return client.User(nil), nil
+	case "webhook":
+		return client.Webhook(nil), nil
+	case "workspace":
+		return client.Workspace(nil), nil
 
 	}
 	return nil, fmt.Errorf("unknown entity %q", name)

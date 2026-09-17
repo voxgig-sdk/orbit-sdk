@@ -1,0 +1,28 @@
+# BasicWorkspaceFlow
+
+main: kit: flow: BasicWorkspaceFlow:
+{
+  entity: "workspace",
+  kind: "basic",
+  name: "BasicWorkspaceFlow",
+  step: [
+    {
+      input: {
+        ref: "workspace_ref01",
+        srcdatavar: "workspace_ref01_data",
+        suffix: "_dt0"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-workspace_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicWorkspaceFlow"
+}

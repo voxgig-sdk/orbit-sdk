@@ -1,8 +1,16 @@
 {
   "files": [
     "SUMMARY.md",
+    "docs/api/activity.html",
+    "docs/api/activity_type.html",
     "docs/api/index.html",
     "docs/api/member.html",
+    "docs/api/note.html",
+    "docs/api/organization.html",
+    "docs/api/report.html",
+    "docs/api/user.html",
+    "docs/api/webhook.html",
+    "docs/api/workspace.html",
     "docs/features/debug.html",
     "docs/features/idempotency.html",
     "docs/features/metrics.html",

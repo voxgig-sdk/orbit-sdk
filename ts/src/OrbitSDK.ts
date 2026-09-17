@@ -1,6 +1,14 @@
 // Orbit Ts SDK
 
+import { ActivityEntity } from './entity/ActivityEntity'
+import { ActivityTypeEntity } from './entity/ActivityTypeEntity'
 import { MemberEntity } from './entity/MemberEntity'
+import { NoteEntity } from './entity/NoteEntity'
+import { OrganizationEntity } from './entity/OrganizationEntity'
+import { ReportEntity } from './entity/ReportEntity'
+import { UserEntity } from './entity/UserEntity'
+import { WebhookEntity } from './entity/WebhookEntity'
+import { WorkspaceEntity } from './entity/WorkspaceEntity'
 
 export type * from './OrbitTypes'
 
@@ -297,12 +305,84 @@ class OrbitSDK {
 
 
 
+  // Entity access: `client.Activity().list()` / `client.Activity().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Activity(entopts?: Record<string, any>) {
+    const self = this
+    return new ActivityEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.ActivityType().list()` / `client.ActivityType().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  ActivityType(entopts?: Record<string, any>) {
+    const self = this
+    return new ActivityTypeEntity(self, entopts)
+  }
+
+
   // Entity access: `client.Member().list()` / `client.Member().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
   Member(entopts?: Record<string, any>) {
     const self = this
     return new MemberEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Note().list()` / `client.Note().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Note(entopts?: Record<string, any>) {
+    const self = this
+    return new NoteEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Organization().list()` / `client.Organization().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Organization(entopts?: Record<string, any>) {
+    const self = this
+    return new OrganizationEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Report().list()` / `client.Report().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Report(entopts?: Record<string, any>) {
+    const self = this
+    return new ReportEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.User().list()` / `client.User().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  User(entopts?: Record<string, any>) {
+    const self = this
+    return new UserEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Webhook().list()` / `client.Webhook().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Webhook(entopts?: Record<string, any>) {
+    const self = this
+    return new WebhookEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Workspace().list()` / `client.Workspace().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Workspace(entopts?: Record<string, any>) {
+    const self = this
+    return new WorkspaceEntity(self, entopts)
   }
 
 

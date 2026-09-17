@@ -19,17 +19,16 @@ make build
 export ORBIT_APIKEY=sk_live_xxx
 
 # 4. Each command line is ONE boru expression, run against the API:
-./orbit-cli list member
-./orbit-cli load 1 member            # {id:1} shorthand
-./orbit-cli load '{id:1}' member       # explicit match map
-./orbit-cli update '{name:"x"}' member
+./orbit-cli load 1 activity            # {id:1} shorthand
+./orbit-cli load '{id:1}' activity       # explicit match map
+./orbit-cli update '{name:"x"}' activity
 
 # 5. Override the API base URL for a single call
-ORBIT_BASE=https://api.example.com ./orbit-cli list member
+ORBIT_BASE=https://api.example.com ./orbit-cli load 1 activity
 
 # 6. No arguments -> interactive REPL
 ./orbit-cli
-orbit> list member
+orbit> load 1 activity
 orbit> /quit
 ```
 
@@ -55,7 +54,7 @@ orbit> /quit
    arguments to open the REPL):
 
    ```sh
-   ./dist/*/orbit-cli list member
+   ./dist/*/orbit-cli load 1 activity
    ```
 
 4. **Go interactive.** Run the binary with no arguments to open the REPL, then
@@ -65,20 +64,11 @@ That is the whole loop: *build → set key → evaluate boru expressions*.
 
 ## How-to guides
 
-### List the records of an entity
-
-```sh
-./orbit-cli list member
-```
-
-`list <entity>` returns the first page of records. `<entity>` is a bareword —
-it is auto-quoted as an boru atom, so no quotes are needed.
-
 ### Load a single record
 
 ```sh
-./orbit-cli load 1 member          # scalar shorthand for {id:1}
-./orbit-cli load '{id:1}' member     # explicit match map
+./orbit-cli load 1 activity          # scalar shorthand for {id:1}
+./orbit-cli load '{id:1}' activity     # explicit match map
 ```
 
 The query is either a **scalar** (`1`, treated as `{id:1}`) or a **match map**
@@ -87,7 +77,7 @@ The query is either a **scalar** (`1`, treated as `{id:1}`) or a **match map**
 ### Update a record
 
 ```sh
-./orbit-cli update '{id:1,name:"new"}' member
+./orbit-cli update '{id:1,name:"new"}' activity
 ```
 
 The match map carries both the selector and the new field values; the updated
@@ -100,7 +90,7 @@ Configuration is read from the environment — nothing is written to disk:
 ```sh
 export ORBIT_APIKEY=sk_live_xxx            # API key
 export ORBIT_BASE=https://api.example.com  # optional: override the API base URL
-./orbit-cli list member
+./orbit-cli load 1 activity
 ```
 
 Both are injectable by a secrets vault, so the key never has to be typed inline.
@@ -112,7 +102,7 @@ evaluated as its own boru expression:
 
 ```text
 $ ./orbit-cli
-orbit> list member
+orbit> load 1 activity
 orbit> /help
 orbit> /quit
 ```
@@ -127,7 +117,7 @@ make build-all   # linux/darwin/windows x amd64/arm64, under dist/<os>-<arch>/
 ### Discover the available entities
 
 `/help` in the REPL prints the full entity list, or see [Entities](#entities)
-below — this SDK exposes 1 entity.
+below — this SDK exposes 9 entities.
 
 ## Reference
 
@@ -137,11 +127,10 @@ The CLI registers these boru words, each bound to the SDK:
 
 | Word     | Signatures                                    | Returns                        |
 |----------|-----------------------------------------------|--------------------------------|
-| `list`   | `list <entity>` · `list <query> <entity>`     | First page of records          |
 | `load`   | `load <entity>` · `load <query> <entity>`     | A single record                |
 | `update` | `update <query> <entity>`                     | Update a record, return it     |
 
-- `<entity>` is a bareword, auto-quoted as an boru atom (e.g. `member`).
+- `<entity>` is a bareword, auto-quoted as an boru atom (e.g. `activity`).
 - `<query>` is either a **Map** (`{id:1}`) or a **Scalar** (`1`, treated as
   `{id:1}`). A scalar is always wrapped as `{id:<value>}`.
 
@@ -182,9 +171,9 @@ Meta-commands use the `/` prefix (everything else on a line is evaluated as boru
 
 ### Entities
 
-The 1 entity this SDK exposes (any is valid as `<entity>`):
+The 9 entities this SDK exposes (any is valid as `<entity>`):
 
-member
+activity activity_type member note organization report user webhook workspace
 
 ## Explanation
 

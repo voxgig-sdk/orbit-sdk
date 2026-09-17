@@ -21,47 +21,13 @@ class TestMemberEntity:
         ent = testsdk.Member(None)
         assert ent is not None
 
-    def test_should_stream(self):
-        # Feature #4: the entity stream(action, ...) method runs the op
-        # pipeline and yields result items. With the streaming feature active
-        # it yields the feature's incremental output; otherwise it falls back
-        # to the materialised list so stream always yields.
-        seed = {
-            "entity": {
-                "member": {
-                    "s1": {"id": "s1"},
-                    "s2": {"id": "s2"},
-                    "s3": {"id": "s3"},
-                }
-            }
-        }
-
-        # Fallback: streaming inactive -> yields the materialised list items.
-        base = OrbitSDK.test(seed, None)
-        seen = list(base.Member(None).stream("list", None, None))
-        assert len(seen) == 3
-
-        # Inbound: streaming active -> yields each item from the feature.
-        from orbit_sdk.config import shared_config
-        cfg = shared_config()
-        if isinstance(cfg.get("feature"), dict) and "streaming" in cfg["feature"]:
-            sdk = OrbitSDK.test(
-                seed, {"feature": {"streaming": {"active": True}}})
-            got = []
-            for item in sdk.Member(None).stream("list", None, None):
-                if isinstance(item, list):
-                    got.extend(item)
-                else:
-                    got.append(item)
-            assert len(got) == 3
-
     def test_should_run_basic_flow(self):
         setup = _member_basic_setup(None)
         # Per-op sdk-test-control.json skip — basic test exercises a flow with
         # multiple ops; skipping any one skips the whole flow (steps depend
         # on each other).
         _live = setup.get("live", False)
-        for _op in ["create", "list", "update", "load", "remove"]:
+        for _op in ["create", "update", "load", "remove"]:
             _skip, _reason = runner.is_control_skipped("entityOp", "member." + _op, "live" if _live else "unit")
             if _skip:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
@@ -77,29 +43,16 @@ class TestMemberEntity:
         member_ref01_ent = client.Member(None)
         member_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.member"), "member_ref01"))
-        member_ref01_data["workspace"] = setup["idmap"]["workspace01"]
+        member_ref01_data["workspace_slug"] = setup["idmap"]["workspace_slug01"]
 
         member_ref01_data = helpers.to_map(runner.entity_data(member_ref01_ent.create(member_ref01_data, None)))
         assert member_ref01_data is not None
         assert member_ref01_data["id"] is not None
 
-        # LIST
-        member_ref01_match = {
-            "workspace": setup["idmap"]["workspace01"],
-        }
-
-        member_ref01_list_result = member_ref01_ent.list(member_ref01_match, None)
-        assert isinstance(member_ref01_list_result, list)
-
-        found_item = vs.select(
-            runner.entity_list_to_data(member_ref01_list_result),
-            {"id": member_ref01_data["id"]})
-        assert not vs.isempty(found_item)
-
         # UPDATE
         member_ref01_data_up0_up = {
             "id": member_ref01_data["id"],
-            "workspace": setup["idmap"]["workspace"],
+            "workspace_slug": setup["idmap"]["workspace_slug"],
         }
 
         member_ref01_markdef_up0_name = "bio"
@@ -126,19 +79,6 @@ class TestMemberEntity:
         }
         member_ref01_ent.remove(member_ref01_match_rm0, None)
 
-        # LIST
-        member_ref01_match_rt0 = {
-            "workspace": setup["idmap"]["workspace01"],
-        }
-
-        member_ref01_list_rt0_result = member_ref01_ent.list(member_ref01_match_rt0, None)
-        assert isinstance(member_ref01_list_rt0_result, list)
-
-        not_found_item = vs.select(
-            runner.entity_list_to_data(member_ref01_list_rt0_result),
-            {"id": member_ref01_data["id"]})
-        assert vs.isempty(not_found_item)
-
 
 
 def _member_basic_setup(extra):
@@ -157,7 +97,7 @@ def _member_basic_setup(extra):
 
     # Generate idmap via transform.
     idmap = vs.transform(
-        ["member01", "member02", "member03", "workspace01"],
+        ["member01", "member02", "member03", "organization01", "organization02", "organization03", "workspace_slug01"],
         {
             "`$PACK`": ["", {
                 "`$KEY`": "`$COPY`",
@@ -184,8 +124,8 @@ def _member_basic_setup(extra):
         env.get("ORBIT_TEST_MEMBER_ENTID"))
     if idmap_resolved is None:
         idmap_resolved = helpers.to_map(idmap)
-    if idmap_resolved.get("workspace") is None:
-        idmap_resolved["workspace"] = idmap_resolved.get("workspace01")
+    if idmap_resolved.get("workspace_slug") is None:
+        idmap_resolved["workspace_slug"] = idmap_resolved.get("workspace_slug01")
 
     if env.get("ORBIT_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([

@@ -338,11 +338,75 @@ func (sdk *OrbitSDK) Graphql(
 }
 
 
+// Activity returns a Activity entity bound to this client.
+// Idiomatic usage: client.Activity(nil).List(nil, nil) or
+// client.Activity(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *OrbitSDK) Activity(data map[string]any) OrbitEntity {
+	return NewActivityEntityFunc(sdk, data)
+}
+
+
+// ActivityType returns a ActivityType entity bound to this client.
+// Idiomatic usage: client.ActivityType(nil).List(nil, nil) or
+// client.ActivityType(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *OrbitSDK) ActivityType(data map[string]any) OrbitEntity {
+	return NewActivityTypeEntityFunc(sdk, data)
+}
+
+
 // Member returns a Member entity bound to this client.
 // Idiomatic usage: client.Member(nil).List(nil, nil) or
 // client.Member(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *OrbitSDK) Member(data map[string]any) OrbitEntity {
 	return NewMemberEntityFunc(sdk, data)
+}
+
+
+// Note returns a Note entity bound to this client.
+// Idiomatic usage: client.Note(nil).List(nil, nil) or
+// client.Note(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *OrbitSDK) Note(data map[string]any) OrbitEntity {
+	return NewNoteEntityFunc(sdk, data)
+}
+
+
+// Organization returns a Organization entity bound to this client.
+// Idiomatic usage: client.Organization(nil).List(nil, nil) or
+// client.Organization(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *OrbitSDK) Organization(data map[string]any) OrbitEntity {
+	return NewOrganizationEntityFunc(sdk, data)
+}
+
+
+// Report returns a Report entity bound to this client.
+// Idiomatic usage: client.Report(nil).List(nil, nil) or
+// client.Report(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *OrbitSDK) Report(data map[string]any) OrbitEntity {
+	return NewReportEntityFunc(sdk, data)
+}
+
+
+// User returns a User entity bound to this client.
+// Idiomatic usage: client.User(nil).List(nil, nil) or
+// client.User(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *OrbitSDK) User(data map[string]any) OrbitEntity {
+	return NewUserEntityFunc(sdk, data)
+}
+
+
+// Webhook returns a Webhook entity bound to this client.
+// Idiomatic usage: client.Webhook(nil).List(nil, nil) or
+// client.Webhook(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *OrbitSDK) Webhook(data map[string]any) OrbitEntity {
+	return NewWebhookEntityFunc(sdk, data)
+}
+
+
+// Workspace returns a Workspace entity bound to this client.
+// Idiomatic usage: client.Workspace(nil).List(nil, nil) or
+// client.Workspace(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *OrbitSDK) Workspace(data map[string]any) OrbitEntity {
+	return NewWorkspaceEntityFunc(sdk, data)
 }
 
 

@@ -70,7 +70,7 @@ const __1 = require("..");
 const SDK_NAME = 'OrbitSDK';
 // A fixture for every entity, so list()/load() resolve offline with no
 // network. Snippet client construction is rewritten to seed this.
-const TEST_SEED = { "entity": { "member": { "test01": { "id": "test01" } } } };
+const TEST_SEED = { "entity": { "activity": { "test01": { "id": "test01" } }, "activity_type": { "test01": { "id": "test01" } }, "member": { "test01": { "id": "test01" } }, "note": { "test01": { "id": "test01" } }, "organization": { "test01": { "id": "test01" } }, "report": { "test01": { "id": "test01" } }, "user": { "test01": { "id": "test01" } }, "webhook": { "test01": { "id": "test01" } }, "workspace": { "test01": { "id": "test01" } } } };
 const SEED_ARG = JSON.stringify(TEST_SEED);
 const SEEDED_CTOR = SDK_NAME + '.test(' + SEED_ARG + ')';
 // The three docs this gate covers, resolved relative to dist-test/.

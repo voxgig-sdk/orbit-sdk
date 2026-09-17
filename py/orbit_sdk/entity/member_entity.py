@@ -7,7 +7,6 @@ from orbit_sdk.core import helpers
 from orbit_sdk.orbit_types import (
     Member,
     MemberLoadMatch,
-    MemberListMatch,
     MemberCreateData,
     MemberUpdateData,
     MemberRemoveMatch,
@@ -207,28 +206,6 @@ class MemberEntity:
 
 
     
-    def list(self, reqmatch=None, ctrl=None) -> list[Member]:
-        utility = self._utility
-        # reqmatch is optional: an omitted match lists all records. Treat None
-        # as an empty match so client.Member().list() works with no args.
-        if reqmatch is None:
-            reqmatch = {}
-        ctx = utility.make_context({
-            "opname": "list",
-            "ctrl": ctrl,
-            "match": self._match,
-            "data": self._data,
-            "reqmatch": reqmatch,
-        }, self._entctx)
-
-        def post_done():
-            if ctx.result is not None:
-                if ctx.result.resmatch is not None:
-                    self._match = ctx.result.resmatch
-
-        return self._run_op(ctx, post_done)
-
-
 
     
     def create(self, reqdata: MemberCreateData, ctrl=None) -> Member:

@@ -20,7 +20,7 @@ import (
 const prompt = "orbit"
 
 // entitiesHelp is the space-separated entity list shown by /help.
-const entitiesHelp = "member"
+const entitiesHelp = "activity activity_type member note organization report user webhook workspace"
 
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))

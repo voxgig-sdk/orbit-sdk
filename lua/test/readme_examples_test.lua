@@ -20,7 +20,7 @@ local SDK_MODULE = "orbit_sdk"
 -- A test-mode client seeded with a fixture for every entity. The constructor
 -- of each runnable snippet is rewritten to this form so the offline mock has
 -- data to return.
-local TEST_SEED = '{ entity = { ["member"] = { ["test01"] = { id = "test01" } } } }'
+local TEST_SEED = '{ entity = { ["activity"] = { ["test01"] = { id = "test01" } }, ["activity_type"] = { ["test01"] = { id = "test01" } }, ["member"] = { ["test01"] = { id = "test01" } }, ["note"] = { ["test01"] = { id = "test01" } }, ["organization"] = { ["test01"] = { id = "test01" } }, ["report"] = { ["test01"] = { id = "test01" } }, ["user"] = { ["test01"] = { id = "test01" } }, ["webhook"] = { ["test01"] = { id = "test01" } }, ["workspace"] = { ["test01"] = { id = "test01" } } } }'
 local TEST_CTOR = "sdk.test(" .. TEST_SEED .. ")"
 
 local function script_dir()

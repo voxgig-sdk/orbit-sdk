@@ -4,23 +4,37 @@
 main: {
   kit: {
     info: {
-      description: "Create, read, update, and delete Orbit community members."
+      description: "Please see the complete Orbit API documentation at [https://api.orbit.love/](https://api.orbit.love/)."
       security: {
-        in: "header"
-        name: "Authorization"
-        prefix: "Bearer"
-        scheme: "bearerAuth"
-        type: "http"
+        in: "query"
+        name: "api_key"
+        prefix: ""
+        scheme: "api_key"
+        type: "apiKey"
       }
       servers: [
         {
           url: "https://app.orbit.love/api/v1"
         }
       ]
-      summary: "Create, read, update, and delete Orbit community members."
-      title: "Orbit Members API"
-      version: "1.0.0"
+      summary: "Please see the complete Orbit API documentation at [https://api.orbit.love/](https://api.orbit.love/)."
+      title: "Orbit API"
+      version: "v1"
       website: "https://app.orbit.love"
+      "x-apisguru-categories": [
+        "customer_relation"
+      ]
+      "x-logo": {
+        url: "https://api.apis.guru/v2/cache/logo/https_avatars.githubusercontent.com_u_55637052.png"
+      }
+      "x-origin": [
+        {
+          format: "openapi"
+          url: "https://app.orbit.love/api-docs/v1/swagger.json"
+          version: "3.0"
+        }
+      ]
+      "x-providerName": "orbit.love"
     }
   }
 }

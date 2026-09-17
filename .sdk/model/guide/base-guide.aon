@@ -1,23 +1,118 @@
 # Guide
 
 guide: {
-  metrics: count: entity: 1
-  metrics: count: path: 2
-  metrics: count: method: 5
+  metrics: count: entity: 9
+  metrics: count: path: 21
+  metrics: count: method: 33
 
-  entity: member: {
-    path: "/{workspace}/members": {
+  entity: activity: {
+    path: "/{workspace_slug}/activities": {
       op: create: method: *POST
-      op: create: transform: res: *("`body.data`")|top
-      op: list: method: *GET
-      op: list: transform: res: *("`body.data`")|top
-    }
-    path: "/{workspace}/members/{id}": {
+      op: create: transform: req: "activity": *("`reqdata`")|top
       op: load: method: *GET
-      op: load: transform: res: *("`body.data`")|top
+    }
+    path: "/{workspace_slug}/activities/{id}": {
+      op: load: method: *GET
+    }
+    path: "/{workspace_slug}/members/{member_slug}/activities": {
+      op: create: method: *POST
+      op: load: method: *GET
+    }
+    path: "/{workspace_slug}/members/{member_slug}/activities/{id}": {
+      rename: param: "member_slug": *"member_id"
       op: remove: method: *DELETE
       op: update: method: *PUT
-      op: update: transform: res: *("`body.data`")|top
+    }
+    path: "/{workspace_slug}/organizations/{organization_id}/activities": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: activity_type: {
+    path: "/{workspace_slug}/activity_types": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: member: {
+    path: "/{workspace_slug}/members": {
+      op: create: method: *POST
+      op: create: transform: req: "member": *("`reqdata`")|top
+      op: load: method: *GET
+    }
+    path: "/{workspace_slug}/members/find": {
+      action: "find": {}
+      op: load: method: *GET
+    }
+    path: "/{workspace_slug}/members/{member_slug}": {
+      rename: param: "member_slug": *"id"
+      op: load: method: *GET
+      op: remove: method: *DELETE
+      op: update: method: *PUT
+    }
+    path: "/{workspace_slug}/members/{member_slug}/identities": {
+      action: "identity": {}
+      op: create: method: *POST
+      op: remove: method: *DELETE
+    }
+    path: "/{workspace_slug}/organizations/{organization_id}/members": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: note: {
+    path: "/{workspace_slug}/members/{member_slug}/notes": {
+      op: create: method: *POST
+      op: load: method: *GET
+    }
+    path: "/{workspace_slug}/members/{member_slug}/notes/{id}": {
+      rename: param: "member_slug": *"member_id"
+      op: update: method: *PUT
+    }
+  }
+
+  entity: organization: {
+    path: "/{workspace_slug}/organizations": {
+      op: load: method: *GET
+    }
+    path: "/{workspace_slug}/organizations/{organization_id}": {
+      rename: param: "organization_id": *"id"
+      op: load: method: *GET
+      op: update: method: *PUT
+    }
+  }
+
+  entity: report: {
+    path: "/{workspace_slug}/reports": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: user: {
+    path: "/user": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: webhook: {
+    path: "/{workspace_slug}/webhooks": {
+      op: create: method: *POST
+      op: load: method: *GET
+    }
+    path: "/{workspace_slug}/webhooks/{id}": {
+      op: load: method: *GET
+      op: remove: method: *DELETE
+      op: update: method: *PUT
+    }
+  }
+
+  entity: workspace: {
+    path: "/workspaces": {
+      op: load: method: *GET
+    }
+    path: "/workspaces/{workspace_slug}": {
+      rename: param: "workspace_slug": *"id"
+      op: load: method: *GET
     }
   }
 

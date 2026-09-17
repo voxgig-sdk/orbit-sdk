@@ -4,8 +4,8 @@
 
 The Python SDK for the Orbit API — an entity-oriented client following Pythonic conventions.
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Member()` — each
-carrying a small, uniform set of operations (`list`, `load`, `create`, `update`, `remove`) instead of raw URL
+The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Activity()` — each
+carrying a small, uniform set of operations (`load`, `create`, `update`, `remove`) instead of raw URL
 paths and query strings. You work with named resources and verbs, which
 keeps the cognitive load low.
 
@@ -39,28 +39,15 @@ client = OrbitSDK({
 })
 ```
 
-### 2. List member records
+### 3. Load an activity
 
-`list()` returns a `list` of records (each a `dict`) and raises on
-error — iterate it directly.
-
-```python
-try:
-    members = client.Member().list({"workspace": "example"})
-    for member in members:
-        print(member)
-except Exception as err:
-    print(f"list failed: {err}")
-```
-
-### 3. Load a member
-
+Activity is nested under workspace_slug, so provide the `workspace_slug`.
 `load()` returns the ENTITY — call data_get() for the record — and raises on error.
 
 ```python
 try:
-    member = client.Member().load({"id": "example_id", "workspace": "example_workspace"})
-    print(member)
+    activity = client.Activity().load({"workspace_slug": "example_workspace_slug"})
+    print(activity)
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -69,13 +56,13 @@ except Exception as err:
 
 ```python
 # Create — returns the ENTITY (call data_get() for the record)
-created = client.Member().create({"workspace": "example_workspace"})
+created = client.Activity().create({"workspace_slug": "example_workspace_slug", "identity": {}, "title": "example_title"})
 
 # Update — the created record's id is a plain dict key
-client.Member().update({"id": created.data_get()["id"], "workspace": "example_workspace", "bio": "example_bio"})
+client.Activity().update({"id": created.data_get()["id"], "member_id": "example_member_id", "workspace_slug": "example_workspace_slug"})
 
 # Remove
-client.Member().remove({"id": created.data_get()["id"], "workspace": "example_workspace"})
+client.Activity().remove({"id": created.data_get()["id"], "member_id": "example_member_id", "workspace_slug": "example_workspace_slug"})
 ```
 
 
@@ -85,10 +72,10 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    members = client.Member().list()
-    print(members)
+    note = client.Note().load({"member_slug": "example", "workspace_slug": "example"})
+    print(note)
 except Exception as err:
-    print(f"list failed: {err}")
+    print(f"load failed: {err}")
 ```
 
 `direct()` does **not** raise — it returns the result envelope. Branch
@@ -154,8 +141,8 @@ client = OrbitSDK.test()
 
 # Entity ops return the ENTITY and raises on error;
 # call data_get() for the record.
-member = client.Member().list()
-# member contains the mock response record
+note = client.Note().load({"member_slug": "example", "workspace_slug": "example"})
+# note contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -233,7 +220,15 @@ Creates a test-mode client with mock transport. Both arguments may be `None`.
 | `get_utility` | `() -> Utility` | Copy of the SDK utility object. |
 | `prepare` | `(fetchargs) -> dict` | Build an HTTP request definition without sending. Raises on error. |
 | `direct` | `(fetchargs) -> dict` | Build and send an HTTP request. Returns a result dict (branch on `ok`). |
+| `Activity` | `(data) -> ActivityEntity` | Create an Activity entity instance. |
+| `ActivityType` | `(data) -> ActivityTypeEntity` | Create an ActivityType entity instance. |
 | `Member` | `(data) -> MemberEntity` | Create a Member entity instance. |
+| `Note` | `(data) -> NoteEntity` | Create a Note entity instance. |
+| `Organization` | `(data) -> OrganizationEntity` | Create an Organization entity instance. |
+| `Report` | `(data) -> ReportEntity` | Create a Report entity instance. |
+| `User` | `(data) -> UserEntity` | Create an User entity instance. |
+| `Webhook` | `(data) -> WebhookEntity` | Create a Webhook entity instance. |
+| `Workspace` | `(data) -> WorkspaceEntity` | Create a Workspace entity instance. |
 
 ### Entity interface
 
@@ -242,7 +237,6 @@ All entities share the same interface.
 | Method | Signature | Description |
 | --- | --- | --- |
 | `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria. Raises on error. |
 | `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
 | `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
 | `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
@@ -273,31 +267,240 @@ On error, `ok` is `False` and `err` contains the error value.
 
 ### Entities
 
+#### Activity
+
+| Field | Description |
+| --- | --- |
+| `activity` |  |
+| `activity_type` | The type of activity - what action was done by the member. |
+| `activity_type_key` | The key for a custom activity type for the workspace. |
+| `data` |  |
+| `description` | A description of the activity; displayed in the timeline |
+| `id` |  |
+| `identity` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` |  |
+| `key` | Supply a key that must be unique or leave blank to have one generated. |
+| `link` | A URL for the activity; displayed in the timeline |
+| `link_text` | The text for the timeline link |
+| `links` |  |
+| `occurred_at` | The date and time the activity occurred; defaults to now |
+| `properties` | Key-value pairs to provide contextual metadata about an activity. |
+| `title` | A title for the activity; displayed in the timeline |
+| `weight` | A custom weight to be used in filters and reports; defaults to 1. |
+
+Operations: Create, Load, Remove, Update.
+
+API path: `/{workspace_slug}/members/{member_slug}/activities`
+
+#### ActivityType
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+| `links` |  |
+
+Operations: Load.
+
+API path: `/{workspace_slug}/activity_types`
+
 #### Member
 
 | Field | Description |
 | --- | --- |
 | `bio` |  |
+| `birthday` |  |
 | `company` |  |
-| `created_at` |  |
+| `data` |  |
+| `devto` | The member's DEV username |
+| `email` | The member's email |
+| `github` | The member's GitHub username |
 | `id` |  |
+| `identity` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` |  |
+| `linkedin` | The member's LinkedIn username, without the in/ or pub/ |
+| `links` |  |
 | `location` |  |
-| `love` |  |
+| `member` |  |
 | `name` |  |
-| `orbit_level` |  |
-| `reach` |  |
+| `pronouns` |  |
+| `shipping_address` |  |
 | `slug` |  |
-| `tags` |  |
-| `tags_to_add` |  |
+| `tag_list` | Deprecated: Please use the tags attribute instead |
+| `tags` | Replaces all tags for the member; comma-separated string or array |
+| `tags_to_add` | Adds tags to member; comma-separated string or array |
+| `teammate` |  |
 | `title` |  |
+| `tshirt` |  |
+| `twitter` | The member's Twitter username |
+| `url` |  |
 
-Operations: Create, List, Load, Remove, Update.
+Operations: Create, Load, Remove, Update.
 
-API path: `/{workspace}/members`
+API path: `/{workspace_slug}/members/{member_slug}/identities`
+
+#### Note
+
+| Field | Description |
+| --- | --- |
+| `body` |  |
+| `data` |  |
+| `id` |  |
+| `included` |  |
+| `links` |  |
+
+Operations: Create, Load, Update.
+
+API path: `/{workspace_slug}/members/{member_slug}/notes`
+
+#### Organization
+
+| Field | Description |
+| --- | --- |
+| `crm_uid` | The unique identifier of the organization in your CRM. |
+| `crm_url` | A link to the organization profile in your CRM. |
+| `data` |  |
+| `deal_closed_date` | The date the organization became a customer. |
+| `id` |  |
+| `lifecycle_stage` | The current stage of the organization in the marketing or sales process. |
+| `links` |  |
+| `owner_email` | The email of the team member who is in charge of the organization. |
+| `owner_name` | The name of the team member who is in charge of the organization. |
+| `price_plan` | The pricing plan the organization is on. |
+| `source` | The name of the CRM you use for tracking the organization. |
+
+Operations: Load, Update.
+
+API path: `/{workspace_slug}/organizations`
+
+#### Report
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+
+Operations: Load.
+
+API path: `/{workspace_slug}/reports`
+
+#### User
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+
+Operations: Load.
+
+API path: `/user`
+
+#### Webhook
+
+| Field | Description |
+| --- | --- |
+| `activity_tags` |  |
+| `activity_types` |  |
+| `data` |  |
+| `event_type` |  |
+| `id` |  |
+| `links` |  |
+| `member_tags` |  |
+| `name` |  |
+| `secret` |  |
+| `url` |  |
+
+Operations: Create, Load, Remove, Update.
+
+API path: `/{workspace_slug}/webhooks`
+
+#### Workspace
+
+| Field | Description |
+| --- | --- |
+| `data` |  |
+| `id` |  |
+| `included` |  |
+
+Operations: Load.
+
+API path: `/workspaces/{workspace_slug}`
 
 
 
 ## Entities
+
+
+### Activity
+
+Create an instance: `activity = client.Activity()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `activity` | `Any` |  |
+| `activity_type` | `str` | The type of activity - what action was done by the member. |
+| `activity_type_key` | `str` | The key for a custom activity type for the workspace. |
+| `data` | `list` |  |
+| `description` | `str` | A description of the activity; displayed in the timeline |
+| `id` | `str` |  |
+| `identity` | `dict` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` | `list` |  |
+| `key` | `str` | Supply a key that must be unique or leave blank to have one generated. |
+| `link` | `str` | A URL for the activity; displayed in the timeline |
+| `link_text` | `str` | The text for the timeline link |
+| `links` | `dict` |  |
+| `occurred_at` | `str` | The date and time the activity occurred; defaults to now |
+| `properties` | `dict` | Key-value pairs to provide contextual metadata about an activity. |
+| `title` | `str` | A title for the activity; displayed in the timeline |
+| `weight` | `str` | A custom weight to be used in filters and reports; defaults to 1. |
+
+#### Example: Load
+
+```python
+activity = client.Activity().load({"id": "activity_id", "workspace_slug": "workspace_slug"})
+```
+
+#### Example: Create
+
+```python
+activity = client.Activity().create({
+    "workspace_slug": "example_workspace_slug",  # str
+    "identity": {},  # dict
+    "title": "example_title",  # str
+})
+```
+
+
+### ActivityType
+
+Create an instance: `activity_type = client.ActivityType()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `list` |  |
+| `links` | `dict` |  |
+
+#### Example: Load
+
+```python
+activity_type = client.ActivityType().load({"workspace_slug": "workspace_slug"})
+```
 
 
 ### Member
@@ -309,7 +512,6 @@ Create an instance: `member = client.Member()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
-| `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
@@ -319,37 +521,235 @@ Create an instance: `member = client.Member()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bio` | `str` |  |
+| `birthday` | `str` |  |
 | `company` | `str` |  |
-| `created_at` | `str` |  |
+| `data` | `list` |  |
+| `devto` | `str` | The member's DEV username |
+| `email` | `str` | The member's email |
+| `github` | `str` | The member's GitHub username |
 | `id` | `str` |  |
+| `identity` | `dict` | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` | `list` |  |
+| `linkedin` | `str` | The member's LinkedIn username, without the in/ or pub/ |
+| `links` | `dict` |  |
 | `location` | `str` |  |
-| `love` | `float` |  |
+| `member` | `dict` |  |
 | `name` | `str` |  |
-| `orbit_level` | `int` |  |
-| `reach` | `int` |  |
+| `pronouns` | `str` |  |
+| `shipping_address` | `str` |  |
 | `slug` | `str` |  |
-| `tags` | `list` |  |
-| `tags_to_add` | `str` |  |
+| `tag_list` | `str` | Deprecated: Please use the tags attribute instead |
+| `tags` | `str` | Replaces all tags for the member; comma-separated string or array |
+| `tags_to_add` | `str` | Adds tags to member; comma-separated string or array |
+| `teammate` | `bool` |  |
 | `title` | `str` |  |
+| `tshirt` | `str` |  |
+| `twitter` | `str` | The member's Twitter username |
+| `url` | `str` |  |
 
 #### Example: Load
 
 ```python
-member = client.Member().load({"id": "member_id", "workspace": "workspace"})
-```
-
-#### Example: List
-
-```python
-members = client.Member().list({"workspace": "example"})
+member = client.Member().load({"id": "member_id", "workspace_slug": "workspace_slug"})
 ```
 
 #### Example: Create
 
 ```python
 member = client.Member().create({
-    "workspace": "example_workspace",  # str
+    "workspace_slug": "example_workspace_slug",  # str
+    "identity": {},  # dict
 })
+```
+
+
+### Note
+
+Create an instance: `note = client.Note()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `body` | `str` |  |
+| `data` | `list` |  |
+| `id` | `str` |  |
+| `included` | `list` |  |
+| `links` | `dict` |  |
+
+#### Example: Load
+
+```python
+note = client.Note().load({"member_slug": "member_slug", "workspace_slug": "workspace_slug"})
+```
+
+#### Example: Create
+
+```python
+note = client.Note().create({
+    "member_slug": "example_member_slug",  # str
+    "workspace_slug": "example_workspace_slug",  # str
+    "body": "example_body",  # str
+})
+```
+
+
+### Organization
+
+Create an instance: `organization = client.Organization()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `crm_uid` | `str` | The unique identifier of the organization in your CRM. |
+| `crm_url` | `str` | A link to the organization profile in your CRM. |
+| `data` | `list` |  |
+| `deal_closed_date` | `str` | The date the organization became a customer. |
+| `id` | `str` |  |
+| `lifecycle_stage` | `str` | The current stage of the organization in the marketing or sales process. |
+| `links` | `dict` |  |
+| `owner_email` | `str` | The email of the team member who is in charge of the organization. |
+| `owner_name` | `str` | The name of the team member who is in charge of the organization. |
+| `price_plan` | `str` | The pricing plan the organization is on. |
+| `source` | `str` | The name of the CRM you use for tracking the organization. |
+
+#### Example: Load
+
+```python
+organization = client.Organization().load({"id": "organization_id", "workspace_slug": "workspace_slug"})
+```
+
+
+### Report
+
+Create an instance: `report = client.Report()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `dict` |  |
+
+#### Example: Load
+
+```python
+report = client.Report().load({"workspace_slug": "workspace_slug"})
+```
+
+
+### User
+
+Create an instance: `user = client.User()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `dict` |  |
+
+#### Example: Load
+
+```python
+user = client.User().load()
+```
+
+
+### Webhook
+
+Create an instance: `webhook = client.Webhook()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `activity_tags` | `list` |  |
+| `activity_types` | `list` |  |
+| `data` | `dict` |  |
+| `event_type` | `str` |  |
+| `id` | `str` |  |
+| `links` | `dict` |  |
+| `member_tags` | `list` |  |
+| `name` | `str` |  |
+| `secret` | `str` |  |
+| `url` | `str` |  |
+
+#### Example: Load
+
+```python
+webhook = client.Webhook().load({"id": "webhook_id", "workspace_slug": "workspace_slug"})
+```
+
+#### Example: Create
+
+```python
+webhook = client.Webhook().create({
+    "workspace_slug": "example_workspace_slug",  # str
+    "event_type": "example_event_type",  # str
+    "name": "example_name",  # str
+    "url": "example_url",  # str
+})
+```
+
+
+### Workspace
+
+Create an instance: `workspace = client.Workspace()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `dict` |  |
+| `id` | `str` |  |
+| `included` | `list` |  |
+
+#### Example: Load
+
+```python
+workspace = client.Workspace().load({"id": "workspace_id"})
 ```
 
 ## Features
@@ -554,6 +954,7 @@ Use `helpers.to_map()` to safely validate that a value is a dict.
 py/
 ├── orbit_sdk.py         -- Main SDK module
 ├── config.py                    -- Configuration
+├── schema.py                    -- Generated option + entity specs
 ├── features.py                  -- Feature factory
 ├── core/                        -- Core types and context
 ├── entity/                      -- Entity implementations
@@ -567,15 +968,15 @@ Import entity or utility modules directly only when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `list`, the entity
+Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-member = client.Member()
-member.list()
+note = client.Note()
+note.load({"member_slug": "example", "workspace_slug": "example"})
 
-# member.data_get() now returns the member data from the last list
-# member.match_get() returns the last match criteria
+# note.data_get() now returns the note data from the last load
+# note.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

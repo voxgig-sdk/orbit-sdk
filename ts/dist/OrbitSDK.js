@@ -2,7 +2,15 @@
 // Orbit Ts SDK
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SDK = exports.OrbitSDK = exports.OrbitEntityBase = exports.BaseFeature = exports.config = exports.stdutil = void 0;
+const ActivityEntity_1 = require("./entity/ActivityEntity");
+const ActivityTypeEntity_1 = require("./entity/ActivityTypeEntity");
 const MemberEntity_1 = require("./entity/MemberEntity");
+const NoteEntity_1 = require("./entity/NoteEntity");
+const OrganizationEntity_1 = require("./entity/OrganizationEntity");
+const ReportEntity_1 = require("./entity/ReportEntity");
+const UserEntity_1 = require("./entity/UserEntity");
+const WebhookEntity_1 = require("./entity/WebhookEntity");
+const WorkspaceEntity_1 = require("./entity/WorkspaceEntity");
 const node_util_1 = require("node:util");
 const Config_1 = require("./Config");
 Object.defineProperty(exports, "config", { enumerable: true, get: function () { return Config_1.config; } });
@@ -225,12 +233,68 @@ class OrbitSDK {
         }
         return res;
     }
+    // Entity access: `client.Activity().list()` / `client.Activity().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    Activity(entopts) {
+        const self = this;
+        return new ActivityEntity_1.ActivityEntity(self, entopts);
+    }
+    // Entity access: `client.ActivityType().list()` / `client.ActivityType().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    ActivityType(entopts) {
+        const self = this;
+        return new ActivityTypeEntity_1.ActivityTypeEntity(self, entopts);
+    }
     // Entity access: `client.Member().list()` / `client.Member().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
     Member(entopts) {
         const self = this;
         return new MemberEntity_1.MemberEntity(self, entopts);
+    }
+    // Entity access: `client.Note().list()` / `client.Note().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    Note(entopts) {
+        const self = this;
+        return new NoteEntity_1.NoteEntity(self, entopts);
+    }
+    // Entity access: `client.Organization().list()` / `client.Organization().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    Organization(entopts) {
+        const self = this;
+        return new OrganizationEntity_1.OrganizationEntity(self, entopts);
+    }
+    // Entity access: `client.Report().list()` / `client.Report().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    Report(entopts) {
+        const self = this;
+        return new ReportEntity_1.ReportEntity(self, entopts);
+    }
+    // Entity access: `client.User().list()` / `client.User().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    User(entopts) {
+        const self = this;
+        return new UserEntity_1.UserEntity(self, entopts);
+    }
+    // Entity access: `client.Webhook().list()` / `client.Webhook().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    Webhook(entopts) {
+        const self = this;
+        return new WebhookEntity_1.WebhookEntity(self, entopts);
+    }
+    // Entity access: `client.Workspace().list()` / `client.Workspace().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    Workspace(entopts) {
+        const self = this;
+        return new WorkspaceEntity_1.WorkspaceEntity(self, entopts);
     }
     static test(testoptsarg, sdkoptsarg) {
         const struct = stdutil.struct;

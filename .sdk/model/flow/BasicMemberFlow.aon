@@ -12,31 +12,15 @@ main: kit: flow: BasicMemberFlow:
       }
 
       match: {
-        workspace: "workspace01"
+        workspace_slug: "workspace_slug01"
       }
 
       op: "create"
     }
 
     {
-      match: {
-        workspace: "workspace01"
-      }
-
-      op: "list",
-      valid: [
-        {
-          apply: "ItemExists",
-          def: {
-            ref: "member_ref01"
-          }
-        }
-      ]
-    }
-
-    {
       data: {
-        workspace: "workspace01"
+        workspace_slug: "workspace_slug01"
       }
 
       input: {
@@ -66,7 +50,7 @@ main: kit: flow: BasicMemberFlow:
 
       match: {
         id: "member01",
-        workspace: "workspace01"
+        workspace_slug: "workspace_slug01"
       }
 
       op: "load",
@@ -88,30 +72,10 @@ main: kit: flow: BasicMemberFlow:
 
       match: {
         id: "member01",
-        workspace: "workspace01"
+        workspace_slug: "workspace_slug01"
       }
 
       op: "remove"
-    }
-
-    {
-      input: {
-        suffix: "_rt0"
-      }
-
-      match: {
-        workspace: "workspace01"
-      }
-
-      op: "list",
-      valid: [
-        {
-          apply: "ItemNotExists",
-          def: {
-            ref: "member_ref01"
-          }
-        }
-      ]
     }
   ],
   "key$": "BasicMemberFlow"

@@ -42,9 +42,41 @@ $client = OrbitSDK::test();
 
 ### Instance Methods
 
+#### `Activity($data = null)`
+
+Create a new `ActivityEntity` instance. Pass `null` for no initial data.
+
+#### `ActivityType($data = null)`
+
+Create a new `ActivityTypeEntity` instance. Pass `null` for no initial data.
+
 #### `Member($data = null)`
 
 Create a new `MemberEntity` instance. Pass `null` for no initial data.
+
+#### `Note($data = null)`
+
+Create a new `NoteEntity` instance. Pass `null` for no initial data.
+
+#### `Organization($data = null)`
+
+Create a new `OrganizationEntity` instance. Pass `null` for no initial data.
+
+#### `Report($data = null)`
+
+Create a new `ReportEntity` instance. Pass `null` for no initial data.
+
+#### `User($data = null)`
+
+Create a new `UserEntity` instance. Pass `null` for no initial data.
+
+#### `Webhook($data = null)`
+
+Create a new `WebhookEntity` instance. Pass `null` for no initial data.
+
+#### `Workspace($data = null)`
+
+Create a new `WorkspaceEntity` instance. Pass `null` for no initial data.
 
 #### `options_map(): array`
 
@@ -83,6 +115,159 @@ Prepare a fetch definition without sending the request. Returns the
 
 ---
 
+## ActivityEntity
+
+```php
+$activity = $client->Activity();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `activity` | `mixed` | No |  |
+| `activity_type` | `string` | No | The type of activity - what action was done by the member. |
+| `activity_type_key` | `string` | No | The key for a custom activity type for the workspace. |
+| `data` | `array` | No |  |
+| `description` | `string` | No | A description of the activity; displayed in the timeline |
+| `id` | `string` | No |  |
+| `identity` | `array` | Yes | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` | `array` | No |  |
+| `key` | `string` | No | Supply a key that must be unique or leave blank to have one generated. |
+| `link` | `string` | No | A URL for the activity; displayed in the timeline |
+| `link_text` | `string` | No | The text for the timeline link |
+| `links` | `array` | No |  |
+| `occurred_at` | `string` | No | The date and time the activity occurred; defaults to now |
+| `properties` | `array` | No | Key-value pairs to provide contextual metadata about an activity. |
+| `title` | `string` | Yes | A title for the activity; displayed in the timeline |
+| `weight` | `string` | No | A custom weight to be used in filters and reports; defaults to 1. |
+
+### Operations
+
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
+
+Create a new entity with the given data. Throws on error.
+
+```php
+$result = $client->Activity()->create([
+  "workspace_slug" => null, // string
+  "identity" => null, // array
+  "title" => null, // string
+]);
+```
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Throws on error.
+
+```php
+$result = $client->Activity()->load(["id" => "activity_id", "workspace_slug" => "workspace_slug"]);
+```
+
+#### `remove(array $reqmatch, ?array $ctrl = null): mixed`
+
+Remove the entity matching the given criteria. Throws on error.
+
+```php
+$result = $client->Activity()->remove(["id" => "activity_id", "member_id" => "member_id", "workspace_slug" => "workspace_slug"]);
+```
+
+#### `update(array $reqdata, ?array $ctrl = null): mixed`
+
+Update an existing entity. The data must include the entity `id`. Throws on error.
+
+```php
+$result = $client->Activity()->update([
+  "id" => "activity_id",
+  "member_id" => "member_id",
+  "workspace_slug" => "workspace_slug",
+  // Fields to update
+]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): ActivityEntity`
+
+Create a new `ActivityEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## ActivityTypeEntity
+
+```php
+$activity_type = $client->ActivityType();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `array` | No |  |
+| `links` | `array` | No |  |
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Throws on error.
+
+```php
+$result = $client->ActivityType()->load(["workspace_slug" => "workspace_slug"]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): ActivityTypeEntity`
+
+Create a new `ActivityTypeEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
 ## MemberEntity
 
 ```php
@@ -94,18 +279,31 @@ $member = $client->Member();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bio` | `string` | No |  |
+| `birthday` | `string` | No |  |
 | `company` | `string` | No |  |
-| `created_at` | `string` | No |  |
+| `data` | `array` | No |  |
+| `devto` | `string` | No | The member's DEV username |
+| `email` | `string` | No | The member's email |
+| `github` | `string` | No | The member's GitHub username |
 | `id` | `string` | No |  |
+| `identity` | `array` | Yes | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` | `array` | No |  |
+| `linkedin` | `string` | No | The member's LinkedIn username, without the in/ or pub/ |
+| `links` | `array` | No |  |
 | `location` | `string` | No |  |
-| `love` | `float` | No |  |
+| `member` | `array` | No |  |
 | `name` | `string` | No |  |
-| `orbit_level` | `int` | No |  |
-| `reach` | `int` | No |  |
+| `pronouns` | `string` | No |  |
+| `shipping_address` | `string` | No |  |
 | `slug` | `string` | No |  |
-| `tags` | `array` | No |  |
-| `tags_to_add` | `string` | No |  |
+| `tag_list` | `string` | No | Deprecated: Please use the tags attribute instead |
+| `tags` | `string` | No | Replaces all tags for the member; comma-separated string or array |
+| `tags_to_add` | `string` | No | Adds tags to member; comma-separated string or array |
+| `teammate` | `bool` | No |  |
 | `title` | `string` | No |  |
+| `tshirt` | `string` | No |  |
+| `twitter` | `string` | No | The member's Twitter username |
+| `url` | `string` | No |  |
 
 ### Operations
 
@@ -115,16 +313,9 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Member()->create([
-  "workspace" => null, // string
+  "workspace_slug" => null, // string
+  "identity" => null, // array
 ]);
-```
-
-#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
-
-```php
-$results = $client->Member()->list();
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -132,7 +323,7 @@ $results = $client->Member()->list();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Member()->load(["id" => "member_id", "workspace" => "workspace"]);
+$result = $client->Member()->load(["id" => "member_id", "workspace_slug" => "workspace_slug"]);
 ```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
@@ -140,7 +331,7 @@ $result = $client->Member()->load(["id" => "member_id", "workspace" => "workspac
 Remove the entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Member()->remove(["id" => "member_id", "workspace" => "workspace"]);
+$result = $client->Member()->remove(["id" => "member_id", "workspace_slug" => "workspace_slug"]);
 ```
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
@@ -150,7 +341,7 @@ Update an existing entity. The data must include the entity `id`. Throws on erro
 ```php
 $result = $client->Member()->update([
   "id" => "member_id",
-  "workspace" => "workspace",
+  "workspace_slug" => "workspace_slug",
   // Fields to update
 ]);
 ```
@@ -176,6 +367,413 @@ Set the entity match criteria.
 #### `make(): MemberEntity`
 
 Create a new `MemberEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## NoteEntity
+
+```php
+$note = $client->Note();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `body` | `string` | Yes |  |
+| `data` | `array` | No |  |
+| `id` | `string` | No |  |
+| `included` | `array` | No |  |
+| `links` | `array` | No |  |
+
+### Operations
+
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
+
+Create a new entity with the given data. Throws on error.
+
+```php
+$result = $client->Note()->create([
+  "member_slug" => null, // string
+  "workspace_slug" => null, // string
+  "body" => null, // string
+]);
+```
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Throws on error.
+
+```php
+$result = $client->Note()->load(["member_slug" => "member_slug", "workspace_slug" => "workspace_slug"]);
+```
+
+#### `update(array $reqdata, ?array $ctrl = null): mixed`
+
+Update an existing entity. The data must include the entity `id`. Throws on error.
+
+```php
+$result = $client->Note()->update([
+  "id" => "id",
+  "member_id" => "member_id",
+  "workspace_slug" => "workspace_slug",
+  // Fields to update
+]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): NoteEntity`
+
+Create a new `NoteEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## OrganizationEntity
+
+```php
+$organization = $client->Organization();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `crm_uid` | `string` | No | The unique identifier of the organization in your CRM. |
+| `crm_url` | `string` | Yes | A link to the organization profile in your CRM. |
+| `data` | `array` | No |  |
+| `deal_closed_date` | `string` | No | The date the organization became a customer. |
+| `id` | `string` | No |  |
+| `lifecycle_stage` | `string` | Yes | The current stage of the organization in the marketing or sales process. |
+| `links` | `array` | No |  |
+| `owner_email` | `string` | No | The email of the team member who is in charge of the organization. |
+| `owner_name` | `string` | No | The name of the team member who is in charge of the organization. |
+| `price_plan` | `string` | No | The pricing plan the organization is on. |
+| `source` | `string` | Yes | The name of the CRM you use for tracking the organization. |
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Throws on error.
+
+```php
+$result = $client->Organization()->load(["id" => "organization_id", "workspace_slug" => "workspace_slug"]);
+```
+
+#### `update(array $reqdata, ?array $ctrl = null): mixed`
+
+Update an existing entity. The data must include the entity `id`. Throws on error.
+
+```php
+$result = $client->Organization()->update([
+  "id" => "organization_id",
+  "workspace_slug" => "workspace_slug",
+  // Fields to update
+]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): OrganizationEntity`
+
+Create a new `OrganizationEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## ReportEntity
+
+```php
+$report = $client->Report();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `array` | No |  |
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Throws on error.
+
+```php
+$result = $client->Report()->load(["workspace_slug" => "workspace_slug"]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): ReportEntity`
+
+Create a new `ReportEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## UserEntity
+
+```php
+$user = $client->User();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `array` | No |  |
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Throws on error.
+
+```php
+$result = $client->User()->load();
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): UserEntity`
+
+Create a new `UserEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## WebhookEntity
+
+```php
+$webhook = $client->Webhook();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `activity_tags` | `array` | No |  |
+| `activity_types` | `array` | No |  |
+| `data` | `array` | No |  |
+| `event_type` | `string` | Yes |  |
+| `id` | `string` | No |  |
+| `links` | `array` | No |  |
+| `member_tags` | `array` | No |  |
+| `name` | `string` | Yes |  |
+| `secret` | `string` | No |  |
+| `url` | `string` | Yes |  |
+
+### Operations
+
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
+
+Create a new entity with the given data. Throws on error.
+
+```php
+$result = $client->Webhook()->create([
+  "workspace_slug" => null, // string
+  "event_type" => null, // string
+  "name" => null, // string
+  "url" => null, // string
+]);
+```
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Throws on error.
+
+```php
+$result = $client->Webhook()->load(["id" => "webhook_id", "workspace_slug" => "workspace_slug"]);
+```
+
+#### `remove(array $reqmatch, ?array $ctrl = null): mixed`
+
+Remove the entity matching the given criteria. Throws on error.
+
+```php
+$result = $client->Webhook()->remove(["id" => "webhook_id", "workspace_slug" => "workspace_slug"]);
+```
+
+#### `update(array $reqdata, ?array $ctrl = null): mixed`
+
+Update an existing entity. The data must include the entity `id`. Throws on error.
+
+```php
+$result = $client->Webhook()->update([
+  "id" => "webhook_id",
+  "workspace_slug" => "workspace_slug",
+  // Fields to update
+]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): WebhookEntity`
+
+Create a new `WebhookEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## WorkspaceEntity
+
+```php
+$workspace = $client->Workspace();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `array` | No |  |
+| `id` | `string` | No |  |
+| `included` | `array` | No |  |
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Throws on error.
+
+```php
+$result = $client->Workspace()->load(["id" => "workspace_id"]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): WorkspaceEntity`
+
+Create a new `WorkspaceEntity` instance with the same client and
 options.
 
 #### `get_name(): string`

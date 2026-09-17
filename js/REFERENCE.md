@@ -49,6 +49,30 @@ const client = OrbitSDK.test()
 
 ### Instance Methods
 
+#### `Activity(data?: object)`
+
+Create a new `Activity` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `ActivityEntity` instance.
+
+#### `ActivityType(data?: object)`
+
+Create a new `ActivityType` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `ActivityTypeEntity` instance.
+
 #### `Member(data?: object)`
 
 Create a new `Member` entity instance.
@@ -60,6 +84,78 @@ Create a new `Member` entity instance.
 | `data` | `object` | Initial entity data. |
 
 **Returns:** `MemberEntity` instance.
+
+#### `Note(data?: object)`
+
+Create a new `Note` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `NoteEntity` instance.
+
+#### `Organization(data?: object)`
+
+Create a new `Organization` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `OrganizationEntity` instance.
+
+#### `Report(data?: object)`
+
+Create a new `Report` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `ReportEntity` instance.
+
+#### `User(data?: object)`
+
+Create a new `User` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `UserEntity` instance.
+
+#### `Webhook(data?: object)`
+
+Create a new `Webhook` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `WebhookEntity` instance.
+
+#### `Workspace(data?: object)`
+
+Create a new `Workspace` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `WorkspaceEntity` instance.
 
 #### `options()`
 
@@ -107,6 +203,155 @@ Alias for `OrbitSDK.test()`.
 
 ---
 
+## ActivityEntity
+
+```ts
+const activity = client.Activity()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `activity` | `*` | No |  |
+| `activity_type` | `string` | No | The type of activity - what action was done by the member. |
+| `activity_type_key` | `string` | No | The key for a custom activity type for the workspace. |
+| `data` | `Array` | No |  |
+| `description` | `string` | No | A description of the activity; displayed in the timeline |
+| `id` | `string` | No |  |
+| `identity` | `Object` | Yes | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` | `Array` | No |  |
+| `key` | `string` | No | Supply a key that must be unique or leave blank to have one generated. |
+| `link` | `string` | No | A URL for the activity; displayed in the timeline |
+| `link_text` | `string` | No | The text for the timeline link |
+| `links` | `Object` | No |  |
+| `occurred_at` | `string` | No | The date and time the activity occurred; defaults to now |
+| `properties` | `Object` | No | Key-value pairs to provide contextual metadata about an activity. |
+| `title` | `string` | Yes | A title for the activity; displayed in the timeline |
+| `weight` | `string` | No | A custom weight to be used in filters and reports; defaults to 1. |
+
+### Operations
+
+#### `create(data: object, ctrl?: object)`
+
+Create a new entity with the given data.
+
+```ts
+const result = await client.Activity().create({
+  workspace_slug: 'example_workspace_slug',
+  identity: {},
+  title: 'example_title',
+})
+```
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria.
+
+```ts
+const result = await client.Activity().load({ id: 'activity_id', workspace_slug: 'workspace_slug' })
+```
+
+#### `remove(match: object, ctrl?: object)`
+
+Remove the entity matching the given criteria.
+
+```ts
+const result = await client.Activity().remove({ id: 'activity_id', member_id: 'member_id', workspace_slug: 'workspace_slug' })
+```
+
+#### `update(data: object, ctrl?: object)`
+
+Update an existing entity. The data must include the entity `id`.
+
+```ts
+const result = await client.Activity().update({
+  id: 'activity_id',
+  member_id: 'member_id',
+  workspace_slug: 'workspace_slug',
+  // Fields to update
+})
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `ActivityEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `OrbitSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## ActivityTypeEntity
+
+```ts
+const activity_type = client.ActivityType()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `Array` | No |  |
+| `links` | `Object` | No |  |
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria.
+
+```ts
+const result = await client.ActivityType().load({ workspace_slug: 'workspace_slug' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `ActivityTypeEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `OrbitSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
 ## MemberEntity
 
 ```ts
@@ -118,18 +363,31 @@ const member = client.Member()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bio` | `string` | No |  |
+| `birthday` | `string` | No |  |
 | `company` | `string` | No |  |
-| `created_at` | `string` | No |  |
+| `data` | `Array` | No |  |
+| `devto` | `string` | No | The member's DEV username |
+| `email` | `string` | No | The member's email |
+| `github` | `string` | No | The member's GitHub username |
 | `id` | `string` | No |  |
+| `identity` | `Object` | Yes | Represents an email address, a profile on networks like github and twitter, or a record in another system. |
+| `included` | `Array` | No |  |
+| `linkedin` | `string` | No | The member's LinkedIn username, without the in/ or pub/ |
+| `links` | `Object` | No |  |
 | `location` | `string` | No |  |
-| `love` | `number` | No |  |
+| `member` | `Object` | No |  |
 | `name` | `string` | No |  |
-| `orbit_level` | `number` | No |  |
-| `reach` | `number` | No |  |
+| `pronouns` | `string` | No |  |
+| `shipping_address` | `string` | No |  |
 | `slug` | `string` | No |  |
-| `tags` | `Array` | No |  |
-| `tags_to_add` | `string` | No |  |
+| `tag_list` | `string` | No | Deprecated: Please use the tags attribute instead |
+| `tags` | `string` | No | Replaces all tags for the member; comma-separated string or array |
+| `tags_to_add` | `string` | No | Adds tags to member; comma-separated string or array |
+| `teammate` | `boolean` | No |  |
 | `title` | `string` | No |  |
+| `tshirt` | `string` | No |  |
+| `twitter` | `string` | No | The member's Twitter username |
+| `url` | `string` | No |  |
 
 ### Operations
 
@@ -139,16 +397,9 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Member().create({
-  workspace: 'example_workspace',
+  workspace_slug: 'example_workspace_slug',
+  identity: {},
 })
-```
-
-#### `list(match: object, ctrl?: object)`
-
-List entities matching the given criteria. Returns an array.
-
-```ts
-const results = await client.Member().list()
 ```
 
 #### `load(match: object, ctrl?: object)`
@@ -156,7 +407,7 @@ const results = await client.Member().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Member().load({ id: 'member_id', workspace: 'workspace' })
+const result = await client.Member().load({ id: 'member_id', workspace_slug: 'workspace_slug' })
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -164,7 +415,7 @@ const result = await client.Member().load({ id: 'member_id', workspace: 'workspa
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Member().remove({ id: 'member_id', workspace: 'workspace' })
+const result = await client.Member().remove({ id: 'member_id', workspace_slug: 'workspace_slug' })
 ```
 
 #### `update(data: object, ctrl?: object)`
@@ -174,7 +425,7 @@ Update an existing entity. The data must include the entity `id`.
 ```ts
 const result = await client.Member().update({
   id: 'member_id',
-  workspace: 'workspace',
+  workspace_slug: 'workspace_slug',
   // Fields to update
 })
 ```
@@ -194,6 +445,401 @@ Get or set the entity match criteria. Works the same as `data()`.
 #### `make()`
 
 Create a new `MemberEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `OrbitSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## NoteEntity
+
+```ts
+const note = client.Note()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `body` | `string` | Yes |  |
+| `data` | `Array` | No |  |
+| `id` | `string` | No |  |
+| `included` | `Array` | No |  |
+| `links` | `Object` | No |  |
+
+### Operations
+
+#### `create(data: object, ctrl?: object)`
+
+Create a new entity with the given data.
+
+```ts
+const result = await client.Note().create({
+  member_slug: 'example_member_slug',
+  workspace_slug: 'example_workspace_slug',
+  body: 'example_body',
+})
+```
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria.
+
+```ts
+const result = await client.Note().load({ member_slug: 'member_slug', workspace_slug: 'workspace_slug' })
+```
+
+#### `update(data: object, ctrl?: object)`
+
+Update an existing entity. The data must include the entity `id`.
+
+```ts
+const result = await client.Note().update({
+  id: 'id',
+  member_id: 'member_id',
+  workspace_slug: 'workspace_slug',
+  // Fields to update
+})
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `NoteEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `OrbitSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## OrganizationEntity
+
+```ts
+const organization = client.Organization()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `crm_uid` | `string` | No | The unique identifier of the organization in your CRM. |
+| `crm_url` | `string` | Yes | A link to the organization profile in your CRM. |
+| `data` | `Array` | No |  |
+| `deal_closed_date` | `string` | No | The date the organization became a customer. |
+| `id` | `string` | No |  |
+| `lifecycle_stage` | `string` | Yes | The current stage of the organization in the marketing or sales process. |
+| `links` | `Object` | No |  |
+| `owner_email` | `string` | No | The email of the team member who is in charge of the organization. |
+| `owner_name` | `string` | No | The name of the team member who is in charge of the organization. |
+| `price_plan` | `string` | No | The pricing plan the organization is on. |
+| `source` | `string` | Yes | The name of the CRM you use for tracking the organization. |
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria.
+
+```ts
+const result = await client.Organization().load({ id: 'organization_id', workspace_slug: 'workspace_slug' })
+```
+
+#### `update(data: object, ctrl?: object)`
+
+Update an existing entity. The data must include the entity `id`.
+
+```ts
+const result = await client.Organization().update({
+  id: 'organization_id',
+  workspace_slug: 'workspace_slug',
+  // Fields to update
+})
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `OrganizationEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `OrbitSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## ReportEntity
+
+```ts
+const report = client.Report()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `Object` | No |  |
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria.
+
+```ts
+const result = await client.Report().load({ workspace_slug: 'workspace_slug' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `ReportEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `OrbitSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## UserEntity
+
+```ts
+const user = client.User()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `Object` | No |  |
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria.
+
+```ts
+const result = await client.User().load()
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `UserEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `OrbitSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## WebhookEntity
+
+```ts
+const webhook = client.Webhook()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `activity_tags` | `Array` | No |  |
+| `activity_types` | `Array` | No |  |
+| `data` | `Object` | No |  |
+| `event_type` | `string` | Yes |  |
+| `id` | `string` | No |  |
+| `links` | `Object` | No |  |
+| `member_tags` | `Array` | No |  |
+| `name` | `string` | Yes |  |
+| `secret` | `string` | No |  |
+| `url` | `string` | Yes |  |
+
+### Operations
+
+#### `create(data: object, ctrl?: object)`
+
+Create a new entity with the given data.
+
+```ts
+const result = await client.Webhook().create({
+  workspace_slug: 'example_workspace_slug',
+  event_type: 'example_event_type',
+  name: 'example_name',
+  url: 'example_url',
+})
+```
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria.
+
+```ts
+const result = await client.Webhook().load({ id: 'webhook_id', workspace_slug: 'workspace_slug' })
+```
+
+#### `remove(match: object, ctrl?: object)`
+
+Remove the entity matching the given criteria.
+
+```ts
+const result = await client.Webhook().remove({ id: 'webhook_id', workspace_slug: 'workspace_slug' })
+```
+
+#### `update(data: object, ctrl?: object)`
+
+Update an existing entity. The data must include the entity `id`.
+
+```ts
+const result = await client.Webhook().update({
+  id: 'webhook_id',
+  workspace_slug: 'workspace_slug',
+  // Fields to update
+})
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `WebhookEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `OrbitSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## WorkspaceEntity
+
+```ts
+const workspace = client.Workspace()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `Object` | No |  |
+| `id` | `string` | No |  |
+| `included` | `Array` | No |  |
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria.
+
+```ts
+const result = await client.Workspace().load({ id: 'workspace_id' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `WorkspaceEntity` instance with the same client and
 options.
 
 #### `client()`

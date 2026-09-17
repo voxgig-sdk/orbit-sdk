@@ -16,7 +16,7 @@ import (
 // reqdata map passed through to the SDK. For load, `query` should be
 // `{"id": <value>}`. For list, omit `query` or pass an empty map.
 type Args struct {
-	Entity string         `json:"entity" jsonschema:"member"`
+	Entity string         `json:"entity" jsonschema:"activity | activity_type | member | note | organization | report | user | webhook | workspace"`
 	Query  map[string]any `json:"query,omitempty" jsonschema:"optional match map e.g. {\"id\":1} for load, omit for list"`
 }
 
@@ -77,8 +77,24 @@ func runOp(client *sdk.OrbitSDK, op string, args Args) (*mcp.CallToolResult, any
 // emits one `case "<name>":` per entity defined in the SDK model.
 func entityFor(client *sdk.OrbitSDK, name string) (sdk.OrbitEntity, error) {
 	switch strings.ToLower(name) {
+	case "activity":
+		return client.Activity(nil), nil
+	case "activity_type":
+		return client.ActivityType(nil), nil
 	case "member":
 		return client.Member(nil), nil
+	case "note":
+		return client.Note(nil), nil
+	case "organization":
+		return client.Organization(nil), nil
+	case "report":
+		return client.Report(nil), nil
+	case "user":
+		return client.User(nil), nil
+	case "webhook":
+		return client.Webhook(nil), nil
+	case "workspace":
+		return client.Workspace(nil), nil
 
 	}
 	return nil, fmt.Errorf("unknown entity %q", name)

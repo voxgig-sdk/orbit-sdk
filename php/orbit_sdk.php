@@ -341,6 +341,42 @@ class OrbitSDK
     }
 
 
+    private $_activity = null;
+
+    // Canonical facade: $client->Activity()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->activity()
+    // resolves here too.
+    public function Activity($data = null)
+    {
+        require_once __DIR__ . '/entity/activity_entity.php';
+        if ($data === null) {
+            if ($this->_activity === null) {
+                $this->_activity = new ActivityEntity($this, null);
+            }
+            return $this->_activity;
+        }
+        return new ActivityEntity($this, $data);
+    }
+
+
+    private $_activity_type = null;
+
+    // Canonical facade: $client->ActivityType()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->activity_type()
+    // resolves here too.
+    public function ActivityType($data = null)
+    {
+        require_once __DIR__ . '/entity/activity_type_entity.php';
+        if ($data === null) {
+            if ($this->_activity_type === null) {
+                $this->_activity_type = new ActivityTypeEntity($this, null);
+            }
+            return $this->_activity_type;
+        }
+        return new ActivityTypeEntity($this, $data);
+    }
+
+
     private $_member = null;
 
     // Canonical facade: $client->Member()->list() / ->load(["id" => ...]).
@@ -356,6 +392,114 @@ class OrbitSDK
             return $this->_member;
         }
         return new MemberEntity($this, $data);
+    }
+
+
+    private $_note = null;
+
+    // Canonical facade: $client->Note()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->note()
+    // resolves here too.
+    public function Note($data = null)
+    {
+        require_once __DIR__ . '/entity/note_entity.php';
+        if ($data === null) {
+            if ($this->_note === null) {
+                $this->_note = new NoteEntity($this, null);
+            }
+            return $this->_note;
+        }
+        return new NoteEntity($this, $data);
+    }
+
+
+    private $_organization = null;
+
+    // Canonical facade: $client->Organization()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->organization()
+    // resolves here too.
+    public function Organization($data = null)
+    {
+        require_once __DIR__ . '/entity/organization_entity.php';
+        if ($data === null) {
+            if ($this->_organization === null) {
+                $this->_organization = new OrganizationEntity($this, null);
+            }
+            return $this->_organization;
+        }
+        return new OrganizationEntity($this, $data);
+    }
+
+
+    private $_report = null;
+
+    // Canonical facade: $client->Report()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->report()
+    // resolves here too.
+    public function Report($data = null)
+    {
+        require_once __DIR__ . '/entity/report_entity.php';
+        if ($data === null) {
+            if ($this->_report === null) {
+                $this->_report = new ReportEntity($this, null);
+            }
+            return $this->_report;
+        }
+        return new ReportEntity($this, $data);
+    }
+
+
+    private $_user = null;
+
+    // Canonical facade: $client->User()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->user()
+    // resolves here too.
+    public function User($data = null)
+    {
+        require_once __DIR__ . '/entity/user_entity.php';
+        if ($data === null) {
+            if ($this->_user === null) {
+                $this->_user = new UserEntity($this, null);
+            }
+            return $this->_user;
+        }
+        return new UserEntity($this, $data);
+    }
+
+
+    private $_webhook = null;
+
+    // Canonical facade: $client->Webhook()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->webhook()
+    // resolves here too.
+    public function Webhook($data = null)
+    {
+        require_once __DIR__ . '/entity/webhook_entity.php';
+        if ($data === null) {
+            if ($this->_webhook === null) {
+                $this->_webhook = new WebhookEntity($this, null);
+            }
+            return $this->_webhook;
+        }
+        return new WebhookEntity($this, $data);
+    }
+
+
+    private $_workspace = null;
+
+    // Canonical facade: $client->Workspace()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->workspace()
+    // resolves here too.
+    public function Workspace($data = null)
+    {
+        require_once __DIR__ . '/entity/workspace_entity.php';
+        if ($data === null) {
+            if ($this->_workspace === null) {
+                $this->_workspace = new WorkspaceEntity($this, null);
+            }
+            return $this->_workspace;
+        }
+        return new WorkspaceEntity($this, $data);
     }
 
 
